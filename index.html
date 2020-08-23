@@ -17,33 +17,34 @@
     
       <div class="col-2">
         
-
+        <!-- Output Card -->
         <div class="card card-header text-center mt-5 bg-secondary">
           <h4 class="mb-0">Output</h4>
         </div>
         <div class="card card-body">
           <ul class="list-group text-left">
-            <li class="list-group-item"><strong>F = 10000 kN</strong></li>
-            <li class="list-group-item"><strong>I<sub>sp</sub> = 20000 s</strong></li>
-            <li class="list-group-item"><strong>C* = 100 m/s</strong></li>
-            <li class="list-group-item"><strong>C<sub>f</sub> = 1.3</strong></li>
-            <li class="list-group-item"><strong>V<sub>e</sub> = 400 m/s</strong></li>
-            <li class="list-group-item"><strong>P<sub>0</sub> = 100 [bar]</strong></li>
-            <li class="list-group-item"><strong>T<sub>0</sub> = 3000 K</strong></li>
-            <li class="list-group-item"><strong>A<sub>t</sub> = 4 m</strong></li>
+            <li class="list-group-item" id="forceOut"><strong>F = 10000 kN</strong></li>
+            <li class="list-group-item" id="ispOut"><strong>I<sub>sp</sub> = 20000 s</strong></li>
+            <li class="list-group-item" id="cstarOut"><strong>C* = 100 m/s</strong></li>
+            <li class="list-group-item" id="cfOut"><strong>C<sub>f</sub> = 1.3</strong></li>
+            <li class="list-group-item" id="veOut"><strong>V<sub>e</sub> = 400 m/s</strong></li>
+            <li class="list-group-item" id="p0Out"><strong>P<sub>0</sub> = 100 [bar]</strong></li>
+            <li class="list-group-item" id="t0Out"><strong>T<sub>0</sub> = 3000 K</strong></li>
+            <li class="list-group-item" id="atOut"><strong>A<sub>t</sub> = 4 m</strong></li>
           </ul>
         <br>
-       
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+       <!-- Legend -->
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#legend" >
           Legend    &#8595;
         </button>
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" id="legend">
           <div class="card card-body">
             <i>
               F: Thrust <br>
               C*: Char. Velocity<br>
               C<sub>f</sub>: Thrust Coeff.<br>
               V<sub>e</sub>: Exit Velocity <br>
+              m&#775;: Mass Flow Rate <br>
               &rho;: Density <br>
               A<sub>t</sub>: Throat Area <br>
               A<sub>e</sub>: Exit Area <br>
@@ -65,88 +66,91 @@
               
             </div>
             <div class="col-6 mx-auto">
-              <div class="card card-header text-center mt-5 bg-secondary">
-                <h2 class="heading display-5 mb-0">Thrust / I<sub>sp</sub></h2>
-                <!-- <div>
-                  \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}}\]
-                </div> -->
-              </div>
-            
-              <div class="card card-body text-center">
-                <div class="row">
-                  <div class="col-6">
-                    <div class="alert alert-dark" >
-                      <h4><i>F = 1000 [kN]</i></h4>
+              <!-- Thurst/Isp Card -->
+              <div>
+                <div class="card card-header text-center mt-5 bg-secondary">
+                  <h2 class="heading display-5 mb-0" id="thrustTitle">Thrust / I<sub>sp</sub></h2>
+                  <div id="thrustEQ">
+                    \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}}\]
+                  </div>
+                </div>
+              <!-- Thrust/Isp Results -->
+                <div class="card card-body text-center">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="alert alert-dark" id="fRes">
+                        <h4><i>F = 1000 [kN]</i></h4>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="alert alert-dark" id="ispRes">
+                        <h4><i>I<sub>sp</sub> = 400 [s]</i></h4>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-6">
-                    <div class="alert alert-dark" >
-                      <h4><i>I<sub>sp</sub> = 400 [s]</i></h4>
+                  <!-- Thrust Isp Inputs -->
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-primary" id="mdot_ThrustButton"> <i>m&#775;</i> </button>
+                      </div>
+                      <div class="col-7">
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text" >[kg/s]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="mdot_ThrustBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="mdot_ThrustRange">
+                      </div>
+                      
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustButton"><i>C*</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="cstar_ThrustIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text"> [m/s]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" aria-label="Checkbox for following text input">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="formControlRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-primary"><i>C<sub>f</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="massFlowRate" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" aria-label="Checkbox for following text input">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="formControlRange">
+                      </div>
                     </div>
                   </div>
                 </div>
-                  
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-primary"> <i>m&#775;</i> </button>
-                    </div>
-                    <div class="col-7">
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[kg/s]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                    
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-primary"><i>C*</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2"> [m/s]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-primary"><i>C<sub>f</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </div>  
             </div>
             <div class="col mx-auto"></div>
           </div>
@@ -154,9 +158,9 @@
             <div class="col mx-auto">
               <div class="card card-header text-center mt-3 bg-secondary">
                 <h3 class="mb-0">Mass Flow Rate</h3>
-                <!-- <div>
+                <div>
                   \[\dot{m}=\rho A_{t} a\]
-                </div> -->
+                </div>
                 
               </div>
               <div class="card card-body text-center">
@@ -343,9 +347,9 @@
             <div class="col mx-auto">
               <div class="card card-header text-center mt-3 bg-secondary">
                 <h2 class="heading display-5 mb-0">Characteristic Velocity</h2>
-                <!-- <div>
+                <div>
                   \[c^{\ast}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
-                </div> -->
+                </div>
               </div>
               <div class="card card-body text-center">
                 <div class="alert alert-primary" >
@@ -574,9 +578,9 @@
             <div class="col-4">
               <div class="card card-header text-center mt-3 bg-secondary">
                 <h5 class="heading display-5 mb-0">Chamber Temperature</h5>
-                <!-- <div>
+                <div>
                   \[T_{0} =(\Gamma\frac{p_{0} A_{t}}{\dot{m}})^{2}/R\]
-                </div> -->
+                </div>
               </div>
               <div class="card card-body text-center">
                 <div class="alert alert-danger" >
@@ -667,7 +671,7 @@
               </div>
             </div>
         </div>
-        
+
       </div>
     </div> 
   </div>
