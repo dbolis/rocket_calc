@@ -62,6 +62,7 @@
       </div>  
         <div class="col-10">
           <div class="row">
+            <!-- Empty space  -->
             <div class="col-3 mx-auto">
               
             </div>
@@ -70,7 +71,7 @@
               <div>
                 <div class="card card-header text-center mt-5 bg-secondary">
                   <h2 class="heading display-5 mb-0" id="thrustTitle">Thrust / I<sub>sp</sub></h2>
-                  <div id="thrustEQ">
+                  <div id="thrustEq">
                     \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}}\]
                   </div>
                 </div>
@@ -92,7 +93,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="mdot_ThrustButton"> <i>m&#775;</i> </button>
+                        <button type="button" class="btn btn-outline-primary" id="mdot_ThrustBtn"> <i>m&#775;</i> </button>
                       </div>
                       <div class="col-7">
                         <div class="input-group">
@@ -112,7 +113,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustButton"><i>C*</i></button>
+                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn"><i>C*</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -120,558 +121,576 @@
                           <div class="input-group-append">
                             <span class="input-group-text"> [m/s]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" aria-label="Checkbox for following text input">
+                              <input type="checkbox" id="cstar_ThrustBox">
                             </div>
                           </div>
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="formControlRange">
+                        <input type="range" class="form-control-range" id="cstar_ThrustRange">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary"><i>C<sub>f</sub></i></button>
+                        <button type="button" class="btn btn-outline-primary" id="cf_ThrustBtn"><i>C<sub>f</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="massFlowRate" placeholder="">
+                          <input type="number" class="form-control" id="cf_ThrustIn" placeholder="">
                           <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">[ - ]</span>
+                            <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" aria-label="Checkbox for following text input">
+                              <input type="checkbox" id="cf_ThrustBox">
                             </div>
                           </div>
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="formControlRange">
+                        <input type="range" class="form-control-range" id="cf_ThrustRange">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>  
             </div>
-            <div class="col mx-auto"></div>
+            <!-- Empty Space -->
+            <div class="col mx-auto"></div> 
           </div>
           <div class="row">
             <div class="col mx-auto">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h3 class="mb-0">Mass Flow Rate</h3>
-                <div>
-                  \[\dot{m}=\rho A_{t} a\]
-                </div>
-                
-              </div>
-              <div class="card card-body text-center">
-                <div class="alert alert-primary" >
-                  <h4 class="mb-0"><i>m&#775; = 75.6</i> [kg/s]</h4>
-                </div>
-                
-                
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>&rho;</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[kg/m<sup>3</sup>]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>A<sub>t</sub></i></dark>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[m<sup>2</sup>]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>a</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2"> [m/s]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col mx-auto">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h2 class="heading display-5 mb-0">Thrust Coefficient</h2>
-                <div>
-                  \[C_{F}=\Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
-                </div>
-              </div>
-
-              <div class="card card-body text-center">
-                <div class="alert alert-primary" >
-                  <h4 class="mb-0"><i> C<sub>f</sub> = 85.6</i></h4>
-                </div>
-                
-                
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>&Gamma;</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>&gamma;</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>P<sub>e</sub>/P<sub>0</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-info"><i>P<sub>a</sub>/P<sub>0</sub></i></label>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-success"><i>A<sub>e</sub>/A<sub>t</sub></i></label>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col mx-auto">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h2 class="heading display-5 mb-0">Characteristic Velocity</h2>
-                <div>
-                  \[c^{\ast}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
-                </div>
-              </div>
-              <div class="card card-body text-center">
-                <div class="alert alert-primary" >
-                  <h4 class="mb-0"><i>C* = 25.6</i> [m/s]</h4>
-                </div>
-                
-                
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>R</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ ? ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark"><i>&Gamma;</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-warning"><i>M</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ ? ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-danger"><i>T<sub>0</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[ - ]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            
-            
-            <div class="col-3">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h5 class="heading display-5 mb-0">Chamber Pressure Ratio</h5>
-
-              </div>
-              <div class="card card-body text-center">
-              
-                <div class="alert alert-info" >
-                  <h5 class="mb-0"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
-                </div>
-
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>P<sub>a</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[bar]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>  
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
-                    
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>P<sub>0</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[bar]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>  
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
+              <!-- Mdot Card -->
+              <div style="display: block" id="mdotCard">
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h3 class="mb-0" id="mdotTitle">Mass Flow Rate</h3>
+                  <div id="mdotEq">
+                    \[\dot{m}=\rho A_{t} a\]
                   </div>
                   
+                </div>
+                <div class="card card-body text-center">
+                  <div class="alert alert-primary" id="mdotRes">
+                    <h4 class="mb-0"><i>m&#775; = 75.6</i> [kg/s]</h4>
+                  </div>
+                  
+                  <!-- Mdot Input -->
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="rho_mdotBtn"><i>&rho;</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="rho_mdotIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text" >[kg/m<sup>3</sup>]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="rho_mdotBox">
+                            </div>
+                          </div>
+                        </div>
 
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="rho_mdotRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="At_mdotBtn"><i>A<sub>t</sub></i></dark>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="At_mdotIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[m<sup>2</sup>]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="At_mdotBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="At_mdotRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="a_mdotBtn"><i>a</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="a_mdotIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text"> [m/s]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="a_mdotBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="a_mdotRange">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            <div class="col mx-auto">
+              <!-- Cf Card -->
+              <div style="display: block" id="cfCard">
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h3 class="heading display-5 mb-0" id="cfTitle">Thrust Coefficient</h3>
+                  <div id="cfEq">
+                    \[C_{F}=\Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
+                  </div>
+                </div>
+
+                <div class="card card-body text-center">
+                  <div class="alert alert-primary" id="cfRes" >
+                    <h4 class="mb-0"><i> C<sub>f</sub> = 85.6</i></h4>
+                  </div>
+                  <!-- Cf Input -->
+                  
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_cfBtn"><i>&Gamma;</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="Gamma_cfIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Gamma_cfBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Gamma_cfRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="gamma_cfBtn"><i>&gamma;</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="gamma_cfIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="gamma_cfBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="gamma_cfRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="Pe/_cfBtn"><i>P<sub>e</sub>/P<sub>0</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="Pe/_cfIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Pe/_cfBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Pe/_cfRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-info" id="Pa/_cfBtn"><i>P<sub>a</sub>/P<sub>0</sub></i></label>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="Pa/_cfIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Pa/_cfBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Pa/_cfRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-success" id="Ae/_cfBtn"><i>A<sub>e</sub>/A<sub>t</sub></i></label>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="Ae/_cfIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Ae/_cfBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Ae/_cfRange">
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-3">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h5 class="heading display-5 mb-0">Area Ratio</h5>
-
-              </div>
-              <div class="card card-body text-center">
-                <div class="alert alert-success" >
-                  <h5 class="mb-0"><i>A<sub>e</sub>/A<sub>0</sub> = 1.7</i></h5>
-                </div>
-
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>A<sub>e</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[m]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
+            <div class="col mx-auto">
+              <!-- Cstar Card -->
+              <div style="display: block" id="cstarCard">
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h3 class="heading display-5 mb-0" id="cstarTitle">Characteristic Velocity</h3>
+                  <div id="cstarEq">
+                    \[c^{\ast}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
                   </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>A<sub>t</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[m]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+                <div class="card card-body text-center">
+                  <div class="alert alert-primary" id="cstarRes">
+                    <h4 class="mb-0"><i>C* = 25.6</i> [m/s]</h4>
+                  </div>
+                  
+                  <!-- Cstar Inputs -->
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="R_cstarBtn"><i>R</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="R_cstarIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ ? ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="R_cstarBox">
+                            </div>
                           </div>
                         </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="R_cstarRange">
                       </div>
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_cstarBtn"><i>&Gamma;</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="Gamma_cstarIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Gamma_cstarBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Gamma_cstarRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-warning" id="M_cstarBtn"><i>M</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="M_cstarIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ ? ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="M_cstarBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="M_cstarRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-danger" id="T0_cstarBtn"><i>T<sub>0</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="T0_cstarIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[ - ]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="T0_cstarBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="T0_cstarRange">
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>  
+            </div>
+          </div>
+
+          <div class="row">
+            
+            
+            <div class="col-3">
+              <!-- Chamber Pressure Ratio Card -->
+              <div style="display: block" id="p0Card">
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h5 class="heading display-5 mb-0" id="p0Title">Chamber Pressure Ratio</h5>
+
+                </div>
+                <div class="card card-body text-center">
+                
+                  <div class="alert alert-info" id="p0Res">
+                    <h5 class="mb-0"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
+                  </div>
+                  <!-- Pa/P0 inputs -->
+
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="pa_p0Btn"><i>P<sub>a</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="pa_p0In" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[bar]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="pa_p0Box">
+                            </div>
+                          </div>
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="pa_p0Range">
+                      </div>
+                      
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="p0_p0Btn"><i>P<sub>0</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="p0_p0In" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[bar]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="p0_p0Box">
+                            </div>
+                          </div>
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="p0_p0Range">
+                      </div>
                     </div>
                     
                   </div>
+                </div>
+              </div>  
+            </div>
+            <div class="col-3">
+              <!-- Area Ratio Card -->
+              <div style="display: block" id="AeCard"> 
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h5 class="heading display-5 mb-0" id="AeTitle">Area Ratio</h5>
 
                 </div>
-              </div>
+                <div class="card card-body text-center">
+                  <div class="alert alert-success" id="AeRes">
+                    <h5 class="mb-0"><i>A<sub>e</sub>/A<sub>0</sub> = 1.7</i></h5>
+                  </div>
+                  <!-- Ae/A0 Inputs -->
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="Ae_AeBtn"><i>A<sub>e</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="Ae_AeIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[m]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Ae_AeBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Ae_AeRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="At_AeBtn"><i>A<sub>t</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="At_AeIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[m]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="At_AeBox">
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="At_AeRange">
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>  
             </div>
             <div class="col-2">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h5 class="heading display-5 mb-0">Molar Mass</h5>
-
-              </div>
-              <div class="card card-body text-center">
-                <div class="alert alert-warning" >
-                  <h5 class="mb-0"><i>M</i> = 10</i> [?]</h5>
+            <!-- Molar Mass Card -->
+              <div style="display: block" id="MCard">
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass</h5>
+              <!-- Molar Mass Inputs  -->
                 </div>
-                <select class="form-control form-control-sm">
-                  <option>Fuel</option>
-                  <option>Hydrogen</option>
-                </select>
-                <select class="form-control form-control-sm">
-                  <option>Oxidizer</option>
-                  <option>Oxygen</option>
-                </select>
+                <div class="card card-body text-center">
+                  <div class="alert alert-warning" id="MRes" >
+                    <h5 class="mb-0"><i>M</i> = 10</i> [?]</h5>
+                  </div>
+                  <select class="form-control form-control-sm" id="MFuel">
+                    <option>Fuel</option>
+                    <option>Hydrogen</option>
+                  </select>
+                  <select class="form-control form-control-sm" id="MOxi">
+                    <option>Oxidizer</option>
+                    <option>Oxygen</option>
+                  </select>
 
-              
-              </div>
+                
+                </div>
+              </div>  
             </div>
             
             <div class="col-4">
-              <div class="card card-header text-center mt-3 bg-secondary">
-                <h5 class="heading display-5 mb-0">Chamber Temperature</h5>
-                <div>
-                  \[T_{0} =(\Gamma\frac{p_{0} A_{t}}{\dot{m}})^{2}/R\]
+              <!-- Chamber Temperature -->
+              <div style="display: block" id="T0Card">
+                <div class="card card-header text-center mt-3 bg-secondary">
+                  <h5 class="heading display-5 mb-0" id="T0Title">Chamber Temperature</h5>
+                  <div id="T0Eq">
+                    \[T_{0} =(\Gamma\frac{p_{0} A_{t}}{\dot{m}})^{2}/R\]
+                  </div>
                 </div>
-              </div>
-              <div class="card card-body text-center">
-                <div class="alert alert-danger" >
-                  <h5 class="mb-0"><i>T<sub>0</sub></i> = 2375.6</i> [K]</h5>
-                </div>
-                
-                <div class="form">
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i> m&#775;</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[kg/s]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
-                          </div>
-                        </div>
-                      </div>  
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
-                    </div>
+                <div class="card card-body text-center">
+                  <div class="alert alert-danger" id="T0Res">
+                    <h5 class="mb-0"><i>T<sub>0</sub></i> = 2375.6</i> [K]</h5>
                   </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <!-- <label for="C_star"><i>A<sub>t</sub></i></label> -->
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>A<sub>t</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[m]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
+                  <!-- Chamber Temperature Inputs -->
+                  <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="mdot_T0Btn"><i> m&#775;</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="mdot_T0In" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[kg/s]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="mdot_T0Box">
+                            </div>
                           </div>
-                        </div>
-                      </div>  
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="mdot_T0Range">
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>&Gamma;</i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[-]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="At_T0Btn" ><i>A<sub>t</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="At_T0In" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[m]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="At_T0Box">
+                            </div>
                           </div>
-                        </div>
-                      </div>  
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="At_T0Range">
+                      </div>
                     </div>
-                  </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="Gamma_T0Btn"><i>&Gamma;</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="Gamma_T0In" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[-]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="Gamma_T0Box">
+                            </div>
+                          </div>
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="Gamma_T0Range">
+                      </div>
+                    </div>
 
-                  <div class="form-row align-items-center">
-                    <div class="col-2">
-                      <button type="button" class="btn btn-outline-dark btn-sm"><i>P<sub>0</sub></i></button>
-                    </div>
-                    <div class='col-7'>
-                      <div class="input-group input-group-sm">
-                        <input type="number" class="form-control" id="massFlowRate" placeholder="">
-                        <div class="input-group-append">
-                          <span class="input-group-text" id="basic-addon2">[bar]</span>
-                          <div class="input-group-text">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn-sm" id="p0_T0Btn"><i>P<sub>0</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group-sm">
+                          <input type="number" class="form-control" id="p0_T0In" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[bar]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="p0_T0Box">
+                            </div>
                           </div>
-                        </div>
-                      </div>  
-                    </div> 
-                    <div class="col-3">
-                      <input type="range" class="form-control-range" id="formControlRange">
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="p0_T0Range">
+                      </div>
                     </div>
                   </div>
-
                 </div>
-              </div>
+              </div>  
             </div>
+          </div>  
         </div>
-
       </div>
     </div> 
   </div>
