@@ -45,10 +45,10 @@
               C<sub>f</sub>: Thrust Coeff.<br>
               V<sub>e</sub>: Exit Velocity <br>
               m&#775;: Mass Flow Rate <br>
-              &rho;: Density <br>
+              
               A<sub>t</sub>: Throat Area <br>
               A<sub>e</sub>: Exit Area <br>
-              a: Speed of Sound<br>
+              
               P<sub>a</sub>: Atm. Pressure <br>
               P<sub>e</sub>: Exit Pressure <br>
               P<sub>0</sub>: Chamber Press. <br>
@@ -97,7 +97,7 @@
                       </div>
                       <div class="col-7">
                         <div class="input-group">
-                          <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="">
+                          <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="" min="0" max="100">
                           <div class="input-group-append">
                             <span class="input-group-text" >[kg/s]</span>
                             <div class="input-group-text">
@@ -163,7 +163,7 @@
                 <div class="card card-header text-center mt-3 bg-secondary">
                   <h3 class="mb-0" id="mdotTitle">Mass Flow Rate</h3>
                   <div id="mdotEq">
-                    \[\dot{m}=\rho A_{t} a\]
+                    \[\dot{m}=\Gamma\frac{p_{0}A_{t}}{\sqrt{RT_{0}}}\]
                   </div>
                   
                 </div>
@@ -176,22 +176,42 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="rho_mdotBtn"><i>&rho;</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn"><i>&Gamma;</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="rho_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="Gamma_mdotIn" placeholder="">
                           <div class="input-group-append">
-                            <span class="input-group-text" >[kg/m<sup>3</sup>]</span>
+                            <span class="input-group-text" >[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="rho_mdotBox">
+                              <input type="checkbox" id="Gamma_mdotBox">
                             </div>
                           </div>
                         </div>
 
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="rho_mdotRange">
+                        <input type="range" class="form-control-range" id="Gamma_mdotRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark" id="p0_mdotBtn"><i>P<sub>0</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="p0_mdotIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text" >[bar]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="p0_mdotBox">
+                            </div>
+                          </div>
+                        </div>
+
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="p0_mdotRange">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -215,21 +235,41 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="a_mdotBtn"><i>a</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="R_mdotBtn"><i>R</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="a_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="R_mdotIn" placeholder="">
                           <div class="input-group-append">
-                            <span class="input-group-text"> [m/s]</span>
+                            <span class="input-group-text"> [ ? ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="a_mdotBox">
+                              <input type="checkbox" id="R_mdotBox">
                             </div>
                           </div>
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="a_mdotRange">
+                        <input type="range" class="form-control-range" id="R_mdotRange">
+                      </div>
+                    </div>
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-danger" id="T0_mdotBtn"><i>T<sub>0</sub></i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="T0_mdotIn" placeholder="">
+                          <div class="input-group-append">
+                            <span class="input-group-text" >[K]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="T0_mdotBox">
+                            </div>
+                          </div>
+                        </div>
+
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="T0_mdotRange">
                       </div>
                     </div>
                   </div>
@@ -454,7 +494,7 @@
           <div class="row">
             
             
-            <div class="col-3">
+            <div class="col-4">
               <!-- Chamber Pressure Ratio Card -->
               <div style="display: block" id="p0Card">
                 <div class="card card-header text-center mt-3 bg-secondary">
@@ -471,10 +511,10 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn-sm" id="pa_p0Btn"><i>P<sub>a</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="pa_p0Btn"><i>P<sub>a</sub></i></button>
                       </div>
                       <div class='col-7'>
-                        <div class="input-group input-group-sm">
+                        <div class="input-group input-group">
                           <input type="number" class="form-control" id="pa_p0In" placeholder="">
                           <div class="input-group-append">
                             <span class="input-group-text">[bar]</span>
@@ -491,10 +531,10 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn-sm" id="p0_p0Btn"><i>P<sub>0</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="p0_p0Btn"><i>P<sub>0</sub></i></button>
                       </div>
                       <div class='col-7'>
-                        <div class="input-group input-group-sm">
+                        <div class="input-group input-group">
                           <input type="number" class="form-control" id="p0_p0In" placeholder="">
                           <div class="input-group-append">
                             <span class="input-group-text">[bar]</span>
@@ -513,7 +553,7 @@
                 </div>
               </div>  
             </div>
-            <div class="col-3">
+            <div class="col-4">
               <!-- Area Ratio Card -->
               <div style="display: block" id="AeCard"> 
                 <div class="card card-header text-center mt-3 bg-secondary">
@@ -522,16 +562,16 @@
                 </div>
                 <div class="card card-body text-center">
                   <div class="alert alert-success" id="AeRes">
-                    <h5 class="mb-0"><i>A<sub>e</sub>/A<sub>0</sub> = 1.7</i></h5>
+                    <h5 class="mb-0"><i>A<sub>e</sub>/A<sub>t</sub> = 1.7</i></h5>
                   </div>
-                  <!-- Ae/A0 Inputs -->
+                  <!-- Ae/At Inputs -->
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn-sm" id="Ae_AeBtn"><i>A<sub>e</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="Ae_AeBtn"><i>A<sub>e</sub></i></button>
                       </div>
                       <div class='col-7'>
-                        <div class="input-group input-group-sm">
+                        <div class="input-group input-group">
                           <input type="number" class="form-control" id="Ae_AeIn" placeholder="">
                           <div class="input-group-append">
                             <span class="input-group-text">[m]</span>
@@ -547,10 +587,10 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn-sm" id="At_AeBtn"><i>A<sub>t</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="At_AeBtn"><i>A<sub>t</sub></i></button>
                       </div>
                       <div class='col-7'>
-                        <div class="input-group input-group-sm">
+                        <div class="input-group input-group">
                           <input type="number" class="form-control" id="At_AeIn" placeholder="">
                           <div class="input-group-append">
                             <span class="input-group-text">[m]</span>
@@ -568,7 +608,7 @@
                 </div>
               </div>  
             </div>
-            <div class="col-2">
+            <div class="col-4">
             <!-- Molar Mass Card -->
               <div style="display: block" id="MCard">
                 <div class="card card-header text-center mt-3 bg-secondary">
@@ -576,26 +616,48 @@
               <!-- Molar Mass Inputs  -->
                 </div>
                 <div class="card card-body text-center">
-                  <div class="alert alert-warning" id="MRes" >
-                    <h5 class="mb-0"><i>M</i> = 10</i> [?]</h5>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="alert alert-warning" id="fRes">
+                        <h5 class="mb-0"><i>M</i> = 10</i> [?]</h5>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="alert alert-danger" id="ispRes">
+                        <h5 class="mb-0"><i>T</i> = 4000</i> [K]</h5>
+                      </div>
+                    </div>
                   </div>
-                  <select class="form-control form-control-sm" id="MFuel">
-                    <option>Fuel</option>
-                    <option>Hydrogen</option>
-                  </select>
-                  <select class="form-control form-control-sm" id="MOxi">
-                    <option>Oxidizer</option>
-                    <option>Oxygen</option>
-                  </select>
-
-                
+                  <div class="row">
+                    <div class="col-3">
+                      <button type="button" class="btn btn-outline-dark btn" id="">Fuel</button>
+                    </div>
+                    <div class="col-9">  
+                      <select class="form-control form-control" id="MFuel">
+                        <option>Fuel</option>
+                        <option>Hydrogen</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <button type="button" class="btn btn-outline-dark btn" id="">Oxidizer</button>
+                    </div>
+                      <div class="col-9">
+                        <select class="form-control form-control" id="MOxi">
+                          <option>Oxidizer</option>
+                          <option>Oxygen</option>
+                        </select>
+                      </div>  
+                    </div>  
+                  </div>  
                 </div>
               </div>  
             </div>
             
-            <div class="col-4">
+            <!-- <div class="col-4"> -->
               <!-- Chamber Temperature -->
-              <div style="display: block" id="T0Card">
+              <!-- <div style="display: block" id="T0Card">
                 <div class="card card-header text-center mt-3 bg-secondary">
                   <h5 class="heading display-5 mb-0" id="T0Title">Chamber Temperature</h5>
                   <div id="T0Eq">
@@ -605,9 +667,9 @@
                 <div class="card card-body text-center">
                   <div class="alert alert-danger" id="T0Res">
                     <h5 class="mb-0"><i>T<sub>0</sub></i> = 2375.6</i> [K]</h5>
-                  </div>
+                  </div> -->
                   <!-- Chamber Temperature Inputs -->
-                  <div class="form">
+                  <!-- <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
                         <button type="button" class="btn btn-outline-dark btn-sm" id="mdot_T0Btn"><i> m&#775;</i></button>
@@ -687,8 +749,8 @@
                     </div>
                   </div>
                 </div>
-              </div>  
-            </div>
+              </div>
+            </div> -->
           </div>  
         </div>
       </div>

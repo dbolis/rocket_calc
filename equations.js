@@ -14,13 +14,3 @@
 
 // c_star = (1/Gamma)*Math.sqrt((R*T0)/Mol)
 
-MathJax.Hub.Config({
-  "HTML-CSS": {
-      sstyles: {
-
-        ".MathJax_Display": {
-          "text-align": "center",
-          margin:       "0em 0em"
-        },
-  }
-});

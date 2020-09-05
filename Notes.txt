@@ -1,0 +1,39 @@
+Ranges for values:
+
+Note: Some maybe should exagerate for fun? Not all though, like gamma
+
+Thrust 0 - 20,000,000 N (highest 16,000,000 N)
+
+Isp 0 - 600 s chemical reockets (highest 542 s) (up to 15,000 for experimental electrical thrusters)
+
+m_dot 0 15,000 kg/s (12,890 kg/s for 5 F1 engines, so maybe only use 1 of 5)
+
+Cf 0-3 (most seem to be 2)
+
+C* 0 - 4000 (seems to be around 2500 max v_exit = Cf*C_star)
+
+Area Ratio 150:1 (max 100:1)
+
+gamma 1-1.8
+
+Speed of Sound 300 - 400 m/s
+
+Exit Area 0.1 - 10 m (F1 engine 3.7 m)
+
+Throat Area 0.1-10 m (write function to make sure)
+
+Atm Pressure 0-1 bar (at sea level)
+
+Chamber Pressure 0-400 bar (highest 330 bar) 
+
+
+Missing Paramater Couplings and Inaccuaricies: 
+
+Propellants with gamma and with density
+
+Propellants with Temperature
+
+No seperated flow calculations
+
+
+
