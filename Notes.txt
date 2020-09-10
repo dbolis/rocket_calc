@@ -26,6 +26,8 @@ Atm Pressure 0-1 bar (at sea level)
 
 Chamber Pressure 0-400 bar (highest 330 bar) 
 
+Chamber Temperature 225-4000 K (usually around 3500 K)
+
 
 Missing Paramater Couplings and Inaccuaricies: 
 
@@ -37,3 +39,10 @@ No seperated flow calculations
 
 
 
+To do notes:
+
+-All fields at inital values
+-Figure out NaN on output cards
+-Limit number of digits in text filds on html side (or
+  maybe use toExponential function)
+-look at decimals var function problem (educational)
