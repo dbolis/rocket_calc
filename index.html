@@ -98,7 +98,7 @@
                       </div>
                       <div class="col-7">
                         <div class="input-group">
-                          <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="" min="0" max="100" maxlength="10" data-toggle="popover" data-placement="left" title="Popover title" data-content="And" data-trigger="manual">
+                          <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="" min="0" max="100" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text" >[kg/s]</span>
                             <div class="input-group-text">
@@ -118,7 +118,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="cstar_ThrustIn" placeholder="">
+                          <input type="number" class="form-control" id="cstar_ThrustIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text"> [m/s]</span>
                             <div class="input-group-text">
@@ -137,7 +137,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="cf_ThrustIn" placeholder="">
+                          <input type="number" class="form-control" id="cf_ThrustIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -169,19 +169,19 @@
                   
                 </div>
                 <div class="card card-body text-center">
-                  <div class="alert alert-primary" id="mdotRes">
-                    <h4 class="mb-0"><i>m&#775; = 75.6</i> [kg/s]</h4>
+                  <div class="alert alert-primary">
+                    <h4 class="mb-0" id="mdotRes"><i>m&#775; = 75.6 [kg/s]</i></h4>
                   </div>
                   
                   <!-- Mdot Input -->
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn"><i>&Gamma;</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn" ><i>&Gamma;</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="Gamma_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="Gamma_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text" >[ - ]</span>
                             <div class="input-group-text">
@@ -201,7 +201,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="p0_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="p0_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text" >[bar]</span>
                             <div class="input-group-text">
@@ -221,7 +221,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="At_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="At_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[m<sup>2</sup>]</span>
                             <div class="input-group-text">
@@ -240,7 +240,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="R_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="R_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text"> [ ? ]</span>
                             <div class="input-group-text">
@@ -259,7 +259,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="T0_mdotIn" placeholder="">
+                          <input type="number" class="form-control" id="T0_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text" >[K]</span>
                             <div class="input-group-text">
@@ -300,7 +300,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="Gamma_cfIn" placeholder="">
+                          <input type="number" class="form-control" id="Gamma_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -319,7 +319,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="gamma_cfIn" placeholder="">
+                          <input type="number" class="form-control" id="gamma_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -338,7 +338,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="Pe/_cfIn" placeholder="">
+                          <input type="number" class="form-control" id="Pe/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -357,7 +357,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="Pa/_cfIn" placeholder="">
+                          <input type="number" class="form-control" id="Pa/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -376,7 +376,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="Ae/_cfIn" placeholder="">
+                          <input type="number" class="form-control" id="Ae/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -415,7 +415,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="R_cstarIn" placeholder="">
+                          <input type="number" class="form-control" id="R_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ ? ]</span>
                             <div class="input-group-text">
@@ -434,7 +434,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="Gamma_cstarIn" placeholder="">
+                          <input type="number" class="form-control" id="Gamma_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -453,7 +453,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="M_cstarIn" placeholder="">
+                          <input type="number" class="form-control" id="M_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ ? ]</span>
                             <div class="input-group-text">
@@ -472,7 +472,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="T0_cstarIn" placeholder="">
+                          <input type="number" class="form-control" id="T0_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
@@ -516,7 +516,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
-                          <input type="number" class="form-control" id="pa_p0In" placeholder="">
+                          <input type="number" class="form-control" id="pa_p0In" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[bar]</span>
                             <div class="input-group-text">
@@ -536,7 +536,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
-                          <input type="number" class="form-control" id="p0_p0In" placeholder="">
+                          <input type="number" class="form-control" id="p0_p0In" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[bar]</span>
                             <div class="input-group-text">
@@ -573,7 +573,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
-                          <input type="number" class="form-control" id="Ae_AeIn" placeholder="">
+                          <input type="number" class="form-control" id="Ae_AeIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[m]</span>
                             <div class="input-group-text">
@@ -592,7 +592,7 @@
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
-                          <input type="number" class="form-control" id="At_AeIn" placeholder="">
+                          <input type="number" class="form-control" id="At_AeIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text">[m]</span>
                             <div class="input-group-text">
@@ -757,10 +757,7 @@
       </div>
     </div> 
   </div>
-  
-  <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
-    Tooltip on top
-  </button>
+
   <script src='equations.js'></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
