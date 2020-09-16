@@ -31,19 +31,19 @@ updateRes()
 // mdot_Thrust 
 const mdot_ThrustBtn = document.getElementById("mdot_ThrustBtn")
 
-const mdot_ThrustBox = document.getElementById("mdot_ThrustBox")
+
 
 
 // cstar_Thrust 
 const cstar_ThrustBtn = document.getElementById("cstar_ThrustBtn")
 
-const cstar_ThrustBox = document.getElementById("cstar_ThrustBox")
+
 
 
 // cf_Thrust
 const cf_ThrustBtn = document.getElementById("cf_ThrustBtn")
 
-const cf_ThrustBox = document.getElementById("cf_ThrustBox")
+
 
 
 
@@ -153,8 +153,40 @@ document.getElementById("T0_mdotRange").addEventListener('input', function(e){
   vals.T0 = assignValue(e.target.value,[0,10000],"T0_mdotIn")
   runFuncs()  
 })
-
-
+/// CheckBox Event Listeners - Check Equal Boxes ///
+document.getElementById("p0_mdotBox").addEventListener('input',function(e){
+  checkSameBoxes("P0_mdot") // let checkSameBoxes function know which box is checked
+})
+document.getElementById("At_mdotBox").addEventListener('input',function(e){
+  checkSameBoxes("At_mdot")
+})
+document.getElementById("T0_mdotBox").addEventListener('input',function(e){
+  checkSameBoxes("T0_mdot") 
+})
+document.getElementById("T0_cstarBox").addEventListener('input',function(e){
+  checkSameBoxes("T0_cstar")
+})
+document.getElementById("Pe/_cfBox").addEventListener('input',function(e){
+  checkSameBoxes("Pe_cf")
+})
+document.getElementById("Pa/_cfBox").addEventListener('input',function(e){
+  checkSameBoxes("Pa_cf")
+})
+document.getElementById("Ae/_cfBox").addEventListener('input',function(e){
+  checkSameBoxes("Ae_cf")
+})
+document.getElementById("pa_p0Box").addEventListener('input',function(e){
+  checkSameBoxes("Pa_P0")
+})
+document.getElementById("p0_p0Box").addEventListener('input',function(e){
+  checkSameBoxes("P0_P0")
+})
+document.getElementById("Ae_AeBox").addEventListener('input',function(e){
+  checkSameBoxes("Ae_Ae")
+})
+document.getElementById("At_AeBox").addEventListener('input',function(e){
+  checkSameBoxes("At_Ae")
+})
 function runFuncs() {
   runEqsUp()
   updateRes()
@@ -278,3 +310,26 @@ function test(a,b,c){
 
 
 }
+
+
+function checkSameBoxes(box){
+  const P0_mdotBox = document.getElementById("p0_mdotBox")
+  const At_mdotBox = document.getElementById("At_mdotBox")
+  const T0_mdotBox = document.getElementById("T0_mdotBox")
+  const T0_cstarBox = document.getElementById("T0_cstarBox")
+  const P0_P0Box = document.getElementById("p0_p0Box")
+
+  if (box === "T0_mdot"){
+    T0_cstarBox.checked = T0_mdotBox.checked
+  }else if(box === "T0_cstar"){
+    T0_mdotBox.checked = T0_cstarBox.checked
+  }else if(box === "P0_mdot"){
+    P0_P0Box.checked = P0_mdotBox.checked
+  }else if(box === "P0_P0"){
+    P0_mdotBox.checked = P0_P0Box.checked
+  }
+
+
+}
+
+
