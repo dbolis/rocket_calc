@@ -166,6 +166,9 @@ document.getElementById("T0_mdotBox").addEventListener('input',function(e){
 document.getElementById("T0_cstarBox").addEventListener('input',function(e){
   checkSameBoxes("T0_cstar")
 })
+document.getElementById("M_cstarBox").addEventListener('input',function(e){
+  checkSameBoxes("M_cstar")
+})
 document.getElementById("Pe/_cfBox").addEventListener('input',function(e){
   checkSameBoxes("Pe_cf")
 })
@@ -317,7 +320,15 @@ function checkSameBoxes(box){
   const At_mdotBox = document.getElementById("At_mdotBox")
   const T0_mdotBox = document.getElementById("T0_mdotBox")
   const T0_cstarBox = document.getElementById("T0_cstarBox")
+  const M_cstarBox = document.getElementById("M_cstarBox")
   const P0_P0Box = document.getElementById("p0_p0Box")
+  const Pa_P0Box = document.getElementById("pa_p0Box")
+  const At_AeBox = document.getElementById("At_AeBox")
+  const Ae_AeBox = document.getElementById("Ae_AeBox")
+  const Pe_cfBox = document.getElementById("Pe/_cfBox")
+  const Ae_cfBox = document.getElementById("Ae/_cfBox")
+  const Pa_cfBox = document.getElementById("Pa/_cfBox")
+  
 
   if (box === "T0_mdot"){
     T0_cstarBox.checked = T0_mdotBox.checked
@@ -327,8 +338,17 @@ function checkSameBoxes(box){
     P0_P0Box.checked = P0_mdotBox.checked
   }else if(box === "P0_P0"){
     P0_mdotBox.checked = P0_P0Box.checked
+  } else if(box === "At_mdot"){
+    At_AeBox.checked = At_mdotBox.checked
+  } else if(box === "At_Ae"){
+    At_mdotBox.checked = At_AeBox.checked
+  } else if(box === "Pe_cf"){
+    Ae_cfBox.checked=Pe_cfBox.checked
+  } else if(box === "Ae_cf"){
+    Pe_cfBox.checked=Ae_cfBox.checked
   }
 
+  console.log(Ae_AeBox)
 
 }
 
