@@ -43,9 +43,11 @@ To do notes:
 
 -Create object to store global vars
 -All fields at inital values
+-checkmarks disable fields
 -Figure out NaN on output cards
 -Limit number of digits in text filds on html side (or
   maybe use toExponential function)
 -look at decimals var function problem (educational)
 - add g0 to Thrust/Isp card
 -Maybe change number boxes to noraml inputs so can display things like infinity
+-Use placeholder to add infnity
