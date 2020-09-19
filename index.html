@@ -164,7 +164,7 @@
                 <div class="card card-header text-center mt-3 bg-secondary">
                   <h3 class="mb-0" id="mdotTitle">Mass Flow Rate</h3>
                   <div id="mdotEq">
-                    \[\dot{m}=\Gamma\frac{p_{0}A_{t}}{\sqrt{RT_{0}}}\]
+                    \[\dot{m}=\Gamma\frac{p_{0}A_{t}}{\sqrt{T_{0}R/M}}\]
                   </div>
                   
                 </div>
@@ -189,7 +189,6 @@
                             </div>
                           </div>
                         </div>
-
                       </div> 
                       <div class="col-3">
                         <input type="range" class="form-control-range" id="Gamma_mdotRange">
@@ -236,21 +235,21 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-warning" id="R_mdotBtn"><i>R/M</i></button>
+                        <button type="button" class="btn btn-outline-warning" id="M_mdotBtn"><i>M</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
-                          <input type="number" class="form-control" id="R_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                          <input type="number" class="form-control" id="M_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
                             <span class="input-group-text"> [ ? ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="R_mdotBox">
+                              <input type="checkbox" id="M_mdotBox">
                             </div>
                           </div>
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="R_mdotRange">
+                        <input type="range" class="form-control-range" id="M_mdotRange">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -402,31 +401,12 @@
                   </div>
                 </div>
                 <div class="card card-body text-center">
-                  <div class="alert alert-primary" id="cstarRes">
-                    <h4 class="mb-0"><i>C* = 25.6</i> [m/s]</h4>
+                  <div class="alert alert-primary">
+                    <h4 class="mb-0" id="cstarRes"><i>C* = 25.6 [m/s]</i></h4>
                   </div>
                   
                   <!-- Cstar Inputs -->
                   <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="R_cstarBtn"><i>R</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="R_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ ? ]</span>
-                            <div class="input-group-text">
-                              <input type="checkbox" id="R_cstarBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="R_cstarRange">
-                      </div>
-                    </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
                         <button type="button" class="btn btn-outline-dark" id="Gamma_cstarBtn"><i>&Gamma;</i></button>
@@ -448,7 +428,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-warning" id="M_cstarBtn"><i>R/M</i></button>
+                        <button type="button" class="btn btn-outline-warning" id="M_cstarBtn"><i>M</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">

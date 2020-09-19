@@ -17,37 +17,17 @@ let vals = {
   g0: "9.81", // [m/s^2]
   Gamma: "1.7", // []
   P0: "0", // [bar]
-  At: "0", // [m]
-  R: "5", // [??]
+  At: "0", // [m] 
   T0: "5", // [K]
   Ae: "0", // [m^2]
-  Pa: "0" // [bar]
+  Pa: "0", // [bar]
+  R: "5", // [?]
+  M: "5" // [kg/?]
   }
 
 
 runEqsUp() //Load initial 0 values
 updateRes()
-
-/// Grab HTML ///
- 
-// mdot_Thrust 
-const mdot_ThrustBtn = document.getElementById("mdot_ThrustBtn")
-
-
-
-
-// cstar_Thrust 
-const cstar_ThrustBtn = document.getElementById("cstar_ThrustBtn")
-
-
-
-
-// cf_Thrust
-const cf_ThrustBtn = document.getElementById("cf_ThrustBtn")
-
-
-
-
 
 
 /// Event listeners ///
@@ -59,22 +39,22 @@ document.getElementById("mdot_ThrustIn").addEventListener('input', function(e){
   if(vals.mdot!==""){ // dont do anything until a real number is entered ("" - + e don't execute runFuncs)
     runFuncs("mdot") 
   }
-  
-  
-
 })
 
 document.getElementById("mdot_ThrustRange").addEventListener('input', function(e){
   document.getElementById("mdot_ThrustIn").value = e.target.value // attach to input field
   vals.mdot = assignValue(e.target.value,[0,10000], "mdot_ThrustIn") // assignValue(user input value, allowable range, for error message html handle)
-  runFuncs("mdot")    
+  runFuncs("mdot")
+
 })
 
 // cstar_Thrust 
 document.getElementById("cstar_ThrustIn").addEventListener('input', function(e){
   document.getElementById("cstar_ThrustRange").value = e.target.value
   vals.cstar = assignValue(e.target.value,[0,10000], "cstar_ThrustIn")
-  runFuncs()
+  if(vals.cstar!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("cstar_ThrustRange").addEventListener('input', function(e){
@@ -87,7 +67,9 @@ document.getElementById("cstar_ThrustRange").addEventListener('input', function(
 document.getElementById("cf_ThrustIn").addEventListener('input', function(e){
   document.getElementById("cf_ThrustRange").value = e.target.value
   vals.cf = assignValue(e.target.value,[0,10000],"cf_ThrustIn")
-  runFuncs()
+  if(vals.cf!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("cf_ThrustRange").addEventListener('input', function(e){
@@ -100,7 +82,9 @@ document.getElementById("cf_ThrustRange").addEventListener('input', function(e){
 document.getElementById("Gamma_mdotIn").addEventListener('input', function(e){
   document.getElementById("Gamma_mdotRange").value = e.target.value
   vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_mdotIn")
-  runFuncs()
+  if(vals.Gamma!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("Gamma_mdotRange").addEventListener('input', function(e){
@@ -113,7 +97,9 @@ document.getElementById("Gamma_mdotRange").addEventListener('input', function(e)
 document.getElementById("p0_mdotIn").addEventListener('input', function(e){
   document.getElementById("p0_mdotRange").value = e.target.value
   vals.P0 = assignValue(e.target.value,[0,10000],"p0_mdotIn")
-  runFuncs()
+  if(vals.P0!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("p0_mdotRange").addEventListener('input', function(e){
@@ -126,7 +112,9 @@ document.getElementById("p0_mdotRange").addEventListener('input', function(e){
 document.getElementById("At_mdotIn").addEventListener('input', function(e){
   document.getElementById("At_mdotRange").value = e.target.value
   vals.At = assignValue(e.target.value,[0,10000],"At_mdotIn")
-  runFuncs()
+  if(vals.At!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("At_mdotRange").addEventListener('input', function(e){
@@ -135,16 +123,18 @@ document.getElementById("At_mdotRange").addEventListener('input', function(e){
   runFuncs()  
 })
 
-// R_mdot
-document.getElementById("R_mdotIn").addEventListener('input', function(e){
-  document.getElementById("R_mdotRange").value = e.target.value
-  vals.R = assignValue(e.target.value,[0,10000],"R_mdotIn")
-  runFuncs()
+// M_mdot
+document.getElementById("M_mdotIn").addEventListener('input', function(e){
+  document.getElementById("M_mdotRange").value = e.target.value
+  vals.M = assignValue(e.target.value,[0,10000],"M_mdotIn")
+  if(vals.M!==""){
+    runFuncs()
+  }
 })
 
-document.getElementById("R_mdotRange").addEventListener('input', function(e){
-  document.getElementById("R_mdotIn").value = e.target.value
-  vals.R = assignValue(e.target.value,[0,10000],"R_mdotIn")
+document.getElementById("M_mdotRange").addEventListener('input', function(e){
+  document.getElementById("M_mdotIn").value = e.target.value
+  vals.M = assignValue(e.target.value,[0,10000],"M_mdotIn")
   runFuncs()  
 })
 
@@ -152,7 +142,9 @@ document.getElementById("R_mdotRange").addEventListener('input', function(e){
 document.getElementById("T0_mdotIn").addEventListener('input', function(e){
   document.getElementById("T0_mdotRange").value = e.target.value
   vals.T0 = assignValue(e.target.value,[0,10000],"T0_mdotIn")
-  runFuncs()
+  if(vals.T0!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("T0_mdotRange").addEventListener('input', function(e){
@@ -213,15 +205,61 @@ document.getElementById("p0_p0Range").addEventListener('input', function(e){
   runFuncs()  
 })
 
+// Gamma_cstar
+document.getElementById("Gamma_cstarIn").addEventListener('input', function(e){
+  document.getElementById("Gamma_cstarRange").value = e.target.value
+  vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_cstarIn")
+  runFuncs()
+})
+
+document.getElementById("Gamma_cstarRange").addEventListener('input', function(e){
+  document.getElementById("Gamma_cstarIn").value = e.target.value
+  vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_cstarIn")
+  runFuncs()  
+})
+
+// M_cstar
+document.getElementById("M_cstarIn").addEventListener('input', function(e){
+  document.getElementById("M_cstarRange").value = e.target.value
+  vals.M = assignValue(e.target.value,[0,10000],"M_cstarIn")
+  runFuncs()
+})
+
+document.getElementById("M_cstarRange").addEventListener('input', function(e){
+  document.getElementById("M_cstarIn").value = e.target.value
+  vals.M = assignValue(e.target.value,[0,10000],"M_cstarIn")
+  runFuncs()  
+})
+
+// T0_cstar
+document.getElementById("T0_cstarIn").addEventListener('input', function(e){
+  document.getElementById("T0_cstarRange").value = e.target.value
+  vals.T0 = assignValue(e.target.value,[0,10000],"T0_cstarIn")
+  runFuncs()
+})
+
+document.getElementById("T0_cstarRange").addEventListener('input', function(e){
+  document.getElementById("T0_cstarIn").value = e.target.value
+  vals.T0 = assignValue(e.target.value,[0,10000],"T0_cstarIn")
+  runFuncs()  
+})
+
 /// CheckBox Event Listeners - Check Equal Boxes ///
 document.getElementById("p0_mdotBox").addEventListener('input',function(e){
-  checkSameBoxes("P0_mdot") // let checkSameBoxes function know which box is checked
+  checkSameBoxes("mdot") // let checkSameBoxes function know which box is checked
+  e.target.checked=true
 })
 document.getElementById("At_mdotBox").addEventListener('input',function(e){
-  checkSameBoxes("At_mdot")
+  checkSameBoxes("mdot")
+  e.target.checked=true
 })
 document.getElementById("T0_mdotBox").addEventListener('input',function(e){
-  checkSameBoxes("T0_mdot") 
+  checkSameBoxes("mdot") 
+  e.target.checked=true
+})
+document.getElementById("M_mdotBox").addEventListener("input",function(e){
+  checkSameBoxes("mdot")
+  e.target.checked=true
 })
 document.getElementById("T0_cstarBox").addEventListener('input',function(e){
   checkSameBoxes("T0_cstar")
@@ -271,8 +309,8 @@ function runEqsUp() {
 
   //Level 2
   //mdot
-  vals.mdot= (Math.round((Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Math.sqrt(Number(vals.R)*Number(vals.T0)))*100)/100).toString()
-
+  vals.mdot = (Math.round((Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M)))*100)/100).toString() //mdot
+  vals.cstar = (Math.round(1/Number(vals.Gamma)*Math.sqrt((Number(vals.R)*Number(vals.T0))/Number(vals.M))*100)/100).toString()
 
   //Level 1
   vals.F = (Math.round((Number(vals.mdot)*Number(vals.cf)*Number(vals.cstar))*100)/100).toString() //Thrust
@@ -287,6 +325,7 @@ function updateRes() {
   const fRes = document.getElementById("fRes").firstChild
   const IspRes = document.getElementById("ispRes").firstChild
   const mdotRes = document.getElementById("mdotRes").firstChild
+  const cstarRes = document.getElementById("cstarRes").firstChild
 
   /// update result boxes ///
 
@@ -305,10 +344,17 @@ function updateRes() {
   }
   
    // mdot
-   if (isNaN(Number(vals.mdot))) {
+  if (isNaN(Number(vals.mdot))) {
     mdotRes.innerHTML=`Math Error`
   } else {
     mdotRes.innerHTML = `m&#775; = ${vals.mdot} [kg/s]`
+  }
+
+   // Cstar
+   if (isNaN(Number(vals.cstar))) {
+    cstarRes.innerHTML=`Math Error`
+  } else {
+    cstarRes.innerHTML = `C* = ${vals.cstar} [m/s]`
   }
 
 
@@ -333,9 +379,9 @@ function updateRes() {
   //At_mdot
   document.getElementById("At_mdotRange").value = vals.At
   document.getElementById("At_mdotIn").value = (Math.round(Number(vals.At)*100)/100).toString()
-  //R_mdot
-  document.getElementById("R_mdotRange").value = vals.R
-  document.getElementById("R_mdotIn").value = vals.R
+  //M_mdot
+  document.getElementById("M_mdotRange").value = vals.M
+  document.getElementById("M_mdotIn").value = (Math.round(Number(vals.M)*100)/100).toString()
   //T0_mdot
   document.getElementById("T0_mdotRange").value = vals.T0
   document.getElementById("T0_mdotIn").value = (Math.round(Number(vals.T0)*100)/100).toString()
@@ -387,7 +433,8 @@ function checkSameBoxes(box){
   const At_mdotBox = document.getElementById("At_mdotBox")
   const T0_mdotBox = document.getElementById("T0_mdotBox")
   const T0_cstarBox = document.getElementById("T0_cstarBox")
-  const M_cstarBox = document.getElementById("M_cstarBox")
+  const RM_cstarBox = document.getElementById("M_cstarBox")
+  const RM_mdotBox = document.getElementById("M_mdotBox")
   const P0_P0Box = document.getElementById("p0_p0Box")
   const Pa_P0Box = document.getElementById("pa_p0Box")
   const At_AeBox = document.getElementById("At_AeBox")
@@ -397,83 +444,98 @@ function checkSameBoxes(box){
   const Pa_cfBox = document.getElementById("Pa/_cfBox")
   
 
-  if (box === "T0_mdot"){
-    T0_cstarBox.checked = T0_mdotBox.checked
-  } else if(box === "T0_cstar"){
-    T0_mdotBox.checked = T0_cstarBox.checked
-  } else if(box === "P0_mdot"){
-    P0_P0Box.checked = P0_mdotBox.checked
-  } else if(box === "P0_P0"){
-    P0_mdotBox.checked = P0_P0Box.checked
-  } else if(box === "At_mdot"){
-    At_AeBox.checked = At_mdotBox.checked
-  } else if(box === "At_Ae"){
-    At_mdotBox.checked = At_AeBox.checked
-  } else if(box === "Pe_cf"){
-    Ae_cfBox.checked=Pe_cfBox.checked
-  } else if(box === "Ae_cf"){
-    Pe_cfBox.checked=Ae_cfBox.checked
-  }
+  // if (box === "T0_mdot"){
+  //   T0_cstarBox.checked = T0_mdotBox.checked
+  // } else if(box === "T0_cstar"){
+  //   T0_mdotBox.checked = T0_cstarBox.checked
+  // } else if(box === "P0_mdot"){
+  //   P0_P0Box.checked = P0_mdotBox.checked
+  // } else if(box === "P0_P0"){
+  //   P0_mdotBox.checked = P0_P0Box.checked
+  // } else if(box === "At_mdot"){
+  //   At_AeBox.checked = At_mdotBox.checked
+  // } else if(box === "At_Ae"){
+  //   At_mdotBox.checked = At_AeBox.checked
+  // } else if(box === "Pe_cf"){
+  //   Ae_cfBox.checked=Pe_cfBox.checked
+  // } else if(box === "Ae_cf"){
+  //   Pe_cfBox.checked=Ae_cfBox.checked
+  // } else if(box === "RM_mdot"){
+  //   RM_cstarBox.checked=RM_mdotBox.checked
+  // } else if(box === "RM_cstar"){
+  //   RM_mdotBox.checked=RM_cstarBox.checked
+  // }
 
-  if (box==="T0_mdot" || box==="T0_cstar"){
-    if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
-      P0_mdotBox.checked=false
-      P0_P0Box.checked=false
-    }
-    if(T0_cstarBox.checked===true && M_cstarBox.checked===true){
-      M_cstarBox.checked=false
-    }
-  }
+  // if (box==="T0_mdot" || box==="T0_cstar"){
+  //   if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true && RM_mdotBox.checked===true){
+  //     RM_mdotBox.checked=false
+  //     RM_cstarBox.checked=false
+  //   }
+  //   if(T0_cstarBox.checked===true && RM_cstarBox.checked===true){
+  //     RM_cstarBox.checked=false
+  //   }
+  // }
   
-  if (box==="P0_mdot" || box==="P0_P0"){
-    if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
-      At_mdotBox.checked=false
-      At_AeBox.checked=false
-    }
-    if(Pa_P0Box.checked===true && P0_P0Box.checked===true){
-      Pa_P0Box.checked=false
-    }
-  }
+  // if (box==="P0_mdot" || box==="P0_P0"){
+  //   if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
+  //     At_mdotBox.checked=false
+  //     At_AeBox.checked=false
+  //   }
+  //   if(Pa_P0Box.checked===true && P0_P0Box.checked===true){
+  //     Pa_P0Box.checked=false
+  //   }
+  // }
 
-  if (box==="At_mdot" || box==="At_Ae"){
-    if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
-      T0_mdotBox.checked=false
-      T0_cstarBox.checked=false
-    }
-    if(At_AeBox.checked===true && Ae_AeBox.checked===true){
-      Ae_AeBox.checked=false
-    }
-  }
+  // if (box==="At_mdot" || box==="At_Ae"){
+  //   if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
+  //     T0_mdotBox.checked=false
+  //     T0_cstarBox.checked=false
+  //   }
+  //   if(At_AeBox.checked===true && Ae_AeBox.checked===true){
+  //     Ae_AeBox.checked=false
+  //   }
+  // }
 
-  if (box==="Pa_P0" && P0_P0Box.checked===true && Pa_P0Box.checked===true){
-    P0_P0Box.checked=false
-    P0_mdotBox.checked=false
-  }
+  // if (box==="Pa_P0" && P0_P0Box.checked===true && Pa_P0Box.checked===true){
+  //   P0_P0Box.checked=false
+  //   P0_mdotBox.checked=false
+  // }
 
-  if (box==="Ae_Ae" && Ae_AeBox.checked===true && At_AeBox.checked===true){
-    At_AeBox.checked=false
-    At_mdotBox.checked=false
-  }
+  // if (box==="Ae_Ae" && Ae_AeBox.checked===true && At_AeBox.checked===true){
+  //   At_AeBox.checked=false
+  //   At_mdotBox.checked=false
+  // }
   
-  if (box==="M_cstar" && M_cstarBox.checked===true && T0_cstarBox.checked===true){
-    T0_cstarBox.checked=false
-    T0_mdotBox.checked=false
+  // if (box==="M_cstar" && M_cstarBox.checked===true && T0_cstarBox.checked===true){
+  //   T0_cstarBox.checked=false
+  //   T0_mdotBox.checked=false
+  // }
+
+  // if ((box==="Pe_cf" || box==="Ae_cf") && Pa_cfBox.checked===true && Ae_cfBox.checked===true){
+  //   Pa_cfBox.checked=false
+  // }
+
+  // if(box==="Pa_cf" && Pa_cfBox.checked===true && Ae_cfBox.checked===true){
+  //   Ae_cfBox.checked=false
+  //   Pe_cfBox.checked=false
+  // }
+
+
+  //Mdot Box (One check at a time)
+  if (box==="mdot"){
+    document.getElementById("p0_mdotBox").checked=false
+    document.getElementById("At_mdotBox").checked=false
+    document.getElementById("M_mdotBox").checked=false
+    document.getElementById("T0_mdotBox").checked=false
   }
 
-  if ((box==="Pe_cf" || box==="Ae_cf") && Pa_cfBox.checked===true && Ae_cfBox.checked===true){
-    Pa_cfBox.checked=false
-  }
-
-  if(box==="Pa_cf" && Pa_cfBox.checked===true && Ae_cfBox.checked===true){
-    Ae_cfBox.checked=false
-    Pe_cfBox.checked=false
-  }
 }
 
 function runEqsDown(branch){  
   const P0_mdotBox = document.getElementById("p0_mdotBox")
   const At_mdotBox = document.getElementById("At_mdotBox")
   const T0_mdotBox = document.getElementById("T0_mdotBox")
+  const M_mdotBox = document.getElementById("M_mdotBox")
   const T0_cstarBox = document.getElementById("T0_cstarBox")
   const M_cstarBox = document.getElementById("M_cstarBox")
   const P0_P0Box = document.getElementById("p0_p0Box")
@@ -485,8 +547,8 @@ function runEqsDown(branch){
   const Pa_cfBox = document.getElementById("Pa/_cfBox")
   
 
-  if(branch==="mdot" && P0_mdotBox.checked===true && T0_mdotBox.checked===true){
-    console.log("hi")
+  if(branch==="mdot" && At_mdotBox.checked===true){
+    
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -496,11 +558,14 @@ function runEqsDown(branch){
     if(Number(vals.T0)===0){
       vals.T0="0.01"
     }
-    vals.At=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0))/(Number(vals.Gamma)*Number(vals.P0))).toString()
+    if(Number(vals.M)===0){
+      vals.M="0.01"
+    }
+    vals.At=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*Number(vals.P0))).toString()
   }
 
-  if(branch==="mdot" && P0_mdotBox.checked===false){
-    console.log("here")
+  if(branch==="mdot" && P0_mdotBox.checked===true){
+    
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -510,11 +575,14 @@ function runEqsDown(branch){
     if(Number(vals.T0)===0){
       vals.T0="0.01"
     }
-    vals.P0=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0))/(Number(vals.Gamma)*Number(vals.At))).toString()
+    if(Number(vals.M)===0){
+      vals.M="0.01"
+    }
+      vals.P0=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*Number(vals.At))).toString()
   }
 
-  if(branch==="mdot" && ((P0_mdotBox.checked===true && At_mdotBox.checked===true)||P0_mdotBox.checked===true)){
-    console.log("hi")
+  if(branch==="mdot" && M_mdotBox.checked===true){
+    
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -524,6 +592,27 @@ function runEqsDown(branch){
     if(Number(vals.T0)===0){
       vals.T0="0.01"
     }
-    vals.T0=(Math.pow(Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)/Number(vals.R)).toString()
+    if(Number(vals.M)===0){
+      vals.M="0.01"
+    }
+    vals.M=((Number(vals.T0)*Number(vals.R))/Math.pow(Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)).toString()
   }
+
+  if(branch==="mdot" && T0_mdotBox.checked===true){
+    
+    if(Number(vals.P0)===0){
+      vals.P0="0.01"
+    }
+    if(Number(vals.At)===0){
+      vals.At="0.01"
+    }
+    if(Number(vals.T0)===0){
+      vals.T0="0.01"
+    }
+    if(Number(vals.M)===0){
+      vals.M="0.01"
+    }
+    vals.T0=(Math.pow(Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)*Number(vals.M)/Number(vals.R)).toString()
+  }
+
 }
