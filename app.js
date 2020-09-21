@@ -382,6 +382,15 @@ document.getElementById("Ae_AeBox").addEventListener('input',function(e){
 document.getElementById("At_AeBox").addEventListener('input',function(e){
   checkSameBoxes("At_Ae")
 })
+
+/// Molar Mass
+document.getElementById("MOxi").addEventListener('input',function(e){
+  MolarMass("Oxi")
+})
+document.getElementById("MFuel").addEventListener('input',function(e){
+  MolarMass("Fuel")
+})
+
 function runFuncs(branch) {
   
   
@@ -559,7 +568,6 @@ function assignValuegamma(value, range, id, specVal) {
     $(tag).popover('hide')
     return value 
   }
-
 }
 
 function assignValueGamma(value, range, id, specVal) {
@@ -578,7 +586,6 @@ function assignValueGamma(value, range, id, specVal) {
     $(tag).popover('hide')
     return value 
   }
-
 }
 
 
@@ -880,27 +887,72 @@ function CfBound(){
   return bound
 }
 
-let props = {
-  "Oxygen": `
+let propsHTML = {
+  "Oxygen":[`
           <option>Methane</option>
           <option>Hydrazine</option>
           <option>Hydrogen</option>
           <option>RP-1</option>
           <option>UDMH</option>
-          <option>Hydrogen</option>`,
-  'Flourine': `<option>Hydrazine</option>
-              <option>Hydrogen</option>`,
-  'Nitrogen Tetroxide': `<option>Hydrazine</option>`,
-  'Hydrogen Peroxide': `<option>RP-1</option>`
+          <option>Hydrogen</option>`,{
+            "Methane":`<option>3.20</option>
+                      <option>3.00</option>`,
+            "Hydrazine":`<option>0.74</option>
+                        <option>0.90</option>`,
+            "Hydrogen": `<option>3.40</option>
+                        <option>4.02</option>`,
+            "RP-1":     `<option>2.24</option>
+                        <option>2.56</option>`,
+            "UDMH":     `<option>1.39</option>
+                        <option>1.56</option>`
+        }],
+  'Flourine': [`<option>Hydrazine</option>
+              <option>Hydrogen</option>`,{
+                "Hydrazine":`<option>1.83</option>
+                            <option>2.30</option>`,
+                "Hydrogen": `<option>4.54</option>
+                            <option>7.60</option>`,
+        }],
+  'Nitrogen Tetroxide': [`<option>Hydrazine</option>
+                          <option>RP-1</option>`,{
+                "Hydrazine": `<option>1.08</option>
+                            <option>1.34</option>`,
+                "RP-1":    `<option>3.4</option>`
+        }],
+  'Hydrogen Peroxide': [`<option>RP-1</option>`,{
+                "RP-1": `<option>7.00</option>`
+              }]
 }
 
-function MolarMass(){
+let OFHTML = {
+  "Methane":`
+            <option>3.20</option>
+            <option>3.00</option>`
+}
+
+function MolarMass(option){
   const MOxi = document.getElementById("MOxi")
-  const Mfuel = document.getElementById("MFuel")
+  const MFuel = document.getElementById("MFuel")
+  const MOF = document.getElementById("MOF")
+  let oxi = MOxi.selectedOptions[0].label
   // if(MOxi.selectedOptions[0].label === "Oxygen"){
   //   Mfuel.innerHTML=props.Oxygen
   // }
-  let oxi = MOxi.selectedOptions[0].label
-  Mfuel.innerHTML=props[oxi]
+  if (option==="Oxi"){
+    MFuel.innerHTML=propsHTML[oxi][0]
+  }
 
+  MOF.innerHTML=propsHTML[oxi][1][MFuel.selectedOptions[0].label]
 }
+
+let propVals = {
+  "Oxygen": {
+    "Methane": { 
+          "3.20": [20.81, 3926],
+          "3.00": [20.17, 3886]
+
+    }
+  }
+}
+
+function assignValueMolar(){}
