@@ -51,3 +51,4 @@ To do notes:
 - add g0 to Thrust/Isp card
 -Maybe change number boxes to noraml inputs so can display things like infinity
 -Use placeholder to add infnity
+-on assign value functions, put return val on top, to save time (cant do it actually)
