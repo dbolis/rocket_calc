@@ -483,12 +483,31 @@
                 </div>
                 <div class="card card-body text-center">
                 
-                  <div class="alert alert-info" id="p0Res">
-                    <h5 class="mb-0"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
+                  <div class="alert alert-info">
+                    <h5 class="mb-0" id="p0Res"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
                   </div>
                   <!-- Pa/P0 inputs -->
 
                   <div class="form">
+                    <div class="form-row align-items-center">
+                      <div class="col-2">
+                        <button type="button" class="btn btn-outline-dark btn" id="altBtn"><i>Alt.</i></button>
+                      </div>
+                      <div class='col-7'>
+                        <div class="input-group input-group">
+                          <input type="number" class="form-control" id="altIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                          <div class="input-group-append">
+                            <span class="input-group-text">[m]</span>
+                            <div class="input-group-text">
+                              <input type="checkbox" id="altBox">
+                            </div>
+                          </div>
+                        </div>  
+                      </div> 
+                      <div class="col-3">
+                        <input type="range" class="form-control-range" id="altRange" min="0" max="100000">
+                      </div>  
+                    </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
                         <button type="button" class="btn btn-outline-dark btn" id="pa_p0Btn"><i>P<sub>a</sub></i></button>
@@ -505,9 +524,8 @@
                         </div>  
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="pa_p0Range">
+                        <input type="range" class="form-control-range" id="pa_p0Range" min="0" max="1.013" step="0.01">
                       </div>
-                      
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
@@ -598,13 +616,13 @@
                 <div class="card card-body text-center">
                   <div class="row">
                     <div class="col-6">
-                      <div class="alert alert-warning" id="fRes">
-                        <h5 class="mb-0"><i>M</i> = 10</i> [?]</h5>
+                      <div class="alert alert-warning">
+                        <h5 class="mb-0" id="MRes"><i>M</i></h5>
                       </div>
                     </div>
                     <div class="col-6">
-                      <div class="alert alert-danger" id="ispRes">
-                        <h5 class="mb-0"><i>T</i> = 4000</i> [K]</h5>
+                      <div class="alert alert-danger">
+                        <h5 class="mb-0" id="T0Res"><i>T<sub>0</sub></i> </h5>
                       </div>
                     </div>
                   </div>

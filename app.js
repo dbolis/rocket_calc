@@ -23,12 +23,98 @@ let vals = {
   Ae: "0", // [m^2]
   Pa: "0.5", // [bar]
   R: "5", // [?]
-  M: "5",
+  M: "5", // [kg/?]
   PeP0: ".6",
   PaP0: ".6",
-  AeAt: "5" // [kg/?]
+  AeAt: "5",
+  alt: "4"
   }
 
+let propsHTML = {
+  "Oxygen":[`
+          <option>Methane</option>
+          <option>Hydrazine</option>
+          <option>Hydrogen</option>
+          <option>RP-1</option>
+          <option>UDMH</option>
+          <option>Hydrogen</option>`,{
+            "Methane":`<option>3.20</option>
+                      <option>3.00</option>`,
+            "Hydrazine":`<option>0.74</option>
+                        <option>0.90</option>`,
+            "Hydrogen": `<option>3.40</option>
+                        <option>4.02</option>`,
+            "RP-1":     `<option>2.24</option>
+                        <option>2.56</option>`,
+            "UDMH":     `<option>1.39</option>
+                        <option>1.65</option>`
+        }],
+  'Flourine': [`<option>Hydrazine</option>
+              <option>Hydrogen</option>`,{
+                "Hydrazine":`<option>1.83</option>
+                            <option>2.30</option>`,
+                "Hydrogen": `<option>4.54</option>
+                            <option>7.60</option>`,
+        }],
+  'Nitrogen Tetroxide': [`<option>Hydrazine</option>
+                          <option>RP-1</option>`,{
+                "Hydrazine": `<option>1.08</option>
+                            <option>1.34</option>`,
+                "RP-1":    `<option>3.4</option>`
+        }],
+  'Hydrogen Peroxide': [`<option>RP-1</option>`,{
+                "RP-1": `<option>7.00</option>`
+              }]
+}
+
+let propVals = {
+  "Oxygen": {
+    "Methane": { 
+        "3.20": [20.81, 3926],
+        "3.00": [20.17, 3886]
+      },
+    "Hydrazine": {
+        "0.74": [18.3, 3285],
+        "0.90": [19.3, 3404]
+    },
+    "Hydrogen": {
+        "3.40": [8.9, 2959],
+        "4.02": [10, 2999]
+    },
+    "RP-1": {
+        "2.24": [21.9, 3571],
+        "2.56": [23.3, 3677]
+    },
+    "UDMH": {
+        "1.39": [19.8, 3542],
+        "1.65": [21.3, 3594]
+    }
+  },
+  "Flourine": {
+    "Hydrazine": {
+        "1.83": [18.5, 4553],
+        "2.30": [19.4, 4713]
+    },
+    "Hydrogen": {
+        "4.54": [8.9, 3080],
+        "7.60": [11.8, 3900]
+    }
+  },
+  "Nitrogen Tetroxide": {
+    "Hydrazine": {    
+        "1.08": [19.5, 3258],
+        "1.34": [20.9, 3152]
+    },
+    "RP-1": {
+        "3.4": [24.1, 3290]
+    }
+  },
+  "Hydrogen Peroxide": {
+    "RP-1": {
+        "7.00": [21.7, 2760]
+    }
+  }
+} 
 
 runEqsUp() //Load initial 0 values
 updateRes()
@@ -186,14 +272,14 @@ document.getElementById("At_AeRange").addEventListener('input', function(e){
 // Pa_P0
 document.getElementById("pa_p0In").addEventListener('input', function(e){
   document.getElementById("pa_p0Range").value = e.target.value
-  vals.Pa = assignValue(e.target.value,[0,10000],"pa_p0In")
-  runFuncs()
+  vals.Pa = assignValue(e.target.value,[0,1.013],"pa_p0In")
+  runFuncs("Pa")
 })
 
 document.getElementById("pa_p0Range").addEventListener('input', function(e){
   document.getElementById("pa_p0In").value = e.target.value
   vals.Pa = assignValue(e.target.value,[0,10000],"pa_p0In")
-  runFuncs()  
+  runFuncs("Pa")  
 })
 
 // P0_P0
@@ -207,6 +293,19 @@ document.getElementById("p0_p0Range").addEventListener('input', function(e){
   document.getElementById("p0_p0In").value = e.target.value
   vals.P0 = assignValue(e.target.value,[0,10000],"p0_p0In")
   runFuncs()  
+})
+
+// Altitude
+document.getElementById("altIn").addEventListener('input', function(e){
+  document.getElementById("altRange").value = e.target.value
+  vals.alt = assignValue(e.target.value,[0,1000000],"altIn")
+  runFuncs("alt")
+})
+
+document.getElementById("altRange").addEventListener('input', function(e){
+  document.getElementById("altIn").value = e.target.value
+  vals.alt = assignValue(e.target.value,[0,1000000],"altIn")
+  runFuncs("alt")  
 })
 
 // Gamma_cstar
@@ -304,14 +403,14 @@ document.getElementById("Pa/_cfIn").addEventListener('input', function(e){
   document.getElementById("Pa/_cfRange").value = e.target.value
   vals.PaP0 = assignValue(e.target.value,[0,10000],"Pa/_cfIn")
   if(vals.PaP0!==""){
-    runFuncs("Pa")
+    runFuncs("PaP0")
   }
 })
 
 document.getElementById("Pa/_cfRange").addEventListener('input', function(e){
   document.getElementById("Pa/_cfIn").value = e.target.value
   vals.PaP0 = assignValue(e.target.value,[0,10000],"Pa/_cfIn")
-  runFuncs("Pa")  
+  runFuncs("PaP0")  
 })
 
 // Ae/At_cf
@@ -386,13 +485,24 @@ document.getElementById("At_AeBox").addEventListener('input',function(e){
 /// Molar Mass
 document.getElementById("MOxi").addEventListener('input',function(e){
   MolarMass("Oxi")
+  vals.M = (assignValueMolar()[0]).toString()
+  vals.T0 = (assignValueMolar()[1]).toString()
+  runFuncs()
 })
 document.getElementById("MFuel").addEventListener('input',function(e){
   MolarMass("Fuel")
+  vals.M = (assignValueMolar()[0]).toString()
+  vals.T0 = (assignValueMolar()[1]).toString()
+  runFuncs()
+})
+document.getElementById("MOF").addEventListener('input',function(e){
+  vals.M = (assignValueMolar()[0]).toString()
+  vals.T0 = (assignValueMolar()[1]).toString()
+  runFuncs()
 })
 
+
 function runFuncs(branch) {
-  
   
   runEqsDown(branch)
   runEqsUp(branch)
@@ -433,7 +543,9 @@ function updateRes() {
   const mdotRes = document.getElementById("mdotRes").firstChild
   const cstarRes = document.getElementById("cstarRes").firstChild
   const cfRes = document.getElementById("cfRes").firstChild
-
+  const P0Res = document.getElementById("p0Res").firstChild
+  const MRes = document.getElementById("MRes").firstChild
+  const T0Res = document.getElementById("T0Res").firstChild
   /// update result boxes ///
 
   // F
@@ -471,6 +583,26 @@ function updateRes() {
     cfRes.innerHTML = `C<sub>f</sub> = ${vals.cf}`
   }
 
+  // PaP0
+  if (isNaN(Number(vals.PaP0))) {
+    P0Res.innerHTML=`Math Error`
+  } else {
+    P0Res.innerHTML = `P<sub>a</sub>/P<sub>0</sub> = ${vals.PaP0}`
+  }
+
+  // M
+  if (isNaN(Number(vals.M))) {
+    MRes.innerHTML=`Math Error`
+  } else {
+    MRes.innerHTML = `M = ${vals.M}`
+  }
+
+  // T0
+  if (isNaN(Number(vals.T0))) {
+    T0Res.innerHTML=`Math Error`
+  } else {
+    T0Res.innerHTML = `T<sub>0</sub> = ${vals.T0}`
+  }
 
   /// update fields and range ///
 
@@ -534,6 +666,9 @@ function updateRes() {
   //AeAt_cf
   document.getElementById("Ae/_cfIn").value = vals.AeAt
   document.getElementById("Ae/_cfRange").value = vals.AeAt
+  //alt
+  document.getElementById("altIn").value = vals.alt
+  document.getElementById("altRange").value = vals.alt
 }
 
 function assignValue(value, range, id) {
@@ -760,6 +895,16 @@ function runEqsDown(branch){
     numGam = Number(vals.gamma)
     vals.Gamma = (Math.sqrt(numGam)*Math.pow((2/(numGam+1)),((numGam+1)/(2*(numGam-1))))).toFixed(2)
   }
+
+  if(branch === "alt"){
+    vals.Pa = ((101.325*Math.exp(-0.00012*Number(vals.alt)))/100).toFixed(5)
+  }
+
+  if(branch === "Pa"){
+    vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
+  }
+
+
   if(branch==="mdot" && At_mdotBox.checked===true){
     
     if(Number(vals.P0)===0){
@@ -857,11 +1002,12 @@ function runEqsDown(branch){
     }
   }
 
-  if(branch==="Pa" && Pa_P0Box.checked===true){
+  if(branch==="PaP0" && Pa_P0Box.checked===true){
     vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
+    vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
   }
 
-  if(branch==="Pa" && P0_P0Box.checked===true){
+  if(branch==="PaP0" && P0_P0Box.checked===true){
     vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
   }
 }
@@ -881,78 +1027,49 @@ function Gamma_to_gamma(val){
   return xnp
 }
 
+function AeAt_to_PeP0(val){
+  let x1=0.1
+  let x2=0.2
+  numGam = Number(vals.gamma)
+  xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))
+  console.log(xc)
+  for(i=0; i<15; i++){
+    xnp = x2 - (val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))/(((val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))-(val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x1,(2/numGam))*(1-Math.pow(x1,((numGam-1)/numGam)))))))/(x2-x1))
+    xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(xnp,(2/numGam))*(1-Math.pow(xnp,((numGam-1)/numGam))))
+    x1=x2
+    x2=xnp
+
+    console.log([xnp,xc])
+  }
+
+}
+
+
 function CfBound(){
   let bound = Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+Number(vals.PeP0)*Number(vals.AeAt))*100)/100
   document.getElementById("cf_ThrustRange").max=bound
   return bound
 }
 
-let propsHTML = {
-  "Oxygen":[`
-          <option>Methane</option>
-          <option>Hydrazine</option>
-          <option>Hydrogen</option>
-          <option>RP-1</option>
-          <option>UDMH</option>
-          <option>Hydrogen</option>`,{
-            "Methane":`<option>3.20</option>
-                      <option>3.00</option>`,
-            "Hydrazine":`<option>0.74</option>
-                        <option>0.90</option>`,
-            "Hydrogen": `<option>3.40</option>
-                        <option>4.02</option>`,
-            "RP-1":     `<option>2.24</option>
-                        <option>2.56</option>`,
-            "UDMH":     `<option>1.39</option>
-                        <option>1.56</option>`
-        }],
-  'Flourine': [`<option>Hydrazine</option>
-              <option>Hydrogen</option>`,{
-                "Hydrazine":`<option>1.83</option>
-                            <option>2.30</option>`,
-                "Hydrogen": `<option>4.54</option>
-                            <option>7.60</option>`,
-        }],
-  'Nitrogen Tetroxide': [`<option>Hydrazine</option>
-                          <option>RP-1</option>`,{
-                "Hydrazine": `<option>1.08</option>
-                            <option>1.34</option>`,
-                "RP-1":    `<option>3.4</option>`
-        }],
-  'Hydrogen Peroxide': [`<option>RP-1</option>`,{
-                "RP-1": `<option>7.00</option>`
-              }]
-}
-
-let OFHTML = {
-  "Methane":`
-            <option>3.20</option>
-            <option>3.00</option>`
-}
 
 function MolarMass(option){
   const MOxi = document.getElementById("MOxi")
   const MFuel = document.getElementById("MFuel")
   const MOF = document.getElementById("MOF")
   let oxi = MOxi.selectedOptions[0].label
-  // if(MOxi.selectedOptions[0].label === "Oxygen"){
-  //   Mfuel.innerHTML=props.Oxygen
-  // }
+  
   if (option==="Oxi"){
     MFuel.innerHTML=propsHTML[oxi][0]
   }
-
+  
   MOF.innerHTML=propsHTML[oxi][1][MFuel.selectedOptions[0].label]
 }
 
-let propVals = {
-  "Oxygen": {
-    "Methane": { 
-          "3.20": [20.81, 3926],
-          "3.00": [20.17, 3886]
 
-    }
-  }
+function assignValueMolar(){
+  const MOxi = document.getElementById("MOxi").selectedOptions[0].label
+  const MFuel = document.getElementById("MFuel").selectedOptions[0].label
+  const MOF = document.getElementById("MOF").selectedOptions[0].label
+  
+  return propVals[MOxi][MFuel][MOF]
 }
-
-function assignValueMolar(){}
