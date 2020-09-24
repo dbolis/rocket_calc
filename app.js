@@ -13,10 +13,10 @@ let vals = {
   Isp: "0", // [s]
   mdot: "0", // [kg/s]
   cstar: "0", // [m/s]
-  cf: "0", // []
+  cf: "0", // [-]
   g0: "9.81", // [m/s^2]
-  Gamma: "1.7",
-  gamma: "2", // []
+  Gamma: "0.77", //[-]
+  gamma: "2", // [-]
   P0: "1", // [bar]
   At: "0", // [m] 
   T0: "5", // [K]
@@ -24,10 +24,14 @@ let vals = {
   Pa: "0.5", // [bar]
   R: "5", // [?]
   M: "5", // [kg/?]
-  PeP0: ".6",
-  PaP0: ".6",
-  AeAt: "5",
-  alt: "4"
+  PeP0: ".6", // [-]
+  PaP0: ".6", // [-]
+  AeAt: "5", // [-]
+  alt: "4" // [m]
+  }
+
+  let bounds = {
+    PeP0: [0.0001, 0.5]
   }
 
 let propsHTML = {
@@ -386,7 +390,7 @@ document.getElementById("gamma_cfRange").addEventListener('input', function(e){
 // Pe/P0_cf
 document.getElementById("Pe/_cfIn").addEventListener('input', function(e){
   document.getElementById("Pe/_cfRange").value = e.target.value
-  vals.PeP0 = assignValue(e.target.value,[0,10000],"Pe/_cfIn")
+  vals.PeP0 = assignValue(e.target.value,bounds.PeP0,"Pe/_cfIn")
   if(vals.PeP0!==""){
     runFuncs("PeP0")
   }
@@ -394,8 +398,10 @@ document.getElementById("Pe/_cfIn").addEventListener('input', function(e){
 
 document.getElementById("Pe/_cfRange").addEventListener('input', function(e){
   document.getElementById("Pe/_cfIn").value = e.target.value
-  vals.PeP0 = assignValue(e.target.value,[0,10000],"Pe/_cfIn")
-  runFuncs("PeP0")  
+  vals.PeP0 = assignValue(e.target.value,bounds.PeP0,"Pe/_cfIn")
+  if(vals.PeP0!==""){
+    runFuncs("PeP0")  
+  }
 })
 
 // Pa/P0_cf
@@ -883,7 +889,7 @@ function runEqsDown(branch){
   const Pa_cfBox = document.getElementById("Pa/_cfBox")
   
   if(branch === "PeP0"){
-    numGam = Number(vals.gamma)
+    let numGam = Number(vals.gamma)
     vals.AeAt=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))
   }
 
@@ -892,7 +898,7 @@ function runEqsDown(branch){
   }
 
   if(branch === "gamma"){
-    numGam = Number(vals.gamma)
+    let numGam = Number(vals.gamma)
     vals.Gamma = (Math.sqrt(numGam)*Math.pow((2/(numGam+1)),((numGam+1)/(2*(numGam-1))))).toFixed(2)
   }
 
@@ -1015,7 +1021,8 @@ function runEqsDown(branch){
 function Gamma_to_gamma(val){
   let x1=1.2
   let x2=1.1
-  xc = Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1))))
+  let xc = Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1))))
+  let xnp
   while (Math.abs(val-xc)>.001){
     xnp = x2 - (val - Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1)))))/(((val - Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1)))))-(val - Math.sqrt(x1)*Math.pow((2/(x1+1)),((x1+1)/(2*(x1-1))))))/(x2-x1))
     xc = Math.sqrt(xnp)*Math.pow((2/(xnp+1)),((xnp+1)/(2*(xnp-1))))
@@ -1024,24 +1031,67 @@ function Gamma_to_gamma(val){
     console.log([xnp,xc])
     
   }
+  
   return xnp
 }
 
 function AeAt_to_PeP0(val){
-  let x1=0.1
-  let x2=0.2
-  numGam = Number(vals.gamma)
-  xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))
-  console.log(xc)
-  for(i=0; i<15; i++){
-    xnp = x2 - (val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))/(((val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))-(val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x1,(2/numGam))*(1-Math.pow(x1,((numGam-1)/numGam)))))))/(x2-x1))
-    xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(xnp,(2/numGam))*(1-Math.pow(xnp,((numGam-1)/numGam))))
-    x1=x2
-    x2=xnp
+  // let x1=0.0002
+  // let x2=0.0003
+  // numGam = Number(vals.gamma)
+  // xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))
+  // console.log(xc)
+  // for(i=0; i<20; i++){
+  //   xnp = x2 - (val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))/(((val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))-(val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x1,(2/numGam))*(1-Math.pow(x1,((numGam-1)/numGam)))))))/(x2-x1))
+  //   xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(xnp,(2/numGam))*(1-Math.pow(xnp,((numGam-1)/numGam))))
+  //   x1=x2
+  //   x2=xnp
 
-    console.log([xnp,xc])
+  //   console.log([xnp,xc])
+  // }
+
+
+  // x0 = 1
+  // x1 = 2
+  // xn = (x0+x1)/2
+
+  // for (i=0;i<20;i++){
+
+  //   f0 = Math.pow(x0,3)+3*x0-5
+  //   fn = Math.pow(xn,3)+3*xn-5
+  //   console.log([f0,fn,x0,x1,xn])
+
+  //   if (f0*fn>0){
+  //     x0=xn
+  //     xn = (xn+x1)/2
+
+  //   } else {
+  //     x1=xn
+  //     xn = (x0+xn)/2
+  //   }
+  // }
+
+  let x0 = 0.0005
+  let x1 = 0.444
+  let xn = (x0+x1)/2
+  let numGam = Number(vals.gamma)
+  for (i=0;i<20;i++){
+    
+    // let f0 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
+    let f1 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
+    let xn = (x0+x1)/2
+    let fn = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+    
+    console.log([f1,x0,x1])
+
+    if (fn*f1<0){
+      x0 = (x0+x1)/2
+
+    } else {
+      x1 = (x1+x0)/2
+
+    }
   }
-
 }
 
 
@@ -1049,6 +1099,34 @@ function CfBound(){
   let bound = Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+Number(vals.PeP0)*Number(vals.AeAt))*100)/100
   document.getElementById("cf_ThrustRange").max=bound
   return bound
+}
+
+function PeP0Bound(){
+  // let val=1
+  // let x0 = 0.1
+  // let x1 = 0.7
+  // let xn = (x0+x1)/2
+
+  // for (i=0;i<20;i++){
+  //   let numGam = Number(vals.gamma)
+  //   let f0 = val-Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
+  //   let fn = val-Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+  //   console.log([f0,fn,x0,x1,xn])
+
+  //   if (f0*fn>0){
+  //     x0=xn
+  //     xn = (xn+x1)/2
+
+  //   } else {
+  //     x1=xn
+  //     xn = (x0+xn)/2
+  //   }
+  // }
+  // return xn
+
+  let bound = [0.0001, findMin()]
+  document.getElementById("Pe/_cfRange").max=bound[1]
+  bounds.PeP0=bound
 }
 
 
@@ -1072,4 +1150,34 @@ function assignValueMolar(){
   const MOF = document.getElementById("MOF").selectedOptions[0].label
   
   return propVals[MOxi][MFuel][MOF]
+}
+
+function findMin(){
+  let numGam = Number(vals.gamma)
+  let x1 = 0.525
+  let xn = 0.53
+  let f1 = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
+  let fn = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+
+  for (i=0;i<200;i++){
+    if(fn<f1){
+      let fbef = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      xn = xn+.0005
+      let fn = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      console.log(fn)
+      if(fbef<fn){
+        return xn-0.0005
+      }
+
+    } else {
+      let fbef = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      xn = xn-0.0005
+      let fn = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      console.log(fn)
+      
+      if(fbef<fn){
+        return fbef, xn+0.0005
+      }
+    }
+  }
 }
