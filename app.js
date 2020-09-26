@@ -204,7 +204,7 @@ document.getElementById("Gamma_mdotIn").addEventListener('input', function(e){
 document.getElementById("Gamma_mdotRange").addEventListener('input', function(e){
   document.getElementById("Gamma_mdotIn").value = e.target.value
   vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_mdotIn",0.61)
-  runFuncs()  
+  runFuncs("Gamma")  
 })
 
 // P0_mdot
@@ -347,7 +347,7 @@ document.getElementById("Gamma_cstarIn").addEventListener('input', function(e){
   document.getElementById("Gamma_cstarRange").value = e.target.value
   vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_cstarIn",0.61)
   if(vals.Gamma!=="" && vals.Gamma>0.609){
-    runFuncs()
+    runFuncs("Gamma")
   }
 })
 
@@ -355,7 +355,7 @@ document.getElementById("Gamma_cstarRange").addEventListener('input', function(e
   document.getElementById("Gamma_cstarIn").value = e.target.value
   vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_cstarIn",0.61)
   if(vals.Gamma!=="" && vals.Gamma>0.609){
-  runFuncs()
+  runFuncs("Gamma")
   }
 })
 
@@ -568,9 +568,10 @@ function runEqsUp(branch) {
   }
   if(branch!=="AeAt"){
     vals.AeAt = (Math.round((Number(vals.Ae)/Number(vals.At))*1000)/1000).toString()
-    if(Number(vals.AeAt)<1.01){
-      vals.AeAt="1.01"
+    if(Number(vals.AeAt)<1.1){
+      vals.AeAt="1.1"
       console.log("high")
+      //error message on Ae/At cant be below 1.1
     }
     vals.PeP0=AeAt_to_PeP0(vals.AeAt).toString()
   }
@@ -585,7 +586,7 @@ function runEqsUp(branch) {
     vals.cstar = (Math.round((1/Number(vals.Gamma))*Math.sqrt((Number(vals.R)*Number(vals.T0))/Number(vals.M))*100)/100).toString() //cstar
   }
   //Level 1
-  vals.F = (Math.round((Number(vals.mdot)*Number(vals.cf)*Number(vals.cstar))*100)/100).toString() //Thrust
+  vals.F = (Math.round((Number(vals.mdot)*Number(vals.cf)*Number(vals.cstar)/1000)*100)/100).toString() //Thrust
   vals.Isp = (Math.round((Number(vals.cf)*Number(vals.cstar)/Number(vals.g0))*100)/100).toString() //Isp
 
 }
@@ -609,7 +610,7 @@ function updateRes() {
   if (isNaN(Number(vals.F))) {
     fRes.innerHTML=`Math Error` // executes if 0/0 or sqrt(-1) (1/0 = infinity)
   } else {
-    fRes.innerHTML = `F = ${vals.F} [N]` // executes for acceptable values
+    fRes.innerHTML = `F = ${vals.F} [kN]` // executes for acceptable values
   }
 
   // Isp 
@@ -814,20 +815,6 @@ function errorMessage(id, range) {
 }
 
 function checkSameBoxes(box){
-  const P0_mdotBox = document.getElementById("p0_mdotBox")
-  const At_mdotBox = document.getElementById("At_mdotBox")
-  const T0_mdotBox = document.getElementById("T0_mdotBox")
-  const T0_cstarBox = document.getElementById("T0_cstarBox")
-  const RM_cstarBox = document.getElementById("M_cstarBox")
-  const RM_mdotBox = document.getElementById("M_mdotBox")
-  const P0_P0Box = document.getElementById("p0_p0Box")
-  const Pa_P0Box = document.getElementById("pa_p0Box")
-  const At_AeBox = document.getElementById("At_AeBox")
-  const Ae_AeBox = document.getElementById("Ae_AeBox")
-  const Pe_cfBox = document.getElementById("Pe/_cfBox")
-  const Ae_cfBox = document.getElementById("Ae/_cfBox")
-  const Pa_cfBox = document.getElementById("Pa/_cfBox")
-  
 
   // if (box === "T0_mdot"){
   //   T0_cstarBox.checked = T0_mdotBox.checked
@@ -1248,7 +1235,7 @@ function PeP0Bound(){
   // return xn
 
   let bound = [0.000005, findMin()]
-  document.getElementById("Pe/_cfRange").max=bound[1]
+  document.getElementById("Pe/_cfRange").max=(bound[1]-0.175)
   bounds.PeP0=bound
 
 }
