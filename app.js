@@ -18,12 +18,12 @@ let vals = {
   Gamma: "0.77", //[-]
   gamma: "2", // [-]
   P0: "1", // [bar]
-  At: "0", // [m] 
+  At: "0.1", // [m] 
   T0: "5", // [K]
-  Ae: "0", // [m^2]
+  Ae: "0.1", // [m^2]
   Pa: "0.5", // [bar]
-  R: "5", // [?]
-  M: "5", // [kg/?]
+  R: "8314.5", // [?]
+  M: "20.81", // [kg/?]
   PeP0: ".6", // [-]
   PaP0: ".6", // [-]
   AeAt: "5", // [-]
@@ -31,7 +31,21 @@ let vals = {
   }
 
   let bounds = {
-    PeP0: [0.0001, 0.5]
+    mdot: [0, 15000],
+    cstar: [0, 4000],
+    Gamma: [0.609,0.77],
+    gamma: [1.01, 2],
+    P0: [0,400],
+    At: [0.01,10],
+    Ae: [0.01,10],
+    M: [1,50],
+    T0: [0,5000],
+    PeP0: [0.000005, 0.5],
+    alt: [0,75]
+
+    
+
+    
   }
 
 let propsHTML = {
@@ -120,8 +134,14 @@ let propVals = {
   }
 } 
 
+MolarMass("Oxi")
+  vals.M = (assignValueMolar()[0]).toString()
+  vals.T0 = (assignValueMolar()[1]).toString()
 runEqsUp() //Load initial 0 values
 updateRes()
+PeP0Bound()
+CfBound()
+initialChecks()
 
 
 /// Event listeners ///
@@ -129,7 +149,7 @@ updateRes()
 // mdot_Thrust
 document.getElementById("mdot_ThrustIn").addEventListener('input', function(e){
   document.getElementById("mdot_ThrustRange").value = e.target.value // attach to range
-  vals.mdot = assignValue(e.target.value,[0,10000], "mdot_ThrustIn") // assignValue(user input value, allowable range, for error message)
+  vals.mdot = assignValue(e.target.value, bounds.mdot, "mdot_ThrustIn") // assignValue(user input value, allowable range, for error message)
   if(vals.mdot!==""){ // dont do anything until a real number is entered ("" - + e don't execute runFuncs)
     runFuncs("mdot") 
   }
@@ -137,7 +157,7 @@ document.getElementById("mdot_ThrustIn").addEventListener('input', function(e){
 
 document.getElementById("mdot_ThrustRange").addEventListener('input', function(e){
   document.getElementById("mdot_ThrustIn").value = e.target.value // attach to input field
-  vals.mdot = assignValue(e.target.value,[0,10000], "mdot_ThrustIn") // assignValue(user input value, allowable range, for error message html handle)
+  vals.mdot = assignValue(e.target.value, bounds.mdot, "mdot_ThrustIn") // assignValue(user input value, allowable range, for error message html handle)
   runFuncs("mdot")
 
 })
@@ -145,7 +165,7 @@ document.getElementById("mdot_ThrustRange").addEventListener('input', function(e
 // cstar_Thrust 
 document.getElementById("cstar_ThrustIn").addEventListener('input', function(e){
   document.getElementById("cstar_ThrustRange").value = e.target.value
-  vals.cstar = assignValue(e.target.value,[0,10000], "cstar_ThrustIn")
+  vals.cstar = assignValue(e.target.value,bounds.cstar, "cstar_ThrustIn")
   if(vals.cstar!==""){
     runFuncs("cstar")
   }
@@ -153,7 +173,7 @@ document.getElementById("cstar_ThrustIn").addEventListener('input', function(e){
 
 document.getElementById("cstar_ThrustRange").addEventListener('input', function(e){
   document.getElementById("cstar_ThrustIn").value = e.target.value
-  vals.cstar = assignValue(e.target.value,[0,10000], "cstar_ThrustIn")   
+  vals.cstar = assignValue(e.target.value,bounds.cstar, "cstar_ThrustIn")   
   runFuncs("cstar") 
 })
 
@@ -175,22 +195,22 @@ document.getElementById("cf_ThrustRange").addEventListener('input', function(e){
 // Gamma_mdot
 document.getElementById("Gamma_mdotIn").addEventListener('input', function(e){
   document.getElementById("Gamma_mdotRange").value = e.target.value
-  vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_mdotIn")
-  if(vals.Gamma!==""){
-    runFuncs()
+  vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_mdotIn",0.61)
+  if(vals.Gamma!=="" && vals.Gamma>0.609){
+    runFuncs("Gamma")
   }
 })
 
 document.getElementById("Gamma_mdotRange").addEventListener('input', function(e){
   document.getElementById("Gamma_mdotIn").value = e.target.value
-  vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_mdotIn")
+  vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_mdotIn",0.61)
   runFuncs()  
 })
 
 // P0_mdot
 document.getElementById("p0_mdotIn").addEventListener('input', function(e){
   document.getElementById("p0_mdotRange").value = e.target.value
-  vals.P0 = assignValue(e.target.value,[0,10000],"p0_mdotIn")
+  vals.P0 = assignValue(e.target.value,bounds.P0,"p0_mdotIn")
   if(vals.P0!==""){
     runFuncs()
   }
@@ -198,14 +218,14 @@ document.getElementById("p0_mdotIn").addEventListener('input', function(e){
 
 document.getElementById("p0_mdotRange").addEventListener('input', function(e){
   document.getElementById("p0_mdotIn").value = e.target.value
-  vals.P0 = assignValue(e.target.value,[0,10000],"p0_mdotIn")
+  vals.P0 = assignValue(e.target.value,bounds.P0,"p0_mdotIn")
   runFuncs()  
 })
 
 // At_mdot
 document.getElementById("At_mdotIn").addEventListener('input', function(e){
   document.getElementById("At_mdotRange").value = e.target.value
-  vals.At = assignValue(e.target.value,[0,10000],"At_mdotIn")
+  vals.At = assignValue(e.target.value,bounds.At,"At_mdotIn")
   if(vals.At!==""){
     runFuncs()
   }
@@ -213,14 +233,14 @@ document.getElementById("At_mdotIn").addEventListener('input', function(e){
 
 document.getElementById("At_mdotRange").addEventListener('input', function(e){
   document.getElementById("At_mdotIn").value = e.target.value
-  vals.At = assignValue(e.target.value,[0,10000],"At_mdotIn")
+  vals.At = assignValue(e.target.value,bounds.At,"At_mdotIn")
   runFuncs()  
 })
 
 // M_mdot
 document.getElementById("M_mdotIn").addEventListener('input', function(e){
   document.getElementById("M_mdotRange").value = e.target.value
-  vals.M = assignValue(e.target.value,[0,10000],"M_mdotIn")
+  vals.M = assignValue(e.target.value,bounds.M,"M_mdotIn")
   if(vals.M!==""){
     runFuncs()
   }
@@ -228,14 +248,14 @@ document.getElementById("M_mdotIn").addEventListener('input', function(e){
 
 document.getElementById("M_mdotRange").addEventListener('input', function(e){
   document.getElementById("M_mdotIn").value = e.target.value
-  vals.M = assignValue(e.target.value,[0,10000],"M_mdotIn")
+  vals.M = assignValue(e.target.value,bounds.M,"M_mdotIn")
   runFuncs()  
 })
 
 // T0_mdot
 document.getElementById("T0_mdotIn").addEventListener('input', function(e){
   document.getElementById("T0_mdotRange").value = e.target.value
-  vals.T0 = assignValue(e.target.value,[0,10000],"T0_mdotIn")
+  vals.T0 = assignValue(e.target.value,bounds.T0,"T0_mdotIn")
   if(vals.T0!==""){
     runFuncs()
   }
@@ -243,33 +263,37 @@ document.getElementById("T0_mdotIn").addEventListener('input', function(e){
 
 document.getElementById("T0_mdotRange").addEventListener('input', function(e){
   document.getElementById("T0_mdotIn").value = e.target.value
-  vals.T0 = assignValue(e.target.value,[0,10000],"T0_mdotIn")
+  vals.T0 = assignValue(e.target.value,bounds.T0,"T0_mdotIn")
   runFuncs()  
 })
 
 // Ae_Ae
 document.getElementById("Ae_AeIn").addEventListener('input', function(e){
   document.getElementById("Ae_AeRange").value = e.target.value
-  vals.Ae = assignValue(e.target.value,[0,10000],"Ae_AeIn")
-  runFuncs()
+  vals.Ae = assignValue(e.target.value,bounds.Ae,"Ae_AeIn")
+  if(vals.Ae!==""){
+    runFuncs()
+  }
 })
 
 document.getElementById("Ae_AeRange").addEventListener('input', function(e){
   document.getElementById("Ae_AeIn").value = e.target.value
-  vals.Ae = assignValue(e.target.value,[0,10000],"Ae_AeIn")
+  vals.Ae = assignValue(e.target.value,bounds.Ae,"Ae_AeIn")
   runFuncs()  
 })
 
 // Ae_At
 document.getElementById("At_AeIn").addEventListener('input', function(e){
   document.getElementById("At_AeRange").value = e.target.value
-  vals.At = assignValue(e.target.value,[0,10000],"At_AeIn")
+  vals.At = assignValue(e.target.value,bounds.At,"At_AeIn")
+  if(vals.At!==""){
   runFuncs()
+  }
 })
 
 document.getElementById("At_AeRange").addEventListener('input', function(e){
   document.getElementById("At_AeIn").value = e.target.value
-  vals.At = assignValue(e.target.value,[0,10000],"At_AeIn")
+  vals.At = assignValue(e.target.value,bounds.At,"At_AeIn")
   runFuncs()  
 })
 
@@ -277,7 +301,9 @@ document.getElementById("At_AeRange").addEventListener('input', function(e){
 document.getElementById("pa_p0In").addEventListener('input', function(e){
   document.getElementById("pa_p0Range").value = e.target.value
   vals.Pa = assignValue(e.target.value,[0,1.013],"pa_p0In")
+  if(vals.Pa!==""){
   runFuncs("Pa")
+  }
 })
 
 document.getElementById("pa_p0Range").addEventListener('input', function(e){
@@ -290,7 +316,9 @@ document.getElementById("pa_p0Range").addEventListener('input', function(e){
 document.getElementById("p0_p0In").addEventListener('input', function(e){
   document.getElementById("p0_p0Range").value = e.target.value
   vals.P0 = assignValue(e.target.value,[0,10000],"pa_p0In")
+  if(vals.P0!==""){
   runFuncs()
+  }
 })
 
 document.getElementById("p0_p0Range").addEventListener('input', function(e){
@@ -302,35 +330,39 @@ document.getElementById("p0_p0Range").addEventListener('input', function(e){
 // Altitude
 document.getElementById("altIn").addEventListener('input', function(e){
   document.getElementById("altRange").value = e.target.value
-  vals.alt = assignValue(e.target.value,[0,1000000],"altIn")
+  vals.alt = assignValue(e.target.value,bounds.alt,"altIn")
+  if(vals.alt!==""){
   runFuncs("alt")
+  }
 })
 
 document.getElementById("altRange").addEventListener('input', function(e){
   document.getElementById("altIn").value = e.target.value
-  vals.alt = assignValue(e.target.value,[0,1000000],"altIn")
+  vals.alt = assignValue(e.target.value,bounds.alt,"altIn")
   runFuncs("alt")  
 })
 
 // Gamma_cstar
 document.getElementById("Gamma_cstarIn").addEventListener('input', function(e){
   document.getElementById("Gamma_cstarRange").value = e.target.value
-  vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_cstarIn")
-  if(vals.Gamma!==""){
+  vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_cstarIn",0.61)
+  if(vals.Gamma!=="" && vals.Gamma>0.609){
     runFuncs()
   }
 })
 
 document.getElementById("Gamma_cstarRange").addEventListener('input', function(e){
   document.getElementById("Gamma_cstarIn").value = e.target.value
-  vals.Gamma = assignValue(e.target.value,[0,10000],"Gamma_cstarIn")
-  runFuncs()  
+  vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_cstarIn",0.61)
+  if(vals.Gamma!=="" && vals.Gamma>0.609){
+  runFuncs()
+  }
 })
 
 // M_cstar
 document.getElementById("M_cstarIn").addEventListener('input', function(e){
   document.getElementById("M_cstarRange").value = e.target.value
-  vals.M = assignValue(e.target.value,[0,10000],"M_cstarIn")
+  vals.M = assignValue(e.target.value,bounds.M,"M_cstarIn")
   if(vals.M!==""){
     runFuncs()
   }
@@ -338,14 +370,14 @@ document.getElementById("M_cstarIn").addEventListener('input', function(e){
 
 document.getElementById("M_cstarRange").addEventListener('input', function(e){
   document.getElementById("M_cstarIn").value = e.target.value
-  vals.M = assignValue(e.target.value,[0,10000],"M_cstarIn")
+  vals.M = assignValue(e.target.value,bounds.M,"M_cstarIn")
   runFuncs()  
 })
 
 // T0_cstar
 document.getElementById("T0_cstarIn").addEventListener('input', function(e){
   document.getElementById("T0_cstarRange").value = e.target.value
-  vals.T0 = assignValue(e.target.value,[0,10000],"T0_cstarIn")
+  vals.T0 = assignValue(e.target.value,bounds.T0,"T0_cstarIn")
   if(vals.T0!==""){
     runFuncs()
   }
@@ -353,7 +385,7 @@ document.getElementById("T0_cstarIn").addEventListener('input', function(e){
 
 document.getElementById("T0_cstarRange").addEventListener('input', function(e){
   document.getElementById("T0_cstarIn").value = e.target.value
-  vals.T0 = assignValue(e.target.value,[0,10000],"T0_cstarIn")
+  vals.T0 = assignValue(e.target.value,bounds.T0,"T0_cstarIn")
   runFuncs()  
 })
 
@@ -375,7 +407,7 @@ document.getElementById("Gamma_cfRange").addEventListener('input', function(e){
 // gamma_cf
 document.getElementById("gamma_cfIn").addEventListener('input', function(e){
   document.getElementById("gamma_cfRange").value = e.target.value
-  vals.gamma = assignValuegamma(e.target.value,[1,2],"gamma_cfIn",1)
+  vals.gamma = assignValuegamma(e.target.value,bounds.gamma,"gamma_cfIn",1)
   if(vals.gamma!==""){
     runFuncs("gamma")
   }
@@ -383,7 +415,7 @@ document.getElementById("gamma_cfIn").addEventListener('input', function(e){
 
 document.getElementById("gamma_cfRange").addEventListener('input', function(e){
   document.getElementById("gamma_cfIn").value = e.target.value
-  vals.gamma = assignValuegamma(e.target.value,[1.01,2],"gamma_cfIn",1)
+  vals.gamma = assignValuegamma(e.target.value,bounds.gamma,"gamma_cfIn",1)
   runFuncs("gamma")  
 })
 
@@ -399,9 +431,7 @@ document.getElementById("Pe/_cfIn").addEventListener('input', function(e){
 document.getElementById("Pe/_cfRange").addEventListener('input', function(e){
   document.getElementById("Pe/_cfIn").value = e.target.value
   vals.PeP0 = assignValue(e.target.value,bounds.PeP0,"Pe/_cfIn")
-  if(vals.PeP0!==""){
-    runFuncs("PeP0")  
-  }
+  runFuncs("PeP0")
 })
 
 // Pa/P0_cf
@@ -422,16 +452,16 @@ document.getElementById("Pa/_cfRange").addEventListener('input', function(e){
 // Ae/At_cf
 document.getElementById("Ae/_cfIn").addEventListener('input', function(e){
   document.getElementById("Ae/_cfRange").value = e.target.value
-  vals.AeAt = assignValue(e.target.value,[1,10000],"Ae/_cfIn")
+  vals.AeAt = assignValuegamma(e.target.value,[1.01,10000],"Ae/_cfIn",1)
   if(vals.AeAt!==""){
-    runFuncs()
+    runFuncs("AeAt")
   }
 })
 
 document.getElementById("Ae/_cfRange").addEventListener('input', function(e){
   document.getElementById("Ae/_cfIn").value = e.target.value
-  vals.AeAt = assignValue(e.target.value,[1,10000],"Ae/_cfIn")
-  runFuncs()  
+  vals.AeAt = assignValuegamma(e.target.value,[1.01,10000],"Ae/_cfIn",1)
+  runFuncs("AeAt")  
 })
 
 /// CheckBox Event Listeners - Check Equal Boxes ///
@@ -476,17 +506,26 @@ document.getElementById("Ae/_cfBox").addEventListener('input',function(e){
 document.getElementById("pa_p0Box").addEventListener('input',function(e){
   checkSameBoxes("p0")
   e.target.checked=true
+  document.getElementById("altBox").checked=true
 })
 document.getElementById("p0_p0Box").addEventListener('input',function(e){
   checkSameBoxes("p0")
   e.target.checked=true
 })
 document.getElementById("Ae_AeBox").addEventListener('input',function(e){
-  checkSameBoxes("Ae_Ae")
+  checkSameBoxes("Ae")
+  e.target.checked=true
 })
 document.getElementById("At_AeBox").addEventListener('input',function(e){
-  checkSameBoxes("At_Ae")
+  checkSameBoxes("Ae")
+  e.target.checked=true
 })
+document.getElementById("altBox").addEventListener('input',function(e){
+  checkSameBoxes("p0")
+  e.target.checked=true
+  document.getElementById("pa_p0Box").checked=true
+})
+
 
 /// Molar Mass
 document.getElementById("MOxi").addEventListener('input',function(e){
@@ -513,6 +552,7 @@ function runFuncs(branch) {
   runEqsDown(branch)
   runEqsUp(branch)
   updateRes()
+  
 }
 
 
@@ -523,17 +563,27 @@ function runFuncs(branch) {
 function runEqsUp(branch) {
 
   //Level 3
-  vals.PaP0 = (Math.round((Number(vals.Pa)/Number(vals.P0))*100)/100).toString()
-
+  if(branch!=="PaP0"){
+    vals.PaP0 = (Math.round((Number(vals.Pa)/Number(vals.P0))*1000)/1000).toString()
+  }
+  if(branch!=="AeAt"){
+    vals.AeAt = (Math.round((Number(vals.Ae)/Number(vals.At))*1000)/1000).toString()
+    if(Number(vals.AeAt)<1.01){
+      vals.AeAt="1.01"
+      console.log("high")
+    }
+    vals.PeP0=AeAt_to_PeP0(vals.AeAt).toString()
+  }
   //Level 2
   if(branch!=="mdot"){
-    vals.mdot = (Math.round((Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M)))*100)/100).toString() //mdot
+    vals.mdot = (Math.round((Number(vals.Gamma)*(100000)*Number(vals.P0)*Number(vals.At)/Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M)))*100)/100).toString() //mdot
   }
   if(branch!=="cf"){
-    vals.cf = (Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+(Number(vals.PeP0)-Number(vals.PaP0))*Number(vals.AeAt))*100)/100).toString()
+    vals.cf = (Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+(Number(vals.PeP0)-Number(vals.PaP0))*Number(vals.AeAt))*10000)/10000).toString()
   }
+  if(branch!=="cstar"){
     vals.cstar = (Math.round((1/Number(vals.Gamma))*Math.sqrt((Number(vals.R)*Number(vals.T0))/Number(vals.M))*100)/100).toString() //cstar
-
+  }
   //Level 1
   vals.F = (Math.round((Number(vals.mdot)*Number(vals.cf)*Number(vals.cstar))*100)/100).toString() //Thrust
   vals.Isp = (Math.round((Number(vals.cf)*Number(vals.cstar)/Number(vals.g0))*100)/100).toString() //Isp
@@ -552,6 +602,7 @@ function updateRes() {
   const P0Res = document.getElementById("p0Res").firstChild
   const MRes = document.getElementById("MRes").firstChild
   const T0Res = document.getElementById("T0Res").firstChild
+  const AeAtRes = document.getElementById("AeRes").firstChild
   /// update result boxes ///
 
   // F
@@ -594,6 +645,13 @@ function updateRes() {
     P0Res.innerHTML=`Math Error`
   } else {
     P0Res.innerHTML = `P<sub>a</sub>/P<sub>0</sub> = ${vals.PaP0}`
+  }
+
+  // AeAt
+  if (isNaN(Number(vals.AeAt))) {
+    AeAtRes.innerHTML=`Math Error`
+  } else {
+    AeAtRes.innerHTML = `A<sub>e</sub>/A<sub>t</sub> = ${vals.AeAt}`
   }
 
   // M
@@ -675,6 +733,7 @@ function updateRes() {
   //alt
   document.getElementById("altIn").value = vals.alt
   document.getElementById("altRange").value = vals.alt
+
 }
 
 function assignValue(value, range, id) {
@@ -869,7 +928,14 @@ function checkSameBoxes(box){
   if (box==="p0"){
     document.getElementById("pa_p0Box").checked=false
     document.getElementById("p0_p0Box").checked=false
+    document.getElementById("altBox").checked=false
   }
+
+  if(box==="Ae"){
+    document.getElementById("Ae_AeBox").checked=false
+    document.getElementById("At_AeBox").checked=false
+  }
+
 
 }
 
@@ -888,28 +954,35 @@ function runEqsDown(branch){
   const Ae_cfBox = document.getElementById("Ae/_cfBox")
   const Pa_cfBox = document.getElementById("Pa/_cfBox")
   
+  
+  if(branch === "AeAt"){
+    vals.PeP0=AeAt_to_PeP0(vals.AeAt)
+  }
+  
   if(branch === "PeP0"){
     let numGam = Number(vals.gamma)
-    vals.AeAt=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))
+    
   }
 
   if(branch === "Gamma"){
     vals.gamma = (Gamma_to_gamma(Number(vals.Gamma))).toFixed(2)
+
   }
 
   if(branch === "gamma"){
     let numGam = Number(vals.gamma)
     vals.Gamma = (Math.sqrt(numGam)*Math.pow((2/(numGam+1)),((numGam+1)/(2*(numGam-1))))).toFixed(2)
+    vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(5)
+    PeP0Bound()
   }
 
   if(branch === "alt"){
-    vals.Pa = ((101.325*Math.exp(-0.00012*Number(vals.alt)))/100).toFixed(5)
+    vals.Pa = ((101.325*Math.exp(-0.00012*(Number(vals.alt)*1000)))/100).toFixed(3)
   }
 
   if(branch === "Pa"){
-    vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
+    vals.alt = ((Math.log(0.986923*Number(vals.Pa))/(-0.00012))/1000).toFixed(3)
   }
-
 
   if(branch==="mdot" && At_mdotBox.checked===true){
     
@@ -925,7 +998,7 @@ function runEqsDown(branch){
     if(Number(vals.M)===0 || Number(vals.M)===Infinity){
       vals.M="0.01"
     }
-    vals.At=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*Number(vals.P0))).toFixed(2)
+    vals.At=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*100000*Number(vals.P0))).toFixed(2)
   }
 
   if(branch==="mdot" && P0_mdotBox.checked===true){
@@ -942,7 +1015,7 @@ function runEqsDown(branch){
     if(Number(vals.M)===0){
       vals.M="0.01"
     }
-      vals.P0=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*Number(vals.At))).toFixed(2)
+      vals.P0=((Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*Number(vals.At)))/100000).toFixed(2)
   }
 
   if(branch==="mdot" && M_mdotBox.checked===true){
@@ -959,7 +1032,7 @@ function runEqsDown(branch){
     if(Number(vals.M)===0){
       vals.M="0.01"
     }
-    vals.M=((Number(vals.T0)*Number(vals.R))/Math.pow(Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)).toFixed(2)
+    vals.M=((Number(vals.T0)*Number(vals.R))/Math.pow(Number(vals.Gamma)*100000*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)).toFixed(2)
   }
 
   if(branch==="mdot" && T0_mdotBox.checked===true){
@@ -976,7 +1049,7 @@ function runEqsDown(branch){
     if(Number(vals.M)===0 ){
       vals.M="0.01"
     }
-    vals.T0=(Math.pow(Number(vals.Gamma)*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)*Number(vals.M)/Number(vals.R)).toFixed(2)
+    vals.T0=(Math.pow(Number(vals.Gamma)*100000*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)*Number(vals.M)/Number(vals.R)).toFixed(2)
   }
 
   if(branch==="cstar" && T0_cstarBox.checked===true){
@@ -1003,6 +1076,7 @@ function runEqsDown(branch){
     vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
     if(Pa_P0Box.checked===true){
       vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
+      vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
     }else if(P0_P0Box.checked===true){
       vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
     }
@@ -1015,6 +1089,27 @@ function runEqsDown(branch){
 
   if(branch==="PaP0" && P0_P0Box.checked===true){
     vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
+  }
+
+  if(branch==="AeAt" && Ae_AeBox.checked===true){
+    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(2)
+  }
+
+  if(branch==="AeAt" && At_AeBox.checked===true){
+    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(2)
+  }
+
+  if(branch==="PeP0" && Ae_AeBox.checked===true){
+    let numGam = Number(vals.gamma)
+    vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
+    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(4)
+  }
+
+  if(branch==="PeP0" && At_AeBox.checked===true){
+    let numGam = Number(vals.gamma)
+    vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
+    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(4)
+    
   }
 }
 
@@ -1034,6 +1129,31 @@ function Gamma_to_gamma(val){
   
   return xnp
 }
+
+function cf_to_pep0(val){
+  // let numGam = Number(vals.gamma)
+  // let x1=0.1
+  // let x2=0.8
+  // let xc = Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(x2,((Number(vals.gamma)-1)/Number(vals.gamma)))))+(x2-Number(vals.PaP0))*Number(vals.AeAt)
+  // let xnp
+  // let AeAt = vals.AeAt
+  // // while (Math.abs(val-xc)>.001){
+  // for (i=0;i<30;i++){
+  //   xnp = x2 - (Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(x2,((Number(vals.gamma)-1)/Number(vals.gamma)))))+(x2-Number(vals.PaP0))*Number(AeAt))/(((val - Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(x2,((Number(vals.gamma)-1)/Number(vals.gamma)))))+(x2-Number(vals.PaP0))*Number(AeAt))-(val - Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(x1,((Number(vals.gamma)-1)/Number(vals.gamma)))))+(x1-Number(vals.PaP0))*Number(AeAt)))/(x2-x1))
+  //   AeAt = (Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam)))))
+  //   xc = Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(xnp,((Number(vals.gamma)-1)/Number(vals.gamma)))))+(xnp-Number(vals.PaP0))*Number(AeAt)
+  //   x1=x2
+  //   x2=xnp
+  //   console.log([xnp,xc])
+    
+  // }
+  
+  // return xnp
+
+
+  
+}
+
 
 function AeAt_to_PeP0(val){
   // let x1=0.0002
@@ -1071,27 +1191,30 @@ function AeAt_to_PeP0(val){
   //   }
   // }
 
-  let x0 = 0.0005
-  let x1 = 0.444
-  let xn = (x0+x1)/2
+  let x0 = bounds.PeP0[0]
+  let x1 = bounds.PeP0[1]
   let numGam = Number(vals.gamma)
-  for (i=0;i<20;i++){
-    
+  let xout = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
+  // while (Math.abs(fout-val)>0.01){
+  for(i=0;i<20;i++)  {
     // let f0 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
     let f1 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
     let xn = (x0+x1)/2
     let fn = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
     
-    console.log([f1,x0,x1])
+    // console.log([f1,x0,x1,xout,Math.abs(xout-val)])
 
     if (fn*f1<0){
       x0 = (x0+x1)/2
-
+      fout = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
+      xout=x0
     } else {
       x1 = (x1+x0)/2
-
+      fout = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
+      xout=x1
     }
   }
+  return xout
 }
 
 
@@ -1124,9 +1247,10 @@ function PeP0Bound(){
   // }
   // return xn
 
-  let bound = [0.0001, findMin()]
+  let bound = [0.000005, findMin()]
   document.getElementById("Pe/_cfRange").max=bound[1]
   bounds.PeP0=bound
+
 }
 
 
@@ -1154,30 +1278,46 @@ function assignValueMolar(){
 
 function findMin(){
   let numGam = Number(vals.gamma)
+  let Gamma = Number(vals.Gamma)
+  if (numGam===1){
+    numGam=1.01
+    Gamma=0.61
+  }
+  console.log(numGam)
+  
   let x1 = 0.525
   let xn = 0.53
-  let f1 = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
-  let fn = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+  let f1 = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
+  let fn = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
 
-  for (i=0;i<200;i++){
+  while(true){
     if(fn<f1){
-      let fbef = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
-      xn = xn+.0005
-      let fn = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      let fbef = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      xn = xn+.005
+      let fn = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
       console.log(fn)
       if(fbef<fn){
-        return xn-0.0005
+        return xn-0.005
       }
-
+      
     } else {
-      let fbef = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
-      xn = xn-0.0005
-      let fn = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      let fbef = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
+      xn = xn-0.005
+      let fn = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
       console.log(fn)
       
       if(fbef<fn){
-        return fbef, xn+0.0005
+        return xn+0.005
       }
+      
     }
   }
+}
+
+function initialChecks(){
+  document.getElementById("T0_mdotBox").checked=true
+  document.getElementById("T0_cstarBox").checked=true
+  document.getElementById("Pa/_cfBox").checked=true
+  document.getElementById("p0_p0Box").checked=true
+  document.getElementById("Ae_AeBox").checked=true
 }

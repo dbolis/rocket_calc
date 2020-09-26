@@ -52,3 +52,5 @@ To do notes:
 -Maybe change number boxes to noraml inputs so can display things like infinity
 -Use placeholder to add infnity
 -on assign value functions, put return val on top, to save time (cant do it actually)
+-change AeAt to while loop
+-when gamma changes, so should AeAt based on gamma/Gamma i think

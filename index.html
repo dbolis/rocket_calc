@@ -108,7 +108,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="mdot_ThrustRange" min="0" max="1000">
+                        <input type="range" class="form-control-range" id="mdot_ThrustRange" min="0" max="15000">
                       </div>
                       
                     </div>
@@ -128,7 +128,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="cstar_ThrustRange">
+                        <input type="range" class="form-control-range" id="cstar_ThrustRange" min="0" max="4000">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -191,7 +191,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Gamma_mdotRange">
+                        <input type="range" class="form-control-range" id="Gamma_mdotRange" min="0.61" max="0.77" step="0.01">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -211,7 +211,7 @@
 
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="p0_mdotRange">
+                        <input type="range" class="form-control-range" id="p0_mdotRange" min="0" max=400>
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -230,7 +230,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="At_mdotRange">
+                        <input type="range" class="form-control-range" id="At_mdotRange" min="0.01" max="10" step=0.01>
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -249,7 +249,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="M_mdotRange">
+                        <input type="range" class="form-control-range" id="M_mdotRange" min="1" max="50">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -268,7 +268,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="T0_mdotRange">
+                        <input type="range" class="form-control-range" id="T0_mdotRange" min="0" max="5000">
                       </div>
                     </div>
                   </div>
@@ -346,7 +346,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Pe/_cfRange" min="0.01" max="0.99" step="0.01">
+                        <input type="range" class="form-control-range" id="Pe/_cfRange" min="0.000005" max="0.99" step="0.000001">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -384,7 +384,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Ae/_cfRange">
+                        <input type="range" class="form-control-range" id="Ae/_cfRange" min ="1.01" max="150" step="0.01">
                       </div>
                     </div>
                   </div>
@@ -423,7 +423,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Gamma_cstarRange">
+                        <input type="range" class="form-control-range" id="Gamma_cstarRange" min="0.61" max="0.77" step="0.01">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -442,7 +442,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="M_cstarRange">
+                        <input type="range" class="form-control-range" id="M_cstarRange" min="1" max="50">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -461,7 +461,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="T0_cstarRange">
+                        <input type="range" class="form-control-range" id="T0_cstarRange" min="0" max="5000">
                       </div>
                     </div>
 
@@ -497,7 +497,7 @@
                         <div class="input-group input-group">
                           <input type="number" class="form-control" id="altIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
-                            <span class="input-group-text">[m]</span>
+                            <span class="input-group-text">[km]</span>
                             <div class="input-group-text">
                               <input type="checkbox" id="altBox">
                             </div>
@@ -505,7 +505,7 @@
                         </div>  
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="altRange" min="0" max="100000">
+                        <input type="range" class="form-control-range" id="altRange" min="0" max="75">
                       </div>  
                     </div>
                     <div class="form-row align-items-center">
@@ -524,7 +524,7 @@
                         </div>  
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="pa_p0Range" min="0" max="1.013" step="0.01">
+                        <input type="range" class="form-control-range" id="pa_p0Range" min="0" max="1.013" step="0.001">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -543,7 +543,7 @@
                         </div>  
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="p0_p0Range">
+                        <input type="range" class="form-control-range" id="p0_p0Range" min="0" max="400">
                       </div>
                     </div>
                     
@@ -559,8 +559,8 @@
 
                 </div>
                 <div class="card card-body text-center">
-                  <div class="alert alert-success" id="AeRes">
-                    <h5 class="mb-0"><i>A<sub>e</sub>/A<sub>t</sub> = 1.7</i></h5>
+                  <div class="alert alert-success">
+                    <h5 class="mb-0" id="AeRes"><i>A<sub>e</sub>/A<sub>t</sub> = 1.7</i></h5>
                   </div>
                   <!-- Ae/At Inputs -->
                   <div class="form">
@@ -580,7 +580,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Ae_AeRange">
+                        <input type="range" class="form-control-range" id="Ae_AeRange" min="0.01" max="10" step="0.01">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
@@ -599,7 +599,7 @@
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="At_AeRange">
+                        <input type="range" class="form-control-range" id="At_AeRange" min="0.01" max="10" step="0.01">
                       </div>  
                     </div>
                   </div>
@@ -662,6 +662,7 @@
                       </div>
                         <div class="col-9">
                           <select class="form-control form-control" id="MOF">
+                            <option>3.20</option>
                             <!-- <option>Fuel</option>
                             <option>Methane</option>
                             <option>Hydrazine</option>
