@@ -82,7 +82,10 @@ let propsHTML = {
         }],
   'Hydrogen Peroxide': [`<option>RP-1</option>`,{
                 "RP-1": `<option>7.00</option>`
-              }]
+              }],
+  'Custom': [`<option>Custom</option>`,{
+              "Custom": `<option>Custom</option>`
+  }]
 }
 
 let propVals = {
@@ -226,6 +229,7 @@ document.getElementById("p0_mdotRange").addEventListener('input', function(e){
 document.getElementById("At_mdotIn").addEventListener('input', function(e){
   document.getElementById("At_mdotRange").value = e.target.value
   vals.At = assignValue(e.target.value,bounds.At,"At_mdotIn")
+  Ae_At_value("At")
   if(vals.At!==""){
     runFuncs()
   }
@@ -234,6 +238,7 @@ document.getElementById("At_mdotIn").addEventListener('input', function(e){
 document.getElementById("At_mdotRange").addEventListener('input', function(e){
   document.getElementById("At_mdotIn").value = e.target.value
   vals.At = assignValue(e.target.value,bounds.At,"At_mdotIn")
+  Ae_At_value("At")
   runFuncs()  
 })
 
@@ -244,12 +249,14 @@ document.getElementById("M_mdotIn").addEventListener('input', function(e){
   if(vals.M!==""){
     runFuncs()
   }
+  customTempMolar()
 })
 
 document.getElementById("M_mdotRange").addEventListener('input', function(e){
   document.getElementById("M_mdotIn").value = e.target.value
   vals.M = assignValue(e.target.value,bounds.M,"M_mdotIn")
   runFuncs()  
+  customTempMolar()
 })
 
 // T0_mdot
@@ -259,18 +266,21 @@ document.getElementById("T0_mdotIn").addEventListener('input', function(e){
   if(vals.T0!==""){
     runFuncs()
   }
+  customTempMolar()
 })
 
 document.getElementById("T0_mdotRange").addEventListener('input', function(e){
   document.getElementById("T0_mdotIn").value = e.target.value
   vals.T0 = assignValue(e.target.value,bounds.T0,"T0_mdotIn")
   runFuncs()  
+  customTempMolar()
 })
 
 // Ae_Ae
 document.getElementById("Ae_AeIn").addEventListener('input', function(e){
   document.getElementById("Ae_AeRange").value = e.target.value
   vals.Ae = assignValue(e.target.value,bounds.Ae,"Ae_AeIn")
+  Ae_At_value("Ae")
   if(vals.Ae!==""){
     runFuncs()
   }
@@ -278,13 +288,15 @@ document.getElementById("Ae_AeIn").addEventListener('input', function(e){
 
 document.getElementById("Ae_AeRange").addEventListener('input', function(e){
   document.getElementById("Ae_AeIn").value = e.target.value
+  Ae_At_value("Ae")
   vals.Ae = assignValue(e.target.value,bounds.Ae,"Ae_AeIn")
   runFuncs()  
 })
 
-// Ae_At
+// At_Ae
 document.getElementById("At_AeIn").addEventListener('input', function(e){
   document.getElementById("At_AeRange").value = e.target.value
+  Ae_At_value("At")
   vals.At = assignValue(e.target.value,bounds.At,"At_AeIn")
   if(vals.At!==""){
   runFuncs()
@@ -293,6 +305,7 @@ document.getElementById("At_AeIn").addEventListener('input', function(e){
 
 document.getElementById("At_AeRange").addEventListener('input', function(e){
   document.getElementById("At_AeIn").value = e.target.value
+  Ae_At_value("At")
   vals.At = assignValue(e.target.value,bounds.At,"At_AeIn")
   runFuncs()  
 })
@@ -366,12 +379,14 @@ document.getElementById("M_cstarIn").addEventListener('input', function(e){
   if(vals.M!==""){
     runFuncs()
   }
+  customTempMolar()
 })
 
 document.getElementById("M_cstarRange").addEventListener('input', function(e){
   document.getElementById("M_cstarIn").value = e.target.value
   vals.M = assignValue(e.target.value,bounds.M,"M_cstarIn")
   runFuncs()  
+  customTempMolar()
 })
 
 // T0_cstar
@@ -381,12 +396,14 @@ document.getElementById("T0_cstarIn").addEventListener('input', function(e){
   if(vals.T0!==""){
     runFuncs()
   }
+  customTempMolar()
 })
 
 document.getElementById("T0_cstarRange").addEventListener('input', function(e){
   document.getElementById("T0_cstarIn").value = e.target.value
   vals.T0 = assignValue(e.target.value,bounds.T0,"T0_cstarIn")
   runFuncs()  
+  customTempMolar()
 })
 
 // Gamma_cf
@@ -452,7 +469,7 @@ document.getElementById("Pa/_cfRange").addEventListener('input', function(e){
 // Ae/At_cf
 document.getElementById("Ae/_cfIn").addEventListener('input', function(e){
   document.getElementById("Ae/_cfRange").value = e.target.value
-  vals.AeAt = assignValuegamma(e.target.value,[1.01,10000],"Ae/_cfIn",1)
+  vals.AeAt = assignValuegamma(e.target.value,[1.1,10000],"Ae/_cfIn",1)
   if(vals.AeAt!==""){
     runFuncs("AeAt")
   }
@@ -460,7 +477,7 @@ document.getElementById("Ae/_cfIn").addEventListener('input', function(e){
 
 document.getElementById("Ae/_cfRange").addEventListener('input', function(e){
   document.getElementById("Ae/_cfIn").value = e.target.value
-  vals.AeAt = assignValuegamma(e.target.value,[1.01,10000],"Ae/_cfIn",1)
+  vals.AeAt = assignValuegamma(e.target.value,[1.1,10000],"Ae/_cfIn",1)
   runFuncs("AeAt")  
 })
 
@@ -943,7 +960,7 @@ function runEqsDown(branch){
   
   
   if(branch === "AeAt"){
-    vals.PeP0=AeAt_to_PeP0(vals.AeAt)
+    vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(2)
   }
   
   if(branch === "PeP0"){
@@ -1252,6 +1269,14 @@ function MolarMass(option){
   }
   
   MOF.innerHTML=propsHTML[oxi][1][MFuel.selectedOptions[0].label]
+  
+  if(document.getElementById("MOxi").selectedOptions[0].label ==="Custom"){
+    customTempMolar()
+  } else {
+    document.getElementById("MFuel").disabled=false
+    document.getElementById("MOF").disabled=false
+  }
+
 }
 
 
@@ -1259,8 +1284,12 @@ function assignValueMolar(){
   const MOxi = document.getElementById("MOxi").selectedOptions[0].label
   const MFuel = document.getElementById("MFuel").selectedOptions[0].label
   const MOF = document.getElementById("MOF").selectedOptions[0].label
-  
-  return propVals[MOxi][MFuel][MOF]
+
+  if(MOxi!=="Custom"){
+    return propVals[MOxi][MFuel][MOF]
+  } else {
+    return [vals.M, vals.T0]
+  }
 }
 
 function findMin(){
@@ -1299,6 +1328,27 @@ function findMin(){
       
     }
   }
+}
+
+function Ae_At_value(branch){
+  if(branch==="Ae"){
+    if(Number(vals.Ae)/Number(vals.At)<=1.1){
+      vals.At=(Number(vals.Ae)/1.1).toFixed(2)
+    }
+  } else if(branch==="At"){
+    if(Number(vals.Ae)/Number(vals.At)<=1.1){
+      vals.Ae=(Number(vals.At)*1.1).toFixed(2)
+    }
+  }
+}
+
+function customTempMolar(){
+  document.getElementById("MOxi").selectedIndex=4
+  document.getElementById("MFuel").selectedOptions[0].label="Custom"
+  document.getElementById("MOF").selectedOptions[0].label="Custom"
+  document.getElementById("MOxi").selectedOptions[0]
+  document.getElementById("MFuel").disabled=true
+  document.getElementById("MOF").disabled=true
 }
 
 function initialChecks(){
