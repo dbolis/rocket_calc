@@ -17,7 +17,7 @@ let vals = {
   g0: "9.81", // [m/s^2]
   Gamma: "0.77", //[-]
   gamma: "2", // [-]
-  P0: "1", // [bar]
+  P0: "200", // [bar]
   At: "0.1", // [m] 
   T0: "5", // [K]
   Ae: "0.1", // [m^2]
@@ -26,7 +26,7 @@ let vals = {
   M: "20.81", // [kg/?]
   PeP0: ".6", // [-]
   PaP0: ".6", // [-]
-  AeAt: "5", // [-]
+  AeAt: "1.1", // [-]
   alt: "4" // [m]
   }
 
@@ -41,7 +41,9 @@ let vals = {
     M: [1,50],
     T0: [0,5000],
     PeP0: [0.000005, 0.5],
-    alt: [0,75]
+    PaP0: [0, 1],
+    alt: [0,75],
+    
 
     
 
@@ -454,7 +456,7 @@ document.getElementById("Pe/_cfRange").addEventListener('input', function(e){
 // Pa/P0_cf
 document.getElementById("Pa/_cfIn").addEventListener('input', function(e){
   document.getElementById("Pa/_cfRange").value = e.target.value
-  vals.PaP0 = assignValue(e.target.value,[0,10000],"Pa/_cfIn")
+  vals.PaP0 = assignValue(e.target.value,bounds.PaP0,"Pa/_cfIn")
   if(vals.PaP0!==""){
     runFuncs("PaP0")
   }
@@ -462,7 +464,7 @@ document.getElementById("Pa/_cfIn").addEventListener('input', function(e){
 
 document.getElementById("Pa/_cfRange").addEventListener('input', function(e){
   document.getElementById("Pa/_cfIn").value = e.target.value
-  vals.PaP0 = assignValue(e.target.value,[0,10000],"Pa/_cfIn")
+  vals.PaP0 = assignValue(e.target.value,bounds.PaP0,"Pa/_cfIn")
   runFuncs("PaP0")  
 })
 
@@ -588,7 +590,6 @@ function runEqsUp(branch) {
     if(Number(vals.AeAt)<1.1){
       vals.AeAt="1.1"
       console.log("high")
-      //error message on Ae/At cant be below 1.1
     }
     vals.PeP0=AeAt_to_PeP0(vals.AeAt).toString()
   }
@@ -612,106 +613,107 @@ function runEqsUp(branch) {
 
 function updateRes() {
   
-  const fRes = document.getElementById("fRes").firstChild
-  const IspRes = document.getElementById("ispRes").firstChild
-  const mdotRes = document.getElementById("mdotRes").firstChild
-  const cstarRes = document.getElementById("cstarRes").firstChild
-  const cfRes = document.getElementById("cfRes").firstChild
-  const P0Res = document.getElementById("p0Res").firstChild
-  const MRes = document.getElementById("MRes").firstChild
-  const T0Res = document.getElementById("T0Res").firstChild
-  const AeAtRes = document.getElementById("AeRes").firstChild
+  // const fRes = document.getElementById("fRes").firstChild
+  // const IspRes = document.getElementById("ispRes").firstChild
+  // const mdotRes = document.getElementById("mdotRes").firstChild
+  // const cstarRes = document.getElementById("cstarRes").firstChild
+  // const cfRes = document.getElementById("cfRes").firstChild
+  // const P0Res = document.getElementById("p0Res").firstChild
+  // const MRes = document.getElementById("MRes").firstChild
+  // const T0Res = document.getElementById("T0Res").firstChild
+  // const AeAtRes = document.getElementById("AeRes").firstChild
   /// update result boxes ///
 
   // F
   if (isNaN(Number(vals.F))) {
-    fRes.innerHTML=`Math Error` // executes if 0/0 or sqrt(-1) (1/0 = infinity)
+    document.getElementById("fRes").firstChild.innerHTML=`Math Error` // executes if 0/0 or sqrt(-1) (1/0 = infinity)
   } else {
-    fRes.innerHTML = `F = ${vals.F} [kN]` // executes for acceptable values
+    document.getElementById("fRes").firstChild.innerHTML = `F = ${vals.F} [kN]` // executes for acceptable values
   }
 
   // Isp 
   if (isNaN(Number(vals.Isp))) {
-    IspRes.innerHTML=`Math Error`
+    document.getElementById("ispRes").firstChild.innerHTML=`Math Error`
   } else {
-    IspRes.innerHTML = `I<sub>sp</sub> = ${vals.Isp} [s]`
+    document.getElementById("ispRes").firstChild.innerHTML = `I<sub>sp</sub> = ${vals.Isp} [s]`
   }
   
   // mdot
   if (isNaN(Number(vals.mdot))) {
-    mdotRes.innerHTML=`Math Error`
+    document.getElementById("mdotRes").firstChild.innerHTML=`Math Error`
   } else {
-    mdotRes.innerHTML = `m&#775; = ${vals.mdot} [kg/s]`
+    document.getElementById("mdotRes").firstChild.innerHTML = `m&#775; = ${vals.mdot} [kg/s]`
   }
 
   // Cstar
    if (isNaN(Number(vals.cstar))) {
-    cstarRes.innerHTML=`Math Error`
+    document.getElementById("cstarRes").firstChild.innerHTML=`Math Error`
   } else {
-    cstarRes.innerHTML = `C* = ${vals.cstar} [m/s]`
+    document.getElementById("cstarRes").firstChild.innerHTML = `C* = ${vals.cstar} [m/s]`
   }
 
   // Cf
   if (isNaN(Number(vals.cf))) {
-    cfRes.innerHTML=`Math Error`
+    document.getElementById("cfRes").firstChild.innerHTML=`Math Error`
   } else {
-    cfRes.innerHTML = `C<sub>f</sub> = ${vals.cf}`
+    document.getElementById("cfRes").firstChild.innerHTML = `C<sub>f</sub> = ${vals.cf}`
   }
 
   // PaP0
   if (isNaN(Number(vals.PaP0))) {
-    P0Res.innerHTML=`Math Error`
+    document.getElementById("p0Res").firstChild.innerHTML=`Math Error`
   } else {
-    P0Res.innerHTML = `P<sub>a</sub>/P<sub>0</sub> = ${vals.PaP0}`
+    document.getElementById("p0Res").firstChild.innerHTML = `P<sub>a</sub>/P<sub>0</sub> = ${vals.PaP0}`
   }
 
   // AeAt
   if (isNaN(Number(vals.AeAt))) {
-    AeAtRes.innerHTML=`Math Error`
+    document.getElementById("AeRes").firstChild.innerHTML=`Math Error`
   } else {
-    AeAtRes.innerHTML = `A<sub>e</sub>/A<sub>t</sub> = ${vals.AeAt}`
+    document.getElementById("AeRes").firstChild.innerHTML = `A<sub>e</sub>/A<sub>t</sub> = ${vals.AeAt}`
   }
 
   // M
   if (isNaN(Number(vals.M))) {
-    MRes.innerHTML=`Math Error`
+    document.getElementById("MRes").firstChild.innerHTML=`Math Error`
   } else {
-    MRes.innerHTML = `M = ${vals.M}`
+    document.getElementById("MRes").firstChild.innerHTML = `M = ${vals.M}`
   }
 
   // T0
   if (isNaN(Number(vals.T0))) {
-    T0Res.innerHTML=`Math Error`
+    document.getElementById("T0Res").firstChild.innerHTML=`Math Error`
   } else {
-    T0Res.innerHTML = `T<sub>0</sub> = ${vals.T0}`
+    document.getElementById("T0Res").firstChild.innerHTML = `T<sub>0</sub> = ${vals.T0}`
   }
+
 
   /// update fields and range ///
 
   //mdot_Thrust
   document.getElementById("mdot_ThrustRange").value = vals.mdot // updates range
-  document.getElementById("mdot_ThrustIn").value = vals.mdot // updates field
+  document.getElementById("mdot_ThrustIn").value = placeholderVals(vals.mdot, "mdot_ThrustIn")  // updates field
   //cstar_Thrust
   document.getElementById("cstar_ThrustRange").value = vals.cstar
-  document.getElementById("cstar_ThrustIn").value = vals.cstar
+  document.getElementById("cstar_ThrustIn").value = placeholderVals(vals.cstar, "cstar_ThrustIn")
   //cf_Thrust
   document.getElementById("cf_ThrustRange").value = vals.cf
-  document.getElementById("cf_ThrustIn").value = vals.cf
+  document.getElementById("cf_ThrustIn").value = placeholderVals(vals.cf, "cf_ThrustIn")
   //Gamma_mdot
   document.getElementById("Gamma_mdotRange").value = vals.Gamma
   document.getElementById("Gamma_mdotIn").value = vals.Gamma // convert to number to round and back to str
   //P0_mdot
   document.getElementById("p0_mdotRange").value = vals.P0
-  document.getElementById("p0_mdotIn").value = vals.P0 // If rounding is done in calcs in runEqsdown, there are rounding errors
+  document.getElementById("p0_mdotIn").value = placeholderVals(vals.P0, "p0_mdotIn") // If rounding is done in calcs in runEqsdown, there are rounding errors
   //At_mdot
   document.getElementById("At_mdotRange").value = vals.At
   document.getElementById("At_mdotIn").value = vals.At
   //M_mdot
   document.getElementById("M_mdotRange").value = vals.M
-  document.getElementById("M_mdotIn").value = vals.M
+  document.getElementById("M_mdotIn").value = placeholderVals(vals.M, "M_mdotIn")
   //T0_mdot
   document.getElementById("T0_mdotRange").value = vals.T0
-  document.getElementById("T0_mdotIn").value = vals.T0
+  document.getElementById("T0_mdotIn").value = placeholderVals(vals.T0, "T0_mdotIn")
   //Ae_Ae
   document.getElementById("Ae_AeIn").value = vals.Ae
   document.getElementById("Ae_AeRange").value = vals.Ae
@@ -722,13 +724,13 @@ function updateRes() {
   document.getElementById("pa_p0In").value = vals.Pa
   document.getElementById("pa_p0Range").value = vals.Pa
   //P0_P0
-  document.getElementById("p0_p0In").value = vals.P0
+  document.getElementById("p0_p0In").value = placeholderVals(vals.P0, "p0_p0In")
   document.getElementById("p0_p0Range").value = vals.P0
   //T0_cstar
-  document.getElementById("T0_cstarIn").value = vals.T0
+  document.getElementById("T0_cstarIn").value = placeholderVals(vals.T0, "T0_cstarIn")
   document.getElementById("T0_cstarRange").value = vals.T0
   //M_cstar
-  document.getElementById("M_cstarIn").value = vals.M
+  document.getElementById("M_cstarIn").value = placeholderVals(vals.M, "M_cstarIn")
   document.getElementById("M_cstarRange").value = vals.M
   //Gamma_cstar
   document.getElementById("Gamma_cstarIn").value = vals.Gamma
@@ -743,14 +745,24 @@ function updateRes() {
   document.getElementById("Pe/_cfIn").value = vals.PeP0
   document.getElementById("Pe/_cfRange").value = vals.PeP0
   //PaP0_cf
-  document.getElementById("Pa/_cfIn").value = vals.PaP0
+  document.getElementById("Pa/_cfIn").value = placeholderVals(vals.PaP0, "Pa/_cfIn")
   document.getElementById("Pa/_cfRange").value = vals.PaP0
   //AeAt_cf
   document.getElementById("Ae/_cfIn").value = vals.AeAt
   document.getElementById("Ae/_cfRange").value = vals.AeAt
   //alt
-  document.getElementById("altIn").value = vals.alt
+  document.getElementById("altIn").value = placeholderVals(vals.alt, "altIn")
   document.getElementById("altRange").value = vals.alt
+
+  /// Update Out ///
+  document.getElementById("forceOut").firstChild.innerHTML=`F = ${outNaN(vals.F)} [kN]`
+  document.getElementById("ispOut").firstChild.innerHTML=`I<sub>sp</sub> = ${outNaN(vals.Isp)} [s]`
+  document.getElementById("cstarOut").firstChild.innerHTML=`C* = ${outNaN(vals.cstar)} [m/s]`
+  document.getElementById("cfOut").firstChild.innerHTML=`C<sub>f</sub> = ${vals.cf}`
+  document.getElementById("veOut").firstChild.innerHTML=`V<sub>e</sub> = ${outNaN((Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(Number(vals.R)*Number(vals.T0)/Number(vals.M))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))).toString())} [m/s]`
+  document.getElementById("p0Out").firstChild.innerHTML=`P<sub>0</sub> = ${outNaN(vals.P0)} [bar]`
+  document.getElementById("t0Out").firstChild.innerHTML=`T<sub>0</sub> = ${outNaN(vals.T0)} [K]`
+  document.getElementById("atOut").firstChild.innerHTML=`A<sub>t</sub> = ${vals.At} [m<sup>2</sup>]`
 
 }
 
@@ -944,23 +956,23 @@ function checkSameBoxes(box){
 }
 
 function runEqsDown(branch){  
-  const P0_mdotBox = document.getElementById("p0_mdotBox")
-  const At_mdotBox = document.getElementById("At_mdotBox")
-  const T0_mdotBox = document.getElementById("T0_mdotBox")
-  const M_mdotBox = document.getElementById("M_mdotBox")
-  const T0_cstarBox = document.getElementById("T0_cstarBox")
-  const M_cstarBox = document.getElementById("M_cstarBox")
-  const P0_P0Box = document.getElementById("p0_p0Box")
-  const Pa_P0Box = document.getElementById("pa_p0Box")
-  const At_AeBox = document.getElementById("At_AeBox")
-  const Ae_AeBox = document.getElementById("Ae_AeBox")
-  const Pe_cfBox = document.getElementById("Pe/_cfBox")
-  const Ae_cfBox = document.getElementById("Ae/_cfBox")
-  const Pa_cfBox = document.getElementById("Pa/_cfBox")
+  // const P0_mdotBox = document.getElementById("p0_mdotBox")
+  // const At_mdotBox = document.getElementById("At_mdotBox")
+  // const T0_mdotBox = document.getElementById("T0_mdotBox")
+  // const M_mdotBox = document.getElementById("M_mdotBox")
+  // const T0_cstarBox = document.getElementById("T0_cstarBox")
+  // const M_cstarBox = document.getElementById("M_cstarBox")
+  // const P0_P0Box = document.getElementById("p0_p0Box")
+  // const Pa_P0Box = document.getElementById("pa_p0Box")
+  // const At_AeBox = document.getElementById("At_AeBox")
+  // const Ae_AeBox = document.getElementById("Ae_AeBox")
+  // const Pe_cfBox = document.getElementById("Pe/_cfBox")
+  // const Ae_cfBox = document.getElementById("Ae/_cfBox")
+  // const Pa_cfBox = document.getElementById("Pa/_cfBox")
   
   
   if(branch === "AeAt"){
-    vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(2)
+    vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5)
   }
   
   if(branch === "PeP0"){
@@ -988,7 +1000,7 @@ function runEqsDown(branch){
     vals.alt = ((Math.log(0.986923*Number(vals.Pa))/(-0.00012))/1000).toFixed(3)
   }
 
-  if(branch==="mdot" && At_mdotBox.checked===true){
+  if(branch==="mdot" && document.getElementById("At_mdotBox").checked===true){
     
     if(Number(vals.P0)===0){
       vals.P0="0.01"
@@ -1005,7 +1017,7 @@ function runEqsDown(branch){
     vals.At=(Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*100000*Number(vals.P0))).toFixed(2)
   }
 
-  if(branch==="mdot" && P0_mdotBox.checked===true){
+  if(branch==="mdot" && document.getElementById("p0_mdotBox").checked===true){
     
     if(Number(vals.P0)===0){
       vals.P0="0.01"
@@ -1022,7 +1034,7 @@ function runEqsDown(branch){
       vals.P0=((Number(vals.mdot)*Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M))/(Number(vals.Gamma)*Number(vals.At)))/100000).toFixed(2)
   }
 
-  if(branch==="mdot" && M_mdotBox.checked===true){
+  if(branch==="mdot" && document.getElementById("M_mdotBox").checked===true){
     
     if(Number(vals.P0)===0){
       vals.P0="0.01"
@@ -1039,7 +1051,7 @@ function runEqsDown(branch){
     vals.M=((Number(vals.T0)*Number(vals.R))/Math.pow(Number(vals.Gamma)*100000*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)).toFixed(2)
   }
 
-  if(branch==="mdot" && T0_mdotBox.checked===true){
+  if(branch==="mdot" && document.getElementById("T0_mdotBox").checked===true){
     
     if(Number(vals.P0)===0){
       vals.P0="0.01"
@@ -1056,7 +1068,7 @@ function runEqsDown(branch){
     vals.T0=(Math.pow(Number(vals.Gamma)*100000*Number(vals.P0)*Number(vals.At)/Number(vals.mdot),2)*Number(vals.M)/Number(vals.R)).toFixed(2)
   }
 
-  if(branch==="cstar" && T0_cstarBox.checked===true){
+  if(branch==="cstar" && document.getElementById("T0_cstarBox").checked===true){
     if(Number(vals.M)===0){
       vals.M="0.01"
     }
@@ -1066,7 +1078,7 @@ function runEqsDown(branch){
     vals.T0=(Number(vals.M)*Math.pow((Number(vals.cstar)*Number(vals.Gamma)),2)/Number(vals.R)).toFixed(2)
   }
 
-  if(branch==="cstar" && M_cstarBox.checked===true){
+  if(branch==="cstar" && document.getElementById("M_cstarBox").checked===true){
     if(Number(vals.M)===0){
       vals.M="0.01"
     }
@@ -1076,40 +1088,76 @@ function runEqsDown(branch){
     vals.M=((Number(vals.T0)*Number(vals.R))/Math.pow((Number(vals.cstar)*Number(vals.Gamma)),2)).toFixed(2)
   }
 
-  if(branch==="cf" && Pa_cfBox.checked===true){
+  if(branch==="cf" && document.getElementById("Pa/_cfBox").checked===true){
     vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
-    if(Pa_P0Box.checked===true){
+    if(document.getElementById("pa_p0Box").checked===true){
+      if(Number(vals.Pa)===0){
+        vals.Pa="0.01"
+      }
+      if(Number(vals.alt)===0){
+        vals.alt="0.01"
+      }
+      if(Number(vals.P0)===0){
+        vals.P0="0.01"
+      }
       vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
       vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
-    }else if(P0_P0Box.checked===true){
+    }else if(document.getElementById("p0_p0Box").checked===true){
+      if(Number(vals.Pa)===0){
+        vals.Pa="0.01"
+      }
+      if(Number(vals.alt)===0){
+        vals.alt="0.01"
+      }
+      if(Number(vals.P0)===0){
+        vals.P0="0.01"
+      }
       vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
     }
   }
 
-  if(branch==="PaP0" && Pa_P0Box.checked===true){
+  if(branch==="PaP0" && document.getElementById("pa_p0Box").checked===true){
+    if(Number(vals.Pa)===0){
+      vals.Pa="0.01"
+    }
+    if(Number(vals.alt)===0){
+      vals.alt="0.01"
+    }
+    if(Number(vals.P0)===0){
+      vals.P0="0.01"
+    }
     vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
     vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
   }
 
-  if(branch==="PaP0" && P0_P0Box.checked===true){
+  if(branch==="PaP0" && document.getElementById("p0_p0Box").checked===true){
+    if(Number(vals.Pa)===0){
+      vals.Pa="0.01"
+    }
+    if(Number(vals.alt)===0){
+      vals.alt="0.01"
+    }
+    if(Number(vals.P0)===0){
+      vals.P0="0.01"
+    }
     vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
   }
 
-  if(branch==="AeAt" && Ae_AeBox.checked===true){
+  if(branch==="AeAt" && document.getElementById("Ae_AeBox").checked===true){
     vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(2)
   }
 
-  if(branch==="AeAt" && At_AeBox.checked===true){
+  if(branch==="AeAt" && document.getElementById("At_AeBox").checked===true){
     vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(2)
   }
 
-  if(branch==="PeP0" && Ae_AeBox.checked===true){
+  if(branch==="PeP0" && document.getElementById("Ae_AeBox").checked===true){
     let numGam = Number(vals.gamma)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
     vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(4)
   }
 
-  if(branch==="PeP0" && At_AeBox.checked===true){
+  if(branch==="PeP0" && document.getElementById("At_AeBox").checked===true){
     let numGam = Number(vals.gamma)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
     vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(4)
@@ -1357,4 +1405,24 @@ function initialChecks(){
   document.getElementById("Pa/_cfBox").checked=true
   document.getElementById("p0_p0Box").checked=true
   document.getElementById("Ae_AeBox").checked=true
+}
+
+function placeholderVals(val, tag){
+  if(val==="Infinity" || val==="-Infinity"){
+    document.getElementById(tag).placeholder=val
+  } else if (val==="NaN"){
+    document.getElementById(tag).placeholder="Math Error"
+  } else {
+    return val
+  }
+}
+
+function outNaN(val){
+  if(val==="NaN"){
+    return "Math Error"
+  } else if(val==="Infinity" || val==="-Infinity"){
+    return val
+  }else{
+    return (Math.round(Number(val))).toString()
+  }
 }
