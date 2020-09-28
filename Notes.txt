@@ -41,16 +41,15 @@ No seperated flow calculations
 
 To do notes:
 
--Create object to store global vars
--All fields at inital values
--checkmarks disable fields
--Figure out NaN on output cards
--Limit number of digits in text filds on html side (or
-  maybe use toExponential function)
+
+
+
+
+-Limit number of digits in text filds on html side 
 -look at decimals var function problem (educational)
-- add g0 to Thrust/Isp card
--Maybe change number boxes to noraml inputs so can display things like infinity
--Use placeholder to add infnity
--on assign value functions, put return val on top, to save time (cant do it actually)
+
+
+
 -change AeAt to while loop
--when gamma changes, so should AeAt based on gamma/Gamma i think
+
+-change checksamebox function name

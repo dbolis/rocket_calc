@@ -1,11 +1,5 @@
-//Global values
-// let F = 0// [N]
-// let Isp = 0// [s]
-// let mdot = 0// [kg/s]
-// let cstar = 0// [m/s]
-// let cf = 0// []
-// let g0 = 9.81 // [m/s^2]
 
+// (function(){
 /// Note: keeping values as string so 0.01 is a possible input. Converted to numbers for calcs
 
 let vals = {
@@ -15,19 +9,19 @@ let vals = {
   cstar: "0", // [m/s]
   cf: "0", // [-]
   g0: "9.81", // [m/s^2]
-  Gamma: "0.77", //[-]
-  gamma: "2", // [-]
+  Gamma: "0.67", //[-]
+  gamma: "1.3", // [-]
   P0: "200", // [bar]
-  At: "0.1", // [m] 
+  At: "0.5", // [m] 
   T0: "5", // [K]
-  Ae: "0.1", // [m^2]
+  Ae: "5", // [m^2]
   Pa: "0.5", // [bar]
   R: "8314.5", // [?]
   M: "20.81", // [kg/?]
   PeP0: ".6", // [-]
   PaP0: ".6", // [-]
   AeAt: "1.1", // [-]
-  alt: "4" // [m]
+  alt: "5.8" // [m]
   }
 
   let bounds = {
@@ -36,18 +30,14 @@ let vals = {
     Gamma: [0.609,0.77],
     gamma: [1.01, 2],
     P0: [0,400],
-    At: [0.01,10],
-    Ae: [0.01,10],
+    At: [0.1,10],
+    Ae: [0.1,10],
     M: [1,50],
     T0: [0,5000],
-    PeP0: [0.000005, 0.5],
+    PeP0: [0.00005, 0.5],
     PaP0: [0, 1],
     alt: [0,75],
-    
 
-    
-
-    
   }
 
 let propsHTML = {
@@ -230,18 +220,18 @@ document.getElementById("p0_mdotRange").addEventListener('input', function(e){
 // At_mdot
 document.getElementById("At_mdotIn").addEventListener('input', function(e){
   document.getElementById("At_mdotRange").value = e.target.value
-  vals.At = assignValue(e.target.value,bounds.At,"At_mdotIn")
-  Ae_At_value("At")
+  vals.At = assignValuegamma(e.target.value,bounds.At,"At_mdotIn",0)
   if(vals.At!==""){
     runFuncs()
   }
+  Ae_At_value("At")
 })
 
 document.getElementById("At_mdotRange").addEventListener('input', function(e){
   document.getElementById("At_mdotIn").value = e.target.value
-  vals.At = assignValue(e.target.value,bounds.At,"At_mdotIn")
-  Ae_At_value("At")
+  vals.At = assignValuegamma(e.target.value,bounds.At,"At_mdotIn",0)
   runFuncs()  
+  Ae_At_value("At")
 })
 
 // M_mdot
@@ -281,35 +271,36 @@ document.getElementById("T0_mdotRange").addEventListener('input', function(e){
 // Ae_Ae
 document.getElementById("Ae_AeIn").addEventListener('input', function(e){
   document.getElementById("Ae_AeRange").value = e.target.value
-  vals.Ae = assignValue(e.target.value,bounds.Ae,"Ae_AeIn")
-  Ae_At_value("Ae")
+  vals.Ae = assignValuegamma(e.target.value,bounds.Ae,"Ae_AeIn",0)
   if(vals.Ae!==""){
     runFuncs()
   }
+  Ae_At_value("Ae")
 })
 
 document.getElementById("Ae_AeRange").addEventListener('input', function(e){
   document.getElementById("Ae_AeIn").value = e.target.value
-  Ae_At_value("Ae")
-  vals.Ae = assignValue(e.target.value,bounds.Ae,"Ae_AeIn")
+  vals.Ae = assignValuegamma(e.target.value,bounds.Ae,"Ae_AeIn")
   runFuncs()  
+  Ae_At_value("Ae")
 })
 
 // At_Ae
 document.getElementById("At_AeIn").addEventListener('input', function(e){
   document.getElementById("At_AeRange").value = e.target.value
-  Ae_At_value("At")
-  vals.At = assignValue(e.target.value,bounds.At,"At_AeIn")
+  vals.At = assignValuegamma(e.target.value,bounds.At,"At_AeIn",0)
   if(vals.At!==""){
   runFuncs()
   }
+  Ae_At_value("At")
 })
 
 document.getElementById("At_AeRange").addEventListener('input', function(e){
   document.getElementById("At_AeIn").value = e.target.value
-  Ae_At_value("At")
-  vals.At = assignValue(e.target.value,bounds.At,"At_AeIn")
+  // Ae_At_value("At")
+  vals.At = assignValuegamma(e.target.value,bounds.At,"At_AeIn")
   runFuncs()  
+  Ae_At_value("At")
 })
 
 // Pa_P0
@@ -485,62 +476,62 @@ document.getElementById("Ae/_cfRange").addEventListener('input', function(e){
 
 /// CheckBox Event Listeners - Check Equal Boxes ///
 document.getElementById("p0_mdotBox").addEventListener('input',function(e){
-  checkSameBoxes("mdot") // let checkSameBoxes function know which box is checked
+  checkBoxes("mdot") // let checkSameBoxes function know which box is checked
   e.target.checked=true
 })
 document.getElementById("At_mdotBox").addEventListener('input',function(e){
-  checkSameBoxes("mdot")
+  checkBoxes("mdot")
   e.target.checked=true
 })
 document.getElementById("T0_mdotBox").addEventListener('input',function(e){
-  checkSameBoxes("mdot") 
+  checkBoxes("mdot") 
   e.target.checked=true
 })
 document.getElementById("M_mdotBox").addEventListener("input",function(e){
-  checkSameBoxes("mdot")
+  checkBoxes("mdot")
   e.target.checked=true
 })
 document.getElementById("T0_cstarBox").addEventListener('input',function(e){
-  checkSameBoxes("cstar")
+  checkBoxes("cstar")
   e.target.checked=true
 })
 document.getElementById("M_cstarBox").addEventListener('input',function(e){
-  checkSameBoxes("cstar")
+  checkBoxes("cstar")
   e.target.checked=true
 })
 document.getElementById("Pe/_cfBox").addEventListener('input',function(e){
-  checkSameBoxes("cf")
+  checkBoxes("cf")
   e.target.checked=true
   document.getElementById("Ae/_cfBox").checked=true
 })
 document.getElementById("Pa/_cfBox").addEventListener('input',function(e){
-  checkSameBoxes("cf")
+  checkBoxes("cf")
   e.target.checked=true
 })
 document.getElementById("Ae/_cfBox").addEventListener('input',function(e){
-  checkSameBoxes("cf")
+  checkBoxes("cf")
   e.target.checked=true
   document.getElementById("Pe/_cfBox").checked=true
 })
 document.getElementById("pa_p0Box").addEventListener('input',function(e){
-  checkSameBoxes("p0")
+  checkBoxes("p0")
   e.target.checked=true
   document.getElementById("altBox").checked=true
 })
 document.getElementById("p0_p0Box").addEventListener('input',function(e){
-  checkSameBoxes("p0")
+  checkBoxes("p0")
   e.target.checked=true
 })
 document.getElementById("Ae_AeBox").addEventListener('input',function(e){
-  checkSameBoxes("Ae")
+  checkBoxes("Ae")
   e.target.checked=true
 })
 document.getElementById("At_AeBox").addEventListener('input',function(e){
-  checkSameBoxes("Ae")
+  checkBoxes("Ae")
   e.target.checked=true
 })
 document.getElementById("altBox").addEventListener('input',function(e){
-  checkSameBoxes("p0")
+  checkBoxes("p0")
   e.target.checked=true
   document.getElementById("pa_p0Box").checked=true
 })
@@ -567,11 +558,9 @@ document.getElementById("MOF").addEventListener('input',function(e){
 
 
 function runFuncs(branch) {
-  
   runEqsDown(branch)
   runEqsUp(branch)
   updateRes()
-  
 }
 
 
@@ -748,7 +737,7 @@ function updateRes() {
   document.getElementById("Pa/_cfIn").value = placeholderVals(vals.PaP0, "Pa/_cfIn")
   document.getElementById("Pa/_cfRange").value = vals.PaP0
   //AeAt_cf
-  document.getElementById("Ae/_cfIn").value = vals.AeAt
+  document.getElementById("Ae/_cfIn").value =  placeholderVals(vals.AeAt, "Ae/_cfIn")
   document.getElementById("Ae/_cfRange").value = vals.AeAt
   //alt
   document.getElementById("altIn").value = placeholderVals(vals.alt, "altIn")
@@ -843,7 +832,7 @@ function errorMessage(id, range) {
   }, 2000)
 }
 
-function checkSameBoxes(box){
+function checkBoxes(box){
 
   // if (box === "T0_mdot"){
   //   T0_cstarBox.checked = T0_mdotBox.checked
@@ -1001,7 +990,9 @@ function runEqsDown(branch){
   }
 
   if(branch==="mdot" && document.getElementById("At_mdotBox").checked===true){
-    
+    if(Number(vals.Gamma)===0){
+      vals.Gamma="0.61"
+    }
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -1019,6 +1010,9 @@ function runEqsDown(branch){
 
   if(branch==="mdot" && document.getElementById("p0_mdotBox").checked===true){
     
+    if(Number(vals.Gamma)===0){
+      vals.Gamma="0.61"
+    }
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -1036,6 +1030,9 @@ function runEqsDown(branch){
 
   if(branch==="mdot" && document.getElementById("M_mdotBox").checked===true){
     
+    if(Number(vals.Gamma)===0){
+      vals.Gamma="0.61"
+    }
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -1052,7 +1049,9 @@ function runEqsDown(branch){
   }
 
   if(branch==="mdot" && document.getElementById("T0_mdotBox").checked===true){
-    
+    if(Number(vals.Gamma)===0){
+      vals.Gamma="0.61"
+    }
     if(Number(vals.P0)===0){
       vals.P0="0.01"
     }
@@ -1069,6 +1068,9 @@ function runEqsDown(branch){
   }
 
   if(branch==="cstar" && document.getElementById("T0_cstarBox").checked===true){
+    if(Number(vals.Gamma)===0){
+      vals.Gamma="0.61"
+    }
     if(Number(vals.M)===0){
       vals.M="0.01"
     }
@@ -1079,6 +1081,9 @@ function runEqsDown(branch){
   }
 
   if(branch==="cstar" && document.getElementById("M_cstarBox").checked===true){
+    if(Number(vals.Gamma)===0){
+      vals.Gamma="0.61"
+    }
     if(Number(vals.M)===0){
       vals.M="0.01"
     }
@@ -1091,25 +1096,37 @@ function runEqsDown(branch){
   if(branch==="cf" && document.getElementById("Pa/_cfBox").checked===true){
     vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
     if(document.getElementById("pa_p0Box").checked===true){
+      if(Number(vals.Gamma)===0){
+        vals.Gamma="0.61"
+      }
+      if(Number(vals.gamma)===0){
+        vals.gamma="1.01"
+      }
       if(Number(vals.Pa)===0){
         vals.Pa="0.01"
       }
       if(Number(vals.alt)===0){
         vals.alt="0.01"
       }
-      if(Number(vals.P0)===0){
+      if(Number(vals.P0)===0 || vals.P0==="Infinity"){
         vals.P0="0.01"
       }
       vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
       vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
     }else if(document.getElementById("p0_p0Box").checked===true){
+      if(Number(vals.Gamma)===0){
+        vals.Gamma="0.61"
+      }
+      if(Number(vals.gamma)===0){
+        vals.gamma="1.01"
+      }
       if(Number(vals.Pa)===0){
         vals.Pa="0.01"
       }
       if(Number(vals.alt)===0){
         vals.alt="0.01"
       }
-      if(Number(vals.P0)===0){
+      if(Number(vals.P0)===0 || vals.P0==="Infinity"){
         vals.P0="0.01"
       }
       vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
@@ -1123,7 +1140,7 @@ function runEqsDown(branch){
     if(Number(vals.alt)===0){
       vals.alt="0.01"
     }
-    if(Number(vals.P0)===0){
+    if(Number(vals.P0)===0 || vals.P0==="Infinity"){
       vals.P0="0.01"
     }
     vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
@@ -1137,30 +1154,54 @@ function runEqsDown(branch){
     if(Number(vals.alt)===0){
       vals.alt="0.01"
     }
-    if(Number(vals.P0)===0){
+    if(Number(vals.P0)===0 || vals.P0==="Infinity"){
       vals.P0="0.01"
     }
     vals.P0=(1/(Number(vals.PaP0)/Number(vals.Pa))).toFixed(2)
   }
 
   if(branch==="AeAt" && document.getElementById("Ae_AeBox").checked===true){
-    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(2)
+    if(Number(vals.Ae)===0){
+      vals.Ae="0.1"
+    }
+    if(Number(vals.At)===0){
+      vals.At="0.1"
+    }
+    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(3)
   }
 
   if(branch==="AeAt" && document.getElementById("At_AeBox").checked===true){
-    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(2)
+    if(Number(vals.Ae)===0){
+      vals.Ae="0.1"
+    }
+    if(Number(vals.At)===0){
+      vals.At="0.1"
+    }
+    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(3)
   }
 
   if(branch==="PeP0" && document.getElementById("Ae_AeBox").checked===true){
+    if(Number(vals.Ae)===0){
+      vals.Ae="0.1"
+    }
+    if(Number(vals.At)===0){
+      vals.At="0.1"
+    }
     let numGam = Number(vals.gamma)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
-    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(4)
+    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(3)
   }
 
   if(branch==="PeP0" && document.getElementById("At_AeBox").checked===true){
+    if(Number(vals.Ae)===0){
+      vals.Ae="0.1"
+    }
+    if(Number(vals.At)===0){
+      vals.At="0.1"
+    }
     let numGam = Number(vals.gamma)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
-    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(4)
+    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(3)
     
   }
 }
@@ -1380,14 +1421,16 @@ function findMin(){
 
 function Ae_At_value(branch){
   if(branch==="Ae"){
-    if(Number(vals.Ae)/Number(vals.At)<=1.1){
-      vals.At=(Number(vals.Ae)/1.1).toFixed(2)
+    console.log(Number(vals.Ae))
+    if(Number(vals.Ae)/Number(vals.At)<=1.1 && Number(vals.Ae)!==0){
+      vals.At=(Number(vals.Ae)/1.1).toFixed(3)
     }
   } else if(branch==="At"){
-    if(Number(vals.Ae)/Number(vals.At)<=1.1){
-      vals.Ae=(Number(vals.At)*1.1).toFixed(2)
+    if(Number(vals.Ae)/Number(vals.At)<=1.1 && Number(vals.At)!==0){
+      vals.Ae=(Number(vals.At)*1.1).toFixed(3)
     }
   }
+  console.log("hiii")
 }
 
 function customTempMolar(){
@@ -1426,3 +1469,5 @@ function outNaN(val){
     return (Math.round(Number(val))).toString()
   }
 }
+
+// }())
