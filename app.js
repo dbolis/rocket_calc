@@ -580,7 +580,7 @@ function runEqsUp(branch) {
       vals.AeAt="1.1"
       console.log("high")
     }
-    vals.PeP0=AeAt_to_PeP0(vals.AeAt).toString()
+    vals.PeP0=AeAt_to_PeP0(vals.AeAt)
   }
   //Level 2
   if(branch!=="mdot"){
@@ -644,6 +644,8 @@ function updateRes() {
   // Cf
   if (isNaN(Number(vals.cf))) {
     document.getElementById("cfRes").firstChild.innerHTML=`Math Error`
+  } else if (Number(vals.cf)<0){
+    document.getElementById("cfRes").firstChild.innerHTML = `C<sub>f</sub> = ${vals.cf} (Flow Seperation)`
   } else {
     document.getElementById("cfRes").firstChild.innerHTML = `C<sub>f</sub> = ${vals.cf}`
   }
@@ -666,14 +668,14 @@ function updateRes() {
   if (isNaN(Number(vals.M))) {
     document.getElementById("MRes").firstChild.innerHTML=`Math Error`
   } else {
-    document.getElementById("MRes").firstChild.innerHTML = `M = ${vals.M}`
+    document.getElementById("MRes").firstChild.innerHTML = `M = ${vals.M} [kg/mol]`
   }
 
   // T0
   if (isNaN(Number(vals.T0))) {
     document.getElementById("T0Res").firstChild.innerHTML=`Math Error`
   } else {
-    document.getElementById("T0Res").firstChild.innerHTML = `T<sub>0</sub> = ${vals.T0}`
+    document.getElementById("T0Res").firstChild.innerHTML = `T<sub>0</sub> = ${vals.T0} [K]`
   }
 
 
@@ -731,7 +733,7 @@ function updateRes() {
   document.getElementById("gamma_cfIn").value = vals.gamma
   document.getElementById("gamma_cfRange").value = vals.gamma
   //PeP0_cf
-  document.getElementById("Pe/_cfIn").value = vals.PeP0
+  document.getElementById("Pe/_cfIn").value = (Number(vals.PeP0)).toFixed(5)
   document.getElementById("Pe/_cfRange").value = vals.PeP0
   //PaP0_cf
   document.getElementById("Pa/_cfIn").value = placeholderVals(vals.PaP0, "Pa/_cfIn")
@@ -831,6 +833,8 @@ function errorMessage(id, range) {
     $(tag).popover('hide')
   }, 2000)
 }
+
+
 
 function checkBoxes(box){
 
@@ -1094,7 +1098,13 @@ function runEqsDown(branch){
   }
 
   if(branch==="cf" && document.getElementById("Pa/_cfBox").checked===true){
-    vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
+    let potenPaP0 = (Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
+    if (potenPaP0<0){
+      vals.PaP0 = 0
+    } else {
+      vals.PaP0 = potenPaP0
+    }
+    // vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
     if(document.getElementById("pa_p0Box").checked===true){
       if(Number(vals.Gamma)===0){
         vals.Gamma="0.61"
@@ -1113,7 +1123,7 @@ function runEqsDown(branch){
       }
       vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
       vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
-    }else if(document.getElementById("p0_p0Box").checked===true){
+    } else if(document.getElementById("p0_p0Box").checked===true){
       if(Number(vals.Gamma)===0){
         vals.Gamma="0.61"
       }
@@ -1144,7 +1154,7 @@ function runEqsDown(branch){
       vals.P0="0.01"
     }
     vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
-    vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
+    vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(3)
   }
 
   if(branch==="PaP0" && document.getElementById("p0_p0Box").checked===true){
@@ -1469,5 +1479,8 @@ function outNaN(val){
     return (Math.round(Number(val))).toString()
   }
 }
+
+
+
 
 // }())

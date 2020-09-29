@@ -56,6 +56,7 @@
               M: Molar Mass <br>
               &gamma;: Spec. Heat Ratio<br>
               &Gamma;: Function(&gamma;)<br>
+              Alt.: Altitude (from S/L)
             </i>
           </div>
         </div>  
@@ -73,7 +74,7 @@
                 <div class="card card-header text-center mt-5 bg-secondary">
                   <h2 class="heading display-5 mb-0" id="thrustTitle">Thrust / I<sub>sp</sub></h2>
                   <div id="thrustEq">
-                    \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}}\]
+                    \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}} =\frac{F}{\dot{m}g_{0}}\]
                   </div>
                 </div>
               <!-- Thrust/Isp Results -->
@@ -177,7 +178,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn" ><i>&Gamma;</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -241,7 +242,7 @@
                         <div class="input-group">
                           <input type="number" class="form-control" id="M_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
-                            <span class="input-group-text"> [ ? ]</span>
+                            <span class="input-group-text"> [kg/mol]</span>
                             <div class="input-group-text">
                               <input type="checkbox" id="M_mdotBox">
                             </div>
@@ -294,7 +295,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_cfBtn"><i>&Gamma;</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_cfBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -313,7 +314,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="gamma_cfBtn"><i>&gamma;</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="gamma_cfBtn" data-toggle="modal" data-target="#gammaModal"><i>&gamma;</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -332,7 +333,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Pe/_cfBtn"><i>P<sub>e</sub>/P<sub>0</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark" id="Pe/_cfBtn" data-toggle="modal" data-target="#PeP0Modal"><i>P<sub>e</sub>/P<sub>0</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -370,7 +371,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-success" id="Ae/_cfBtn"><i>A<sub>e</sub>/A<sub>t</sub></i></label>
+                        <button type="button" class="btn btn-outline-success" id="Ae/_cfBtn" data-toggle="modal" data-target="#AeA0Modal"><i>A<sub>e</sub>/A<sub>t</sub></i></label>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -409,7 +410,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_cstarBtn"><i>&Gamma;</i></button>
+                        <button type="button" class="btn btn-outline-dark" id="Gamma_cstarBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -434,7 +435,7 @@
                         <div class="input-group">
                           <input type="number" class="form-control" id="M_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
-                            <span class="input-group-text">[ ? ]</span>
+                            <span class="input-group-text">[kg/mol]</span>
                             <div class="input-group-text">
                               <input type="checkbox" id="M_cstarBox">
                             </div>
@@ -453,7 +454,7 @@
                         <div class="input-group">
                           <input type="number" class="form-control" id="T0_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
                           <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
+                            <span class="input-group-text">[K]</span>
                             <div class="input-group-text">
                               <input type="checkbox" id="T0_cstarBox">
                             </div>
@@ -782,6 +783,102 @@
     </div> 
   </div>
 
+ 
+
+
+<!-- Modals -->
+<!-- Gamma modal -->
+<div class="modal fade" id="GammaModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">&Gamma;: Vandenkerkhove Function</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Function of &gamma;, the specific heat ratio, defined as: 
+         \[\Gamma=\sqrt{\gamma}(\frac{2}{\gamma+1})^{(\gamma+1)/(2(\gamma-1))}\]
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- gamma modal -->
+<div class="modal fade" id="gammaModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">&gamma;: Specific Heat Ratio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ratio of specific heat at constant pressure <i>c<sub>p</sub></i>, to specific heat at constant volume <i>c<sub>v</sub></i>:
+        \[\gamma=\frac{c_{p}}{c_{v}}\]
+
+        (Calculated from &Gamma; using numerical methods)
+        \[\Gamma=\sqrt{\gamma}(\frac{2}{\gamma+1})^{(\gamma+1)/(2(\gamma-1))}\]
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PeP0 modal -->
+<div class="modal fade" id="PeP0Modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">P<sub>e</sub>/P<sub>0</sub>: Pressure Ratio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ratio of exit pressure <i>P<sub>e</sub></i>, to chamber pressure <i>P<sub>0</sub></i>.<br>
+        Coupled to the expansion ratio, <i>A<sub>e</sub></i>/<i>A<sub>t</sub></i> with the following equation:
+        \[\frac{A_{e}}{A_{t}}=\frac{\Gamma}{\sqrt{\frac{2\gamma}{\gamma-1}(\frac{P_{e}}{P_{0}})^{\frac{2}{\gamma}}(1-(\frac{P_{e}}{P_{0}})^{(\gamma-1)/\gamma})}}\]
+
+        (Calculated from <i>A<sub>e</sub>/A<sub>t</sub></i> using numerical methods)
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AeA0 modal -->
+<div class="modal fade" id="AeA0Modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">A<sub>e</sub>/A<sub>0</sub>: Expansion Ratio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ratio of nozzle exit area <i>A<sub>e</sub></i>, to nozzle throat area <i>A<sub>t</sub></i>.<br>
+        Coupled to the pressure ratio, <i>P<sub>e</sub></i>/<i>P<sub>0</sub></i> with the following equation:
+        \[\frac{A_{e}}{A_{t}}=\frac{\Gamma}{\sqrt{\frac{2\gamma}{\gamma-1}(\frac{P_{e}}{P_{0}})^{\frac{2}{\gamma}}(1-(\frac{P_{e}}{P_{0}})^{(\gamma-1)/\gamma})}}\]
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <script src='equations.js'></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -792,6 +889,7 @@
   <script>
     $(function () {
         $('[data-toggle="popover"]').popover()
+        
     })
     </script>
 </body>
