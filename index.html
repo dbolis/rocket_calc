@@ -95,7 +95,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="mdot_ThrustBtn"> <i>m&#775;</i> </button>
+                        <button type="button" class="btn btn-outline-primary" id="mdot_ThrustBtn" data-toggle="modal" data-target="#mdotModal"> <i>m&#775;</i> </button>
                       </div>
                       <div class="col-7">
                         <div class="input-group">
@@ -115,7 +115,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn"><i>C*</i></button>
+                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn" data-toggle="modal" data-target="#cstarModal"><i>C*</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -134,7 +134,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="cf_ThrustBtn"><i>C<sub>f</sub></i></button>
+                        <button type="button" class="btn btn-outline-primary" id="cf_ThrustBtn" data-toggle="modal" data-target="#cfModal"><i>C<sub>f</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -197,7 +197,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="p0_mdotBtn"><i>P<sub>0</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark" id="p0_mdotBtn" data-toggle="modal" data-target="#P0Modal"><i>P<sub>0</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -217,7 +217,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="At_mdotBtn"><i>A<sub>t</sub></i></dark>
+                        <button type="button" class="btn btn-outline-dark" id="At_mdotBtn" data-toggle="modal" data-target="#AtModal"><i>A<sub>t</sub></i></dark>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -236,7 +236,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-warning" id="M_mdotBtn"><i>M</i></button>
+                        <button type="button" class="btn btn-outline-warning" id="M_mdotBtn" data-toggle="modal" data-target="#MModal"><i>M</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -255,7 +255,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-danger" id="T0_mdotBtn"><i>T<sub>0</sub></i></button>
+                        <button type="button" class="btn btn-outline-danger" id="T0_mdotBtn" data-toggle="modal" data-target="#T0Modal"><i>T<sub>0</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -341,18 +341,18 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Pe/_cfBox">
+                              <input type="checkbox" id="Pe/_cfBox" disabled>
                             </div>
                           </div>
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Pe/_cfRange" min="0.000005" max="0.99" step="0.000001">
+                        <input type="range" class="form-control-range" id="Pe/_cfRange" min="0.00001" max="0.99" step="0.000001">
                       </div>
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-info" id="Pa/_cfBtn"><i>P<sub>a</sub>/P<sub>0</sub></i></label>
+                        <button type="button" class="btn btn-outline-info" id="Pa/_cfBtn" data-toggle="modal" data-target="#PaP0Modal"><i>P<sub>a</sub>/P<sub>0</sub></i></label>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -379,13 +379,13 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Ae/_cfBox">
+                              <input type="checkbox" id="Ae/_cfBox" disabled>
                             </div>
                           </div>
                         </div>
                       </div> 
                       <div class="col-3">
-                        <input type="range" class="form-control-range" id="Ae/_cfRange" min ="1.01" max="150" step="0.01">
+                        <input type="range" class="form-control-range" id="Ae/_cfRange" min ="1.1" max="150" step="0.01">
                       </div>
                     </div>
                   </div>
@@ -429,7 +429,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-warning" id="M_cstarBtn"><i>M</i></button>
+                        <button type="button" class="btn btn-outline-warning" id="M_cstarBtn" data-toggle="modal" data-target="#MModal"><i>M</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -448,7 +448,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-danger" id="T0_cstarBtn"><i>T<sub>0</sub></i></button>
+                        <button type="button" class="btn btn-outline-danger" id="T0_cstarBtn" data-toggle="modal" data-target="#T0Modal"><i>T<sub>0</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -479,7 +479,7 @@
               <!-- Chamber Pressure Ratio Card -->
               <div style="display: block" id="p0Card">
                 <div class="card card-header text-center mt-3 bg-secondary">
-                  <h5 class="heading display-5 mb-0" id="p0Title">Chamber Pressure Ratio</h5>
+                  <h5 class="heading display-5 mb-0" id="p0Title">Atmospheric Pressure Ratio</h5>
 
                 </div>
                 <div class="card card-body text-center">
@@ -492,7 +492,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="altBtn"><i>Alt.</i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="altBtn" data-toggle="modal" data-target="#altModal"><i>Alt.</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
@@ -511,7 +511,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="pa_p0Btn"><i>P<sub>a</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="pa_p0Btn" data-toggle="modal" data-target="#PaModal"><i>P<sub>a</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
@@ -530,7 +530,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="p0_p0Btn"><i>P<sub>0</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="p0_p0Btn" data-toggle="modal" data-target="#P0Modal"><i>P<sub>0</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
@@ -567,7 +567,7 @@
                   <div class="form">
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="Ae_AeBtn"><i>A<sub>e</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="Ae_AeBtn" data-toggle="modal" data-target="#AeModal"><i>A<sub>e</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
@@ -586,7 +586,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="At_AeBtn"><i>A<sub>t</sub></i></button>
+                        <button type="button" class="btn btn-outline-dark btn" id="At_AeBtn" data-toggle="modal" data-target="#AtModal"><i>A<sub>t</sub></i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group input-group">
@@ -629,7 +629,7 @@
                   </div>
                   <div class="row">
                     <div class="col-3">
-                      <button type="button" class="btn btn-outline-dark btn" id="">Oxidizer</button>
+                      <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#oxiModal">Oxidizer</button>
                     </div>
                     <div class="col-9">  
                       <select class="form-control form-control" id="MOxi">
@@ -644,7 +644,7 @@
                   </div>
                   <div class="row">
                     <div class="col-3">
-                      <button type="button" class="btn btn-outline-dark btn" id="">Fuel</button>
+                      <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#fuelModal">Fuel</button>
                     </div>
                       <div class="col-9">
                         <select class="form-control form-control" id="MFuel">
@@ -660,7 +660,7 @@
                     </div>  
                     <div class="row">
                       <div class="col-3">
-                        <button type="button" class="btn btn-outline-dark btn" id="">O/F</button>
+                        <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#OFModal">O/F</button>
                       </div>
                         <div class="col-9">
                           <select class="form-control form-control" id="MOF">
@@ -837,7 +837,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">P<sub>e</sub>/P<sub>0</sub>: Pressure Ratio</h5>
+        <h5 class="modal-title" id="exampleModalLabel">P<sub>e</sub>/P<sub>0</sub>:Exit Pressure Ratio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -878,6 +878,334 @@
   </div>
 </div>
 
+<!-- PaP0 modal -->
+<div class="modal fade" id="PaP0Modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">P<sub>a</sub>/P<sub>0</sub>: Atmospheric Pressure Ratio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ratio of atmospheric pressure <i>P<sub>a</sub></i>, to chamber pressure <i>P<sub>0</sub></i>.<br>
+        Values above 1 occur briefly during engine startup and are not sustained. A high <i>P<sub>a</sub>/P<sub>0</sub></i>
+        causes flow seperation from the nozzle and side loads.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P0 modal -->
+<div class="modal fade" id="P0Modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">P<sub>0</sub>: Chamber Pressure</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Pressure reached in rocket combustion chamber. In reality, chmaber pressure <i>P<sub>0</sub></i>, 
+        combustion temperature <i>T<sub>0</sub></i>, and mean molecular mass <i>M</i> are not independent and
+        are all determined by the combustion process. A higher chamber pressure results in a higher chamber temperature.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- At modal -->
+<div class="modal fade" id="AtModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">A<sub>t</sub>: Throat Area</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Nozzle throat area. Throat area <i>A<sub>t</sub></i>, must be smaller than nozzle exit 
+        area <i>A<sub>e</sub></i> (converging-diverging nozzle) and flow at the throat must be Mach=1 in order to achieve supersonic
+        flow conditions at nozzle exit. 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ae modal -->
+<div class="modal fade" id="AeModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">A<sub>e</sub>: Exit Area</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Nozzle exit area. Exit area <i>A<sub>e</sub></i>, must be larger than nozzle throat 
+        area <i>A<sub>t</sub></i> (converging-diverging nozzle) and flow at the throat must be Mach=1 in order to achieve supersonic
+        flow conditions at nozzle exit. 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- M modal -->
+<div class="modal fade" id="MModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">M: Mean Molar Mass</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Mean molar mass of combusted propellants. In reality, mean molecular mass <i>M</i>, chmaber pressure <i>P<sub>0</sub></i>, and 
+        combustion temperature <i>T<sub>0</sub></i> are not independent and
+        are all determined by the combustion process. Propellant types and O/F ratio directly affect
+        mean molar mass and combustion temperature. A small <i>M</i> results in larger exit velocity.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- T0 modal -->
+<div class="modal fade" id="T0Modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">T0: Chamber Combustion Temperature</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Temperature in combustion chamber. In reality, combustion temperature <i>T<sub>0</sub></i>, mean molecular mass <i>M</i>, 
+        and chmaber pressure <i>P<sub>0</sub></i> are not independent and
+        are all determined by the combustion process. Propellant types and O/F ratio directly affect
+        combustion temperature and mean molar mass.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pa modal -->
+<div class="modal fade" id="PaModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pa: Atmospheric Pressure</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Atmospheric pressure. At sea level, <i>P<sub>a</sub></i> is approximately equal to 
+        1.013 bar. Higher values correspond to altitudes below sea level. <i>P<sub>a</sub></i>, in bar, is 
+        coupled to altitude with the following formula: \[P_{a}(h)=101.325e^{-0.12h}\] where <i>h</i>
+        is distance above sea level.
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alt. modal -->
+<div class="modal fade" id="altModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alt.: Altitude Above Sea Level</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Distance above sea level. At sea level, <i>Alt.</i> is equal to 0 and <i>P<sub>a</sub></i> is approximately equal to 
+        1.013 bar. Negative altitude values correspond to altitudes below sea level. <i>Alt.</i>, in kilometers, is 
+        coupled to <i>P<sub>a</sub></i> with the following formula: \[Alt.=ln(\frac{0.9869P_{a}}{-0.00012})/1000\]
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Oxidizer modal -->
+<div class="modal fade" id="oxiModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Oxidizer</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Oxidizing agent that accepts electrons from fuel to create combustion. The oxidizer, fuel,
+        and O/F ratio affect the molar mass <i>M</i>, chamber temperature <i>T<sub>0</sub></i>, and 
+        chamber pressure <i>P<sub>0</sub></i>. 
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fuel modal -->
+<div class="modal fade" id="fuelModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Fuel</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Fuel gives up electrons to oxidizer to create combustion. The oxidizer, fuel,
+        and O/F ratio affect the molar mass <i>M</i>, chamber temperature <i>T<sub>0</sub></i>, and 
+        chamber pressure <i>P<sub>0</sub></i>. 
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- O/F modal -->
+<div class="modal fade" id="OFModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">O/F: Oxidizer to Fuel Ratio</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Mixture ratio by mass of oxidizer to fuel. Rockets can run fuel-rich, oxidizer-rich, or
+        at stoichiometric conditions, depending on desired performance. Peak chamber temperature,
+        <i>T<sub>0</sub></i> is achieved near stoichiometric conditions, but peak <i>C*</i> is achieved
+        at lower O/F ratio (fuel-rich conditions).
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- mdot modal -->
+<div class="modal fade" id="mdotModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">m&#775;: Mass Flow Rate</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Mass flow of propellant through nozzle per unit time. <i>m&#775;</i> is proportional to 
+        flow density <i>&rho;</i>, throat area <i>A<sub>t</sub></i></i>, and flow velocity <i>v</i>:
+        \[\dot{m}=\rho A_{t}v=\Gamma\frac{p_{0}A_{t}}{\sqrt{T_{0}R/M}}\]
+
+        <i>R</i> is the universal gas constant equal to 8314.47 [JK<sup>-1</sup>mol<sup>-1</sup>]
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cf modal -->
+<div class="modal fade" id="cfModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">C<sub>f</sub>: Thrust Coefficient</Area></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       The thrust coefficient is a measure of the increase in thrust provided by the expansion of
+       propellant throught the nozzle. It is defined as the ratio of actual thrust with expansion 
+       through the nozzle <i>F</i>, to reference thrust, the thrust created without nozzle expansion
+       <i>P<sub>0</sub>A<sub>t</sub></i>:
+       \[C_{f}=\frac{F}{P_{0}A_{t}} = \Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
+
+       When <i>C<sub>f</sub></i> is negative, flow is said to be seperated from the nozzle in this calculator. However, in reality,
+       flow seperation occurs at certain combinations of atmospheric pressure ratios <i>p<sub>a</sub>/p<sub>0</sub></i> and expansion ratios <i>A<sub>e</sub>/A<sub>t</sub></i>. 
+       For any fixed atmospheric pressure ratio <i>p<sub>a</sub>/p<sub>0</sub></i>, <i>C<sub>f</sub></i> is
+       maximized at <i>p<sub>e</sub> = p<sub>a</sub></i>.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cstar -->
+<div class="modal fade" id="cstarModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">C*: Characteristic Velocity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       Characteristic Velocity is a function of propellant characteristics and combustion chamber design.
+       It is independent of nozzle characteristics. It is defined as:
+
+       \[c^{\ast}= \frac{P_{0}A_{t}}{\dot{m}}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
+
+       <i>R</i> is the universal gas constant equal to 8314.47 [JK<sup>-1</sup>mol<sup>-1</sup>]
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src='equations.js'></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>

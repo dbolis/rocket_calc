@@ -16,7 +16,7 @@ let vals = {
   T0: "5", // [K]
   Ae: "5", // [m^2]
   Pa: "0.5", // [bar]
-  R: "8314.5", // [?]
+  R: "8314.47", // [?]
   M: "20.81", // [kg/?]
   PeP0: ".6", // [-]
   PaP0: ".6", // [-]
@@ -432,7 +432,7 @@ document.getElementById("gamma_cfRange").addEventListener('input', function(e){
 // Pe/P0_cf
 document.getElementById("Pe/_cfIn").addEventListener('input', function(e){
   document.getElementById("Pe/_cfRange").value = e.target.value
-  vals.PeP0 = assignValue(e.target.value,bounds.PeP0,"Pe/_cfIn")
+  vals.PeP0 = assignValuegamma(e.target.value,bounds.PeP0,"Pe/_cfIn",0)
   if(vals.PeP0!==""){
     runFuncs("PeP0")
   }
@@ -578,16 +578,18 @@ function runEqsUp(branch) {
     vals.AeAt = (Math.round((Number(vals.Ae)/Number(vals.At))*1000)/1000).toString()
     if(Number(vals.AeAt)<1.1){
       vals.AeAt="1.1"
-      console.log("high")
+      
     }
-    vals.PeP0=AeAt_to_PeP0(vals.AeAt)
+    if (branch!=="PeP0"){
+      vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5)
+    }
   }
   //Level 2
   if(branch!=="mdot"){
     vals.mdot = (Math.round((Number(vals.Gamma)*(100000)*Number(vals.P0)*Number(vals.At)/Math.sqrt(Number(vals.R)*Number(vals.T0)/Number(vals.M)))*100)/100).toString() //mdot
   }
   if(branch!=="cf"){
-    vals.cf = (Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+(Number(vals.PeP0)-Number(vals.PaP0))*Number(vals.AeAt))*10000)/10000).toString()
+    vals.cf = (Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+(Number(vals.PeP0)-Number(vals.PaP0))*Number(vals.AeAt))*100)/100).toString()
   }
   if(branch!=="cstar"){
     vals.cstar = (Math.round((1/Number(vals.Gamma))*Math.sqrt((Number(vals.R)*Number(vals.T0))/Number(vals.M))*100)/100).toString() //cstar
@@ -733,7 +735,7 @@ function updateRes() {
   document.getElementById("gamma_cfIn").value = vals.gamma
   document.getElementById("gamma_cfRange").value = vals.gamma
   //PeP0_cf
-  document.getElementById("Pe/_cfIn").value = (Number(vals.PeP0)).toFixed(5)
+  document.getElementById("Pe/_cfIn").value = vals.PeP0//(Number(vals.PeP0)).toFixed(5)
   document.getElementById("Pe/_cfRange").value = vals.PeP0
   //PaP0_cf
   document.getElementById("Pa/_cfIn").value = placeholderVals(vals.PaP0, "Pa/_cfIn")
@@ -968,10 +970,10 @@ function runEqsDown(branch){
     vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5)
   }
   
-  if(branch === "PeP0"){
-    let numGam = Number(vals.gamma)
+  // if(branch === "PeP0"){
+  //   let numGam = Number(vals.gamma)
     
-  }
+  // }
 
   if(branch === "Gamma"){
     vals.gamma = (Gamma_to_gamma(Number(vals.Gamma))).toFixed(2)
@@ -1143,6 +1145,32 @@ function runEqsDown(branch){
     }
   }
 
+  // if(branch==="cf" && document.getElementById("Pe/_cfBox").checked===true){
+  //   let numGam = Number(vals.gamma)
+  //   vals.PeP0=cf_to_pep0(vals.cf)
+  //   vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(5)
+  //   // vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
+  //   if(document.getElementById("Ae_AeBox").checked===true){
+  //       if(Number(vals.Ae)===0){
+  //         vals.Ae="0.1"
+  //       }
+  //       if(Number(vals.At)===0){
+  //         vals.At="0.1"
+  //       }
+  //       vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(3)
+
+  //   } else if(document.getElementById("At_AeBox").checked===true){
+  //     if(Number(vals.Ae)===0){
+  //       vals.Ae="0.1"
+  //     }
+  //     if(Number(vals.At)===0){
+  //       vals.At="0.1"
+  //     }
+  //     vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(3)
+  //   }
+  // }
+
+
   if(branch==="PaP0" && document.getElementById("pa_p0Box").checked===true){
     if(Number(vals.Pa)===0){
       vals.Pa="0.01"
@@ -1226,8 +1254,7 @@ function Gamma_to_gamma(val){
     xc = Math.sqrt(xnp)*Math.pow((2/(xnp+1)),((xnp+1)/(2*(xnp-1))))
     x1=x2
     x2=xnp
-    console.log([xnp,xc])
-    
+    // console.log([xnp,xc])
   }
   
   return xnp
@@ -1251,12 +1278,115 @@ function cf_to_pep0(val){
     
   // }
   
+  // // return xnp
+  // let x1=0.4
+  // let x2=0.401
+  // let xc = Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x2),((numGam-1)/numGam))))+(Number(x2)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x2),(2/numGam))*(1-Math.pow(Number(x2),((numGam-1)/numGam)))))
+  // let xnp
+  // // // while (Math.abs(val-xc)>.001){
+  // // // for (i=0; i<10; i++){
+  // // //   xnp = x2 - (val - Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1)))))/(((val - Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1)))))-(val - Math.sqrt(x1)*Math.pow((2/(x1+1)),((x1+1)/(2*(x1-1))))))/(x2-x1))
+  // // //   xc = Math.sqrt(xnp)*Math.pow((2/(xnp+1)),((xnp+1)/(2*(xnp-1))))
+  // // //   x1=x2
+  // // //   x2=xnp
+  // // //   console.log([xnp,xc])
+  // // // }
+  // for (i=0; i<10; i++){
+  //   xnp = x2 - (val-(Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x2),((numGam-1)/numGam))))+(Number(x2)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x2),(2/numGam))*(1-Math.pow(Number(x2),((numGam-1)/numGam)))))))/((((val-(Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x2),((numGam-1)/numGam))))+(Number(x2)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x2),(2/numGam))*(1-Math.pow(Number(x2),((numGam-1)/numGam))))))))-((val-(Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))+(Number(x1)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam)))))))))/(x2-x1))
+  //   xc = Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(xnp),((numGam-1)/numGam))))+(Number(xnp)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xnp),(2/numGam))*(1-Math.pow(Number(xnp),((numGam-1)/numGam)))))
+  //   x1=x2
+  //   x2=xnp
+  //   console.log([xnp,xc])
+
+  // }
+  
   // return xnp
 
 
-  
-}
+  // let x0 = 0.000001
+  // let x1 = 0.3
+  // let numGam = Number(vals.gamma)
+  // let xout = Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+  // let fout = 0
+  // let testlist=[]
+  // // while (Math.abs(fout-val)>0.01){
+  // for(i=0;i<50;i++)  {
+  //   // let f0 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
+  //   let f1 = val - Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))+(Number(x1)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam)))))
+  //   let xn = (x0+x1)/2
+  //   let fn = val - Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))+(Number(xn)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam)))))
+    
+  //   console.log([f1,x0,x1,xout,Math.abs(fout-val)])
+  //   testlist.push([Math.abs(fout-val),xout])
+  //   if (fn*f1<0){
+  //     x0 = (x0+x1)/2
+  //     fout = Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+  //     xout=x0
+  //   } else {
+  //     x1 = (x1+x0)/2
+  //     fout = Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))+(Number(x1)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam)))))
+  //     xout=x1
+  //   }
+  // }
+  // testlist.sort()
+  // console.log(testlist)
+  // return testlist[0][1]
+  // return xout
+  // let numGam = Number(vals.gamma)
+  // let bound = 100*findMin()
 
+  // for(i=0; i<bound; i++){
+  //   if (i<60){
+  //     x0 = Math.log((i/1000)+1)
+  //     let fout=Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+  //     console.log([x0,fout])
+      
+  //   }else{
+  //     x0=i/100
+  //     let fout=Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+  //     console.log([i/100, fout])
+  //   }
+    // let x0=i/100
+    // let fout=Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+    // console.log([fout,i/100])
+  // }  
+  
+//   let numGam = Number(vals.gamma)
+//   let bound = Math.floor(100*findMin())
+//   for (i=bound;i>0;i--){
+//     let x0=i/100
+//     let fout=Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+//     console.log([fout,x0,Math.abs(val-fout)])
+//     if(Math.abs(val-fout)<0.1){
+//       return x0
+//     } else if(fout<0) {
+//       break
+//     }
+//   }
+  
+//   for(i=100;i>0;i--){
+//     let x0=i/10000
+//     let fout=Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+//     console.log([fout,x0,Math.abs(val-fout)])
+//     if(Math.abs(val-fout)<0.1){
+//       return x0
+//     } else if(fout<0) {
+//       break
+//     }
+//   } 
+//   for(i=100;i>0;i--){
+//     let x0=i/100000
+//     let fout=Number(vals.Gamma)*Math.sqrt((2*numGam/(numGam-1))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))+(Number(x0)-Number(vals.PaP0))*(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam)))))
+//     console.log([fout,x0,Math.abs(val-fout)])
+//     if(Math.abs(val-fout)<0.1){
+//       return x0
+//     } else if(fout<0) {
+//       break
+//     }
+//   } 
+  
+//   return 0.00001
+}
 
 function AeAt_to_PeP0(val){
   // let x1=0.0002
@@ -1293,7 +1423,7 @@ function AeAt_to_PeP0(val){
   //     xn = (x0+xn)/2
   //   }
   // }
-
+  let fout = 0
   let x0 = bounds.PeP0[0]
   let x1 = bounds.PeP0[1]
   let numGam = Number(vals.gamma)
@@ -1305,7 +1435,7 @@ function AeAt_to_PeP0(val){
     let xn = (x0+x1)/2
     let fn = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
     
-    // console.log([f1,x0,x1,xout,Math.abs(xout-val)])
+    // console.log([f1,x0,x1,xout,Math.abs(fout-val)])
 
     if (fn*f1<0){
       x0 = (x0+x1)/2
@@ -1350,7 +1480,7 @@ function PeP0Bound(){
   // }
   // return xn
 
-  let bound = [0.000005, findMin()]
+  let bound = [0.00001, Math.round(findMin()*100)/100]
   document.getElementById("Pe/_cfRange").max=(bound[1]-0.175)
   bounds.PeP0=bound
 
@@ -1398,7 +1528,7 @@ function findMin(){
     numGam=1.01
     Gamma=0.61
   }
-  console.log(numGam)
+  
   
   let x1 = 0.525
   let xn = 0.53
@@ -1410,7 +1540,7 @@ function findMin(){
       let fbef = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
       xn = xn+.005
       let fn = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
-      console.log(fn)
+      
       if(fbef<fn){
         return xn-0.005
       }
@@ -1419,7 +1549,7 @@ function findMin(){
       let fbef = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
       xn = xn-0.005
       let fn = Gamma/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
-      console.log(fn)
+      
       
       if(fbef<fn){
         return xn+0.005
@@ -1431,7 +1561,7 @@ function findMin(){
 
 function Ae_At_value(branch){
   if(branch==="Ae"){
-    console.log(Number(vals.Ae))
+    
     if(Number(vals.Ae)/Number(vals.At)<=1.1 && Number(vals.Ae)!==0){
       vals.At=(Number(vals.Ae)/1.1).toFixed(3)
     }
@@ -1440,7 +1570,7 @@ function Ae_At_value(branch){
       vals.Ae=(Number(vals.At)*1.1).toFixed(3)
     }
   }
-  console.log("hiii")
+  
 }
 
 function customTempMolar(){
