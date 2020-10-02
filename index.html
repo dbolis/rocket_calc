@@ -837,7 +837,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">P<sub>e</sub>/P<sub>0</sub>:Exit Pressure Ratio</h5>
+        <h5 class="modal-title" id="exampleModalLabel">P<sub>e</sub>/P<sub>0</sub>: Exit Pressure Ratio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -861,15 +861,16 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">A<sub>e</sub>/A<sub>0</sub>: Expansion Ratio</h5>
+        <h5 class="modal-title" id="exampleModalLabel">A<sub>e</sub>/A<sub>t</sub>: Expansion Ratio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         Ratio of nozzle exit area <i>A<sub>e</sub></i>, to nozzle throat area <i>A<sub>t</sub></i>.<br>
-        Coupled to the pressure ratio, <i>P<sub>e</sub></i>/<i>P<sub>0</sub></i> with the following equation:
+        Coupled to the exit pressure ratio, <i>P<sub>e</sub></i>/<i>P<sub>0</sub></i> with the following equation:
         \[\frac{A_{e}}{A_{t}}=\frac{\Gamma}{\sqrt{\frac{2\gamma}{\gamma-1}(\frac{P_{e}}{P_{0}})^{\frac{2}{\gamma}}(1-(\frac{P_{e}}{P_{0}})^{(\gamma-1)/\gamma})}}\]
+        Above a certain threshold of A<sub>e</sub>/A<sub>t</sub>, flow seperation will occur at sea level. 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -977,10 +978,12 @@
         </button>
       </div>
       <div class="modal-body">
-        Mean molar mass of combusted propellants. In reality, mean molecular mass <i>M</i>, chmaber pressure <i>P<sub>0</sub></i>, and 
+        Mean molar mass of combusted propellants. In reality, mean molecular mass <i>M</i>, chamber pressure <i>P<sub>0</sub></i>, and 
         combustion temperature <i>T<sub>0</sub></i> are not independent and
         are all determined by the combustion process. Propellant types and O/F ratio directly affect
         mean molar mass and combustion temperature. A small <i>M</i> results in larger exit velocity.
+        Above a certain threshold, values of <i>M</i> correspond to large elements or molecules which
+        cannot be obtained in real-life combustion processes. 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -1000,7 +1003,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Temperature in combustion chamber. In reality, combustion temperature <i>T<sub>0</sub></i>, mean molecular mass <i>M</i>, 
+        Temperature reached in combustion chamber. In reality, combustion temperature <i>T<sub>0</sub></i>, mean molecular mass <i>M</i>, 
         and chmaber pressure <i>P<sub>0</sub></i> are not independent and
         are all determined by the combustion process. Propellant types and O/F ratio directly affect
         combustion temperature and mean molar mass.
@@ -1023,7 +1026,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Atmospheric pressure. At sea level, <i>P<sub>a</sub></i> is approximately equal to 
+        At sea level, <i>P<sub>a</sub></i> is approximately equal to 
         1.013 bar. Higher values correspond to altitudes below sea level. <i>P<sub>a</sub></i>, in bar, is 
         coupled to altitude with the following formula: \[P_{a}(h)=101.325e^{-0.12h}\] where <i>h</i>
         is distance above sea level.
@@ -1171,7 +1174,7 @@
        \[C_{f}=\frac{F}{P_{0}A_{t}} = \Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
 
        When <i>C<sub>f</sub></i> is negative, flow is said to be seperated from the nozzle in this calculator. However, in reality,
-       flow seperation occurs at certain combinations of atmospheric pressure ratios <i>p<sub>a</sub>/p<sub>0</sub></i> and expansion ratios <i>A<sub>e</sub>/A<sub>t</sub></i>. 
+       flow seperation occurs at certain combinations of atmospheric pressure ratios <i>p<sub>a</sub>/p<sub>0</sub></i> and expansion ratios <i>A<sub>e</sub>/A<sub>t</sub></i> in the positive region of <i>C<sub>f</sub></i>. 
        For any fixed atmospheric pressure ratio <i>p<sub>a</sub>/p<sub>0</sub></i>, <i>C<sub>f</sub></i> is
        maximized at <i>p<sub>e</sub> = p<sub>a</sub></i>.
       </div>
@@ -1193,7 +1196,7 @@
         </button>
       </div>
       <div class="modal-body">
-       Characteristic Velocity is a function of propellant characteristics and combustion chamber design.
+       Characteristic velocity is a function of propellant characteristics and combustion chamber design.
        It is independent of nozzle characteristics. It is defined as:
 
        \[c^{\ast}= \frac{P_{0}A_{t}}{\dot{m}}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]

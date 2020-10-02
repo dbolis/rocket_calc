@@ -1,5 +1,5 @@
 
-// (function(){
+(function(){
 /// Note: keeping values as string so 0.01 is a possible input. Converted to numbers for calcs
 
 let vals = {
@@ -760,7 +760,7 @@ function updateRes() {
 }
 
 function assignValue(value, range, id) {
-  console.log(value)
+  // console.log(value)
   if (value === "") {
     return ""
   } else if(parseFloat(value)>range[1]) { 
@@ -777,7 +777,7 @@ function assignValue(value, range, id) {
 
 function assignValuegamma(value, range, id, specVal) {
   const tag = document.getElementById(id)
-  console.log(value)
+  // console.log(value)
   if(parseFloat(value) === specVal){
     errorMessageSpecial(id,specVal)
     return value
@@ -795,7 +795,7 @@ function assignValuegamma(value, range, id, specVal) {
 
 function assignValueGamma(value, range, id, specVal) {
   const tag = document.getElementById(id)
-  console.log(value)
+  // console.log(value)
   if (parseFloat(value) <= range[0]) {
     errorMessageSpecial(id,specVal)
     return value
@@ -840,83 +840,7 @@ function errorMessage(id, range) {
 
 function checkBoxes(box){
 
-  // if (box === "T0_mdot"){
-  //   T0_cstarBox.checked = T0_mdotBox.checked
-  // } else if(box === "T0_cstar"){
-  //   T0_mdotBox.checked = T0_cstarBox.checked
-  // } else if(box === "P0_mdot"){
-  //   P0_P0Box.checked = P0_mdotBox.checked
-  // } else if(box === "P0_P0"){
-  //   P0_mdotBox.checked = P0_P0Box.checked
-  // } else if(box === "At_mdot"){
-  //   At_AeBox.checked = At_mdotBox.checked
-  // } else if(box === "At_Ae"){
-  //   At_mdotBox.checked = At_AeBox.checked
-  // } else if(box === "Pe_cf"){
-  //   Ae_cfBox.checked=Pe_cfBox.checked
-  // } else if(box === "Ae_cf"){
-  //   Pe_cfBox.checked=Ae_cfBox.checked
-  // } else if(box === "RM_mdot"){
-  //   RM_cstarBox.checked=RM_mdotBox.checked
-  // } else if(box === "RM_cstar"){
-  //   RM_mdotBox.checked=RM_cstarBox.checked
-  // }
-
-  // if (box==="T0_mdot" || box==="T0_cstar"){
-  //   if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true && RM_mdotBox.checked===true){
-  //     RM_mdotBox.checked=false
-  //     RM_cstarBox.checked=false
-  //   }
-  //   if(T0_cstarBox.checked===true && RM_cstarBox.checked===true){
-  //     RM_cstarBox.checked=false
-  //   }
-  // }
-  
-  // if (box==="P0_mdot" || box==="P0_P0"){
-  //   if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
-  //     At_mdotBox.checked=false
-  //     At_AeBox.checked=false
-  //   }
-  //   if(Pa_P0Box.checked===true && P0_P0Box.checked===true){
-  //     Pa_P0Box.checked=false
-  //   }
-  // }
-
-  // if (box==="At_mdot" || box==="At_Ae"){
-  //   if(T0_mdotBox.checked===true && P0_mdotBox.checked===true && At_mdotBox.checked===true){
-  //     T0_mdotBox.checked=false
-  //     T0_cstarBox.checked=false
-  //   }
-  //   if(At_AeBox.checked===true && Ae_AeBox.checked===true){
-  //     Ae_AeBox.checked=false
-  //   }
-  // }
-
-  // if (box==="Pa_P0" && P0_P0Box.checked===true && Pa_P0Box.checked===true){
-  //   P0_P0Box.checked=false
-  //   P0_mdotBox.checked=false
-  // }
-
-  // if (box==="Ae_Ae" && Ae_AeBox.checked===true && At_AeBox.checked===true){
-  //   At_AeBox.checked=false
-  //   At_mdotBox.checked=false
-  // }
-  
-  // if (box==="M_cstar" && M_cstarBox.checked===true && T0_cstarBox.checked===true){
-  //   T0_cstarBox.checked=false
-  //   T0_mdotBox.checked=false
-  // }
-
-  // if ((box==="Pe_cf" || box==="Ae_cf") && Pa_cfBox.checked===true && Ae_cfBox.checked===true){
-  //   Pa_cfBox.checked=false
-  // }
-
-  // if(box==="Pa_cf" && Pa_cfBox.checked===true && Ae_cfBox.checked===true){
-  //   Ae_cfBox.checked=false
-  //   Pe_cfBox.checked=false
-  // }
-
-
+ 
   //Mdot Box (One check at a time)
   if (box==="mdot"){
     document.getElementById("p0_mdotBox").checked=false
@@ -1124,7 +1048,7 @@ function runEqsDown(branch){
         vals.P0="0.01"
       }
       vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
-      vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(5)
+      vals.alt = ((Math.log(0.986923*Number(vals.Pa))/(-0.00012))/1000).toFixed(3)
     } else if(document.getElementById("p0_p0Box").checked===true){
       if(Number(vals.Gamma)===0){
         vals.Gamma="0.61"
@@ -1182,7 +1106,7 @@ function runEqsDown(branch){
       vals.P0="0.01"
     }
     vals.Pa=(Number(vals.PaP0)*Number(vals.P0)).toFixed(2)
-    vals.alt = (Math.log(0.986923*Number(vals.Pa))/(-0.00012)).toFixed(3)
+    vals.alt = ((Math.log(0.986923*Number(vals.Pa))/(-0.00012))/1000).toFixed(3)
   }
 
   if(branch==="PaP0" && document.getElementById("p0_p0Box").checked===true){
@@ -1205,7 +1129,7 @@ function runEqsDown(branch){
     if(Number(vals.At)===0){
       vals.At="0.1"
     }
-    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(3)
+    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(2)
   }
 
   if(branch==="AeAt" && document.getElementById("At_AeBox").checked===true){
@@ -1215,7 +1139,7 @@ function runEqsDown(branch){
     if(Number(vals.At)===0){
       vals.At="0.1"
     }
-    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(3)
+    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(2)
   }
 
   if(branch==="PeP0" && document.getElementById("Ae_AeBox").checked===true){
@@ -1227,7 +1151,7 @@ function runEqsDown(branch){
     }
     let numGam = Number(vals.gamma)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
-    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(3)
+    vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(2)
   }
 
   if(branch==="PeP0" && document.getElementById("At_AeBox").checked===true){
@@ -1239,7 +1163,7 @@ function runEqsDown(branch){
     }
     let numGam = Number(vals.gamma)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(4)
-    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(3)
+    vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(2)
     
   }
 }
@@ -1563,11 +1487,11 @@ function Ae_At_value(branch){
   if(branch==="Ae"){
     
     if(Number(vals.Ae)/Number(vals.At)<=1.1 && Number(vals.Ae)!==0){
-      vals.At=(Number(vals.Ae)/1.1).toFixed(3)
+      vals.At=(Number(vals.Ae)/1.1).toFixed(2)
     }
   } else if(branch==="At"){
     if(Number(vals.Ae)/Number(vals.At)<=1.1 && Number(vals.At)!==0){
-      vals.Ae=(Number(vals.At)*1.1).toFixed(3)
+      vals.Ae=(Number(vals.At)*1.1).toFixed(2)
     }
   }
   
@@ -1613,4 +1537,4 @@ function outNaN(val){
 
 
 
-// }())
+}())
