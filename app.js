@@ -1,7 +1,7 @@
 
 (function(){
 /// Note: keeping values as string so 0.01 is a possible input. Converted to numbers for calcs
-
+/// Numbers listed here are inital values on page load. 
 let vals = {
   F: "0", // [N]
   Isp: "0", // [s]
@@ -16,30 +16,33 @@ let vals = {
   T0: "5", // [K]
   Ae: "5", // [m^2]
   Pa: "0.5", // [bar]
-  R: "8314.47", // [?]
-  M: "20.81", // [kg/?]
+  R: "8314.47", // [[JK^-1mol^-1]]
+  M: "20.81", // [kg/mol]
   PeP0: ".6", // [-]
   PaP0: ".6", // [-]
   AeAt: "1.1", // [-]
   alt: "5.8" // [m]
-  }
+}
 
-  let bounds = {
-    mdot: [0, 15000],
-    cstar: [0, 4000],
-    Gamma: [0.609,0.77],
-    gamma: [1.01, 2],
-    P0: [0,400],
-    At: [0.1,10],
-    Ae: [0.1,10],
-    M: [1,50],
-    T0: [0,5000],
-    PeP0: [0.00005, 0.5],
-    PaP0: [0, 1],
-    alt: [0,75],
+/// bounds for sliders and error messages. bounds set by functions are not listed (CfBound and PeP0 bound)
+/// bounds for sliders are inputted manually in index.html (except for bounds that change)
+let bounds = {
+  mdot: [0, 15000],
+  cstar: [0, 4000],
+  Gamma: [0.609,0.77],
+  gamma: [1.01, 2],
+  P0: [0,400],
+  Pa: [0,1.013],
+  At: [0.1,10],
+  Ae: [0.1,10],
+  M: [1,50],
+  T0: [0,5000],
+  PeP0: [0.00005, 0.5],
+  PaP0: [0, 1],
+  alt: [0,75],
+}
 
-  }
-
+/// Menu options for Molar Mass card
 let propsHTML = {
   "Oxygen":[`
           <option>Methane</option>
@@ -80,6 +83,7 @@ let propsHTML = {
   }]
 }
 
+/// Propellant T0 and M values for each combination of props and O/F in Molar Mass Card
 let propVals = {
   "Oxygen": {
     "Methane": { 
@@ -129,14 +133,16 @@ let propVals = {
   }
 } 
 
-MolarMass("Oxi")
+/// Initial functions on page load
+
+MolarMass("Oxi") // load first option on drop downs for molar mass card
   vals.M = (assignValueMolar()[0]).toString()
   vals.T0 = (assignValueMolar()[1]).toString()
 runEqsUp() //Load initial 0 values
-updateRes()
-PeP0Bound()
-CfBound()
-initialChecks()
+updateRes() // update all fields and result boxes
+PeP0Bound() // update PeP0 bound
+CfBound() // Cfbound
+initialChecks() // check one box on each card
 
 
 /// Event listeners ///
@@ -190,8 +196,8 @@ document.getElementById("cf_ThrustRange").addEventListener('input', function(e){
 // Gamma_mdot
 document.getElementById("Gamma_mdotIn").addEventListener('input', function(e){
   document.getElementById("Gamma_mdotRange").value = e.target.value
-  vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_mdotIn",0.61)
-  if(vals.Gamma!=="" && vals.Gamma>0.609){
+  vals.Gamma = assignValueGamma(e.target.value,bounds.Gamma,"Gamma_mdotIn",0.61) //special assign value func so that 0.000 can be an input
+  if(vals.Gamma!=="" && vals.Gamma>0.609){ 
     runFuncs("Gamma")
   }
 })
@@ -220,18 +226,20 @@ document.getElementById("p0_mdotRange").addEventListener('input', function(e){
 // At_mdot
 document.getElementById("At_mdotIn").addEventListener('input', function(e){
   document.getElementById("At_mdotRange").value = e.target.value
-  vals.At = assignValuegamma(e.target.value,bounds.At,"At_mdotIn",0)
+  vals.At = assignValuegamma(e.target.value,bounds.At,"At_mdotIn",0) //special assign value func so that 0.000 can be an input and gives speical error message above 0
+  Ae_At_value("At") // function keeps Ae bigger than At by 1.1 ratio
   if(vals.At!==""){
     runFuncs()
   }
-  Ae_At_value("At")
+  
 })
 
 document.getElementById("At_mdotRange").addEventListener('input', function(e){
   document.getElementById("At_mdotIn").value = e.target.value
   vals.At = assignValuegamma(e.target.value,bounds.At,"At_mdotIn",0)
+  Ae_At_value("At") 
   runFuncs()  
-  Ae_At_value("At")
+  
 })
 
 // M_mdot
@@ -241,7 +249,7 @@ document.getElementById("M_mdotIn").addEventListener('input', function(e){
   if(vals.M!==""){
     runFuncs()
   }
-  customTempMolar()
+  customTempMolar() // function changes dropsdown to custom 
 })
 
 document.getElementById("M_mdotRange").addEventListener('input', function(e){
@@ -272,41 +280,42 @@ document.getElementById("T0_mdotRange").addEventListener('input', function(e){
 document.getElementById("Ae_AeIn").addEventListener('input', function(e){
   document.getElementById("Ae_AeRange").value = e.target.value
   vals.Ae = assignValuegamma(e.target.value,bounds.Ae,"Ae_AeIn",0)
+  Ae_At_value("Ae")
   if(vals.Ae!==""){
     runFuncs()
   }
-  Ae_At_value("Ae")
+  
 })
 
 document.getElementById("Ae_AeRange").addEventListener('input', function(e){
   document.getElementById("Ae_AeIn").value = e.target.value
-  vals.Ae = assignValuegamma(e.target.value,bounds.Ae,"Ae_AeIn")
-  runFuncs()  
+  vals.Ae = assignValuegamma(e.target.value,bounds.Ae,"Ae_AeIn",0)
   Ae_At_value("Ae")
+  runFuncs()  
+  
 })
 
 // At_Ae
 document.getElementById("At_AeIn").addEventListener('input', function(e){
   document.getElementById("At_AeRange").value = e.target.value
   vals.At = assignValuegamma(e.target.value,bounds.At,"At_AeIn",0)
+  Ae_At_value("At")
   if(vals.At!==""){
   runFuncs()
   }
-  Ae_At_value("At")
 })
 
 document.getElementById("At_AeRange").addEventListener('input', function(e){
   document.getElementById("At_AeIn").value = e.target.value
-  // Ae_At_value("At")
-  vals.At = assignValuegamma(e.target.value,bounds.At,"At_AeIn")
-  runFuncs()  
+  vals.At = assignValuegamma(e.target.value,bounds.At,"At_AeIn",0)
   Ae_At_value("At")
+  runFuncs() 
 })
 
 // Pa_P0
 document.getElementById("pa_p0In").addEventListener('input', function(e){
   document.getElementById("pa_p0Range").value = e.target.value
-  vals.Pa = assignValue(e.target.value,[0,1.013],"pa_p0In")
+  vals.Pa = assignValue(e.target.value,bounds.Pa,"pa_p0In")
   if(vals.Pa!==""){
   runFuncs("Pa")
   }
@@ -314,14 +323,14 @@ document.getElementById("pa_p0In").addEventListener('input', function(e){
 
 document.getElementById("pa_p0Range").addEventListener('input', function(e){
   document.getElementById("pa_p0In").value = e.target.value
-  vals.Pa = assignValue(e.target.value,[0,10000],"pa_p0In")
+  vals.Pa = assignValue(e.target.value,bounds.Pa,"pa_p0In")
   runFuncs("Pa")  
 })
 
 // P0_P0
 document.getElementById("p0_p0In").addEventListener('input', function(e){
   document.getElementById("p0_p0Range").value = e.target.value
-  vals.P0 = assignValue(e.target.value,[0,10000],"pa_p0In")
+  vals.P0 = assignValue(e.target.value,bounds.P0,"pa_p0In")
   if(vals.P0!==""){
   runFuncs()
   }
@@ -329,7 +338,7 @@ document.getElementById("p0_p0In").addEventListener('input', function(e){
 
 document.getElementById("p0_p0Range").addEventListener('input', function(e){
   document.getElementById("p0_p0In").value = e.target.value
-  vals.P0 = assignValue(e.target.value,[0,10000],"p0_p0In")
+  vals.P0 = assignValue(e.target.value,bounds.P0,"p0_p0In")
   runFuncs()  
 })
 
@@ -476,7 +485,7 @@ document.getElementById("Ae/_cfRange").addEventListener('input', function(e){
 
 /// CheckBox Event Listeners - Check Equal Boxes ///
 document.getElementById("p0_mdotBox").addEventListener('input',function(e){
-  checkBoxes("mdot") // let checkSameBoxes function know which box is checked
+  checkBoxes("mdot") // let checkSameBoxes function know in which card a box is checked
   e.target.checked=true
 })
 document.getElementById("At_mdotBox").addEventListener('input',function(e){
@@ -539,8 +548,8 @@ document.getElementById("altBox").addEventListener('input',function(e){
 
 /// Molar Mass
 document.getElementById("MOxi").addEventListener('input',function(e){
-  MolarMass("Oxi")
-  vals.M = (assignValueMolar()[0]).toString()
+  MolarMass("Oxi") // load correct dropdowns
+  vals.M = (assignValueMolar()[0]).toString() // retrieve value from assign value molar function
   vals.T0 = (assignValueMolar()[1]).toString()
   runFuncs()
 })
@@ -557,7 +566,7 @@ document.getElementById("MOF").addEventListener('input',function(e){
 })
 
 
-function runFuncs(branch) {
+function runFuncs(branch) { // branch defines which input
   runEqsDown(branch)
   runEqsUp(branch)
   updateRes()
@@ -571,17 +580,17 @@ function runFuncs(branch) {
 function runEqsUp(branch) {
 
   //Level 3
-  if(branch!=="PaP0"){
-    vals.PaP0 = (Math.round((Number(vals.Pa)/Number(vals.P0))*1000)/1000).toString()
+  if(branch!=="PaP0"){ // can input full values without numbers updating immediately (0.0001 can be inputted)
+    vals.PaP0 = (Math.round((Number(vals.Pa)/Number(vals.P0))*1000)/1000).toString() // round and then convert to string
   }
   if(branch!=="AeAt"){
     vals.AeAt = (Math.round((Number(vals.Ae)/Number(vals.At))*1000)/1000).toString()
     if(Number(vals.AeAt)<1.1){
-      vals.AeAt="1.1"
+      vals.AeAt="1.1" // makes sure Ae cant be smaller than At
       
     }
     if (branch!=="PeP0"){
-      vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5)
+      vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5) // toFixed and Math.round use is somehwat arbitrary...
     }
   }
   //Level 2
@@ -603,17 +612,6 @@ function runEqsUp(branch) {
 /// Function updates result boxes and input fields/range///
 
 function updateRes() {
-  
-  // const fRes = document.getElementById("fRes").firstChild
-  // const IspRes = document.getElementById("ispRes").firstChild
-  // const mdotRes = document.getElementById("mdotRes").firstChild
-  // const cstarRes = document.getElementById("cstarRes").firstChild
-  // const cfRes = document.getElementById("cfRes").firstChild
-  // const P0Res = document.getElementById("p0Res").firstChild
-  // const MRes = document.getElementById("MRes").firstChild
-  // const T0Res = document.getElementById("T0Res").firstChild
-  // const AeAtRes = document.getElementById("AeRes").firstChild
-  /// update result boxes ///
 
   // F
   if (isNaN(Number(vals.F))) {
@@ -647,7 +645,7 @@ function updateRes() {
   if (isNaN(Number(vals.cf))) {
     document.getElementById("cfRes").firstChild.innerHTML=`Math Error`
   } else if (Number(vals.cf)<0){
-    document.getElementById("cfRes").firstChild.innerHTML = `C<sub>f</sub> = ${vals.cf} (Flow Seperation)`
+    document.getElementById("cfRes").firstChild.innerHTML = `C<sub>f</sub> = ${vals.cf} (Flow Seperation)` 
   } else {
     document.getElementById("cfRes").firstChild.innerHTML = `C<sub>f</sub> = ${vals.cf}`
   }
@@ -685,7 +683,7 @@ function updateRes() {
 
   //mdot_Thrust
   document.getElementById("mdot_ThrustRange").value = vals.mdot // updates range
-  document.getElementById("mdot_ThrustIn").value = placeholderVals(vals.mdot, "mdot_ThrustIn")  // updates field
+  document.getElementById("mdot_ThrustIn").value = placeholderVals(vals.mdot, "mdot_ThrustIn")  // updates field. placeholder function puts infiinity and math error in input field
   //cstar_Thrust
   document.getElementById("cstar_ThrustRange").value = vals.cstar
   document.getElementById("cstar_ThrustIn").value = placeholderVals(vals.cstar, "cstar_ThrustIn")
@@ -694,10 +692,10 @@ function updateRes() {
   document.getElementById("cf_ThrustIn").value = placeholderVals(vals.cf, "cf_ThrustIn")
   //Gamma_mdot
   document.getElementById("Gamma_mdotRange").value = vals.Gamma
-  document.getElementById("Gamma_mdotIn").value = vals.Gamma // convert to number to round and back to str
+  document.getElementById("Gamma_mdotIn").value = vals.Gamma 
   //P0_mdot
   document.getElementById("p0_mdotRange").value = vals.P0
-  document.getElementById("p0_mdotIn").value = placeholderVals(vals.P0, "p0_mdotIn") // If rounding is done in calcs in runEqsdown, there are rounding errors
+  document.getElementById("p0_mdotIn").value = placeholderVals(vals.P0, "p0_mdotIn") 
   //At_mdot
   document.getElementById("At_mdotRange").value = vals.At
   document.getElementById("At_mdotIn").value = vals.At
@@ -735,7 +733,7 @@ function updateRes() {
   document.getElementById("gamma_cfIn").value = vals.gamma
   document.getElementById("gamma_cfRange").value = vals.gamma
   //PeP0_cf
-  document.getElementById("Pe/_cfIn").value = vals.PeP0//(Number(vals.PeP0)).toFixed(5)
+  document.getElementById("Pe/_cfIn").value = vals.PeP0
   document.getElementById("Pe/_cfRange").value = vals.PeP0
   //PaP0_cf
   document.getElementById("Pa/_cfIn").value = placeholderVals(vals.PaP0, "Pa/_cfIn")
@@ -752,7 +750,7 @@ function updateRes() {
   document.getElementById("ispOut").firstChild.innerHTML=`I<sub>sp</sub> = ${outNaN(vals.Isp)} [s]`
   document.getElementById("cstarOut").firstChild.innerHTML=`C* = ${outNaN(vals.cstar)} [m/s]`
   document.getElementById("cfOut").firstChild.innerHTML=`C<sub>f</sub> = ${vals.cf}`
-  document.getElementById("veOut").firstChild.innerHTML=`V<sub>e</sub> = ${outNaN((Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(Number(vals.R)*Number(vals.T0)/Number(vals.M))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))).toString())} [m/s]`
+  document.getElementById("veOut").firstChild.innerHTML=`V<sub>e</sub> = ${outNaN((Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(Number(vals.R)*Number(vals.T0)/Number(vals.M))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))).toString())} [m/s]` // exit vel function
   document.getElementById("p0Out").firstChild.innerHTML=`P<sub>0</sub> = ${outNaN(vals.P0)} [bar]`
   document.getElementById("t0Out").firstChild.innerHTML=`T<sub>0</sub> = ${outNaN(vals.T0)} [K]`
   document.getElementById("atOut").firstChild.innerHTML=`A<sub>t</sub> = ${vals.At} [m<sup>2</sup>]`
@@ -760,13 +758,12 @@ function updateRes() {
 }
 
 function assignValue(value, range, id) {
-  // console.log(value)
-  if (value === "") {
+  if (value === "") { // does nothing
     return ""
-  } else if(parseFloat(value)>range[1]) { 
+  } else if(parseFloat(value)>range[1]) { // if lower than lower bound, return lower bound and error message
     errorMessage(id, range)
     return range[1].toString()
-  } else if (parseFloat(value)<range[0]) {
+  } else if (parseFloat(value)<range[0]) { // if higher than higher bound, return higher bound and error message
     errorMessage(id, range)
     return range[0].toString()
   } else {
@@ -775,10 +772,26 @@ function assignValue(value, range, id) {
 
 }
 
-function assignValuegamma(value, range, id, specVal) {
+function assignValuegamma(value, range, id, specVal) { // used also for At and Ae, not just gamma
   const tag = document.getElementById(id)
-  // console.log(value)
-  if(parseFloat(value) === specVal){
+  if(parseFloat(value) === specVal){ // Value that field has to be above of but that need to wait for full input. ex: 0 but need to wait for 0.0001
+    errorMessageSpecial(id,specVal) // return popover that stays until error over
+    return value
+  } else if(parseFloat(value)>range[1]) { // same as assignValue function bounds
+    errorMessage(id, range)
+    return range[1].toString()
+  } else if (parseFloat(value)<range[0]) { // same as assignValue function bounds
+    errorMessage(id, range)
+    return range[0].toString()
+  } else {
+    $(tag).popover('hide') //hides popover when valid value
+    return value 
+  }
+}
+
+function assignValueGamma(value, range, id, specVal) { // similar to assignValuegamma
+  const tag = document.getElementById(id)
+  if (parseFloat(value) <= range[0]) {  
     errorMessageSpecial(id,specVal)
     return value
   } else if(parseFloat(value)>range[1]) { 
@@ -793,45 +806,24 @@ function assignValuegamma(value, range, id, specVal) {
   }
 }
 
-function assignValueGamma(value, range, id, specVal) {
-  const tag = document.getElementById(id)
-  // console.log(value)
-  if (parseFloat(value) <= range[0]) {
-    errorMessageSpecial(id,specVal)
-    return value
-  } else if(parseFloat(value)>range[1]) { 
-    errorMessage(id, range)
-    return range[1].toString()
-  } else if (parseFloat(value)<range[0]) {
-    errorMessage(id, range)
-    return range[0].toString()
-  } else {
-    $(tag).popover('hide')
-    return value 
-  }
-}
 
 
 
-
-function errorMessageSpecial(id, specVal) {
+function errorMessageSpecial(id, specVal) { //show pop up that doesnt disappear
   
   const tag = document.getElementById(id)
-  $(tag)[0].dataset.content=`Value must be greater than ${specVal}`
+  $(tag)[0].dataset.content=`Value must be greater than ${specVal}` //Jqeury grabbing popover html
   $(tag).popover('show')
 
-  // setTimeout(function(){
-  //   $(tag).popover('hide')
-  // }, 2000)
 }
 
-function errorMessage(id, range) {
+function errorMessage(id, range) { // for bound error popover
   
   const tag = document.getElementById(id)
   $(tag)[0].dataset.content=`Value must be between ${range[0]} and ${range[1]}`
   $(tag).popover('show')
 
-  setTimeout(function(){
+  setTimeout(function(){ // hide original bound error popover
     $(tag).popover('hide')
   }, 2000)
 }
@@ -840,8 +832,7 @@ function errorMessage(id, range) {
 
 function checkBoxes(box){
 
- 
-  //Mdot Box (One check at a time)
+  //Mdot Box (One check at a time). Unchecks all in (box) card and input eventlistner func leave one checked
   if (box==="mdot"){
     document.getElementById("p0_mdotBox").checked=false
     document.getElementById("At_mdotBox").checked=false
@@ -870,45 +861,26 @@ function checkBoxes(box){
     document.getElementById("Ae_AeBox").checked=false
     document.getElementById("At_AeBox").checked=false
   }
-
-
 }
+/// solves vals on cards below before running equations up 
 
 function runEqsDown(branch){  
-  // const P0_mdotBox = document.getElementById("p0_mdotBox")
-  // const At_mdotBox = document.getElementById("At_mdotBox")
-  // const T0_mdotBox = document.getElementById("T0_mdotBox")
-  // const M_mdotBox = document.getElementById("M_mdotBox")
-  // const T0_cstarBox = document.getElementById("T0_cstarBox")
-  // const M_cstarBox = document.getElementById("M_cstarBox")
-  // const P0_P0Box = document.getElementById("p0_p0Box")
-  // const Pa_P0Box = document.getElementById("pa_p0Box")
-  // const At_AeBox = document.getElementById("At_AeBox")
-  // const Ae_AeBox = document.getElementById("Ae_AeBox")
-  // const Pe_cfBox = document.getElementById("Pe/_cfBox")
-  // const Ae_cfBox = document.getElementById("Ae/_cfBox")
-  // const Pa_cfBox = document.getElementById("Pa/_cfBox")
-  
   
   if(branch === "AeAt"){
-    vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5)
+    vals.PeP0=(AeAt_to_PeP0(vals.AeAt)).toFixed(5) // numerical method to solve for PeP0
   }
   
-  // if(branch === "PeP0"){
-  //   let numGam = Number(vals.gamma)
-    
-  // }
 
   if(branch === "Gamma"){
-    vals.gamma = (Gamma_to_gamma(Number(vals.Gamma))).toFixed(2)
+    vals.gamma = (Gamma_to_gamma(Number(vals.Gamma))).toFixed(2) // numerical method to solve for GAMMA
 
   }
 
   if(branch === "gamma"){
-    let numGam = Number(vals.gamma)
+    let numGam = Number(vals.gamma) // just make it easier to write following eqs
     vals.Gamma = (Math.sqrt(numGam)*Math.pow((2/(numGam+1)),((numGam+1)/(2*(numGam-1))))).toFixed(2)
     vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(5)
-    PeP0Bound()
+    PeP0Bound() // changes PeP0 bound based on new gamma
   }
 
   if(branch === "alt"){
@@ -919,8 +891,8 @@ function runEqsDown(branch){
     vals.alt = ((Math.log(0.986923*Number(vals.Pa))/(-0.00012))/1000).toFixed(3)
   }
 
-  if(branch==="mdot" && document.getElementById("At_mdotBox").checked===true){
-    if(Number(vals.Gamma)===0){
+  if(branch==="mdot" && document.getElementById("At_mdotBox").checked===true){ //check marks determine which params to keep constant
+    if(Number(vals.Gamma)===0){ // when running eqs down, change to non-0 value to avoid infiniry and NAN error
       vals.Gamma="0.61"
     }
     if(Number(vals.P0)===0){
@@ -1025,12 +997,12 @@ function runEqsDown(branch){
 
   if(branch==="cf" && document.getElementById("Pa/_cfBox").checked===true){
     let potenPaP0 = (Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
-    if (potenPaP0<0){
+    if (potenPaP0<0){ // makes sure PaP0 cant be negative (pressure always positive)
       vals.PaP0 = 0
     } else {
       vals.PaP0 = potenPaP0
     }
-    // vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
+    
     if(document.getElementById("pa_p0Box").checked===true){
       if(Number(vals.Gamma)===0){
         vals.Gamma="0.61"
@@ -1069,30 +1041,6 @@ function runEqsDown(branch){
     }
   }
 
-  // if(branch==="cf" && document.getElementById("Pe/_cfBox").checked===true){
-  //   let numGam = Number(vals.gamma)
-  //   vals.PeP0=cf_to_pep0(vals.cf)
-  //   vals.AeAt=(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(vals.PeP0),(2/numGam))*(1-Math.pow(Number(vals.PeP0),((numGam-1)/numGam))))).toFixed(5)
-  //   // vals.PaP0=(Number(vals.cf)-Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))-Number(vals.PeP0)*Number(vals.AeAt))/(-Number(vals.AeAt))
-  //   if(document.getElementById("Ae_AeBox").checked===true){
-  //       if(Number(vals.Ae)===0){
-  //         vals.Ae="0.1"
-  //       }
-  //       if(Number(vals.At)===0){
-  //         vals.At="0.1"
-  //       }
-  //       vals.Ae=(Number(vals.AeAt)*Number(vals.At)).toFixed(3)
-
-  //   } else if(document.getElementById("At_AeBox").checked===true){
-  //     if(Number(vals.Ae)===0){
-  //       vals.Ae="0.1"
-  //     }
-  //     if(Number(vals.At)===0){
-  //       vals.At="0.1"
-  //     }
-  //     vals.At=(1/(Number(vals.AeAt)/Number(vals.Ae))).toFixed(3)
-  //   }
-  // }
 
 
   if(branch==="PaP0" && document.getElementById("pa_p0Box").checked===true){
@@ -1168,7 +1116,7 @@ function runEqsDown(branch){
   }
 }
 
-function Gamma_to_gamma(val){
+function Gamma_to_gamma(val){ // solve for gamma using Secant numerical method
   let x1=1.2
   let x2=1.1
   let xc = Math.sqrt(x2)*Math.pow((2/(x2+1)),((x2+1)/(2*(x2-1))))
@@ -1178,13 +1126,11 @@ function Gamma_to_gamma(val){
     xc = Math.sqrt(xnp)*Math.pow((2/(xnp+1)),((xnp+1)/(2*(xnp-1))))
     x1=x2
     x2=xnp
-    // console.log([xnp,xc])
   }
-  
   return xnp
 }
 
-function cf_to_pep0(val){
+function cf_to_pep0(val){ // tried to solve for PeP0.. so far no numerical methods work
   // let numGam = Number(vals.gamma)
   // let x1=0.1
   // let x2=0.8
@@ -1312,54 +1258,20 @@ function cf_to_pep0(val){
 //   return 0.00001
 }
 
-function AeAt_to_PeP0(val){
-  // let x1=0.0002
-  // let x2=0.0003
-  // numGam = Number(vals.gamma)
-  // xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))
-  // console.log(xc)
-  // for(i=0; i<20; i++){
-  //   xnp = x2 - (val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))/(((val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x2,(2/numGam))*(1-Math.pow(x2,((numGam-1)/numGam))))))-(val-(Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(x1,(2/numGam))*(1-Math.pow(x1,((numGam-1)/numGam)))))))/(x2-x1))
-  //   xc=Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(xnp,(2/numGam))*(1-Math.pow(xnp,((numGam-1)/numGam))))
-  //   x1=x2
-  //   x2=xnp
-
-  //   console.log([xnp,xc])
-  // }
-
-
-  // x0 = 1
-  // x1 = 2
-  // xn = (x0+x1)/2
-
-  // for (i=0;i<20;i++){
-
-  //   f0 = Math.pow(x0,3)+3*x0-5
-  //   fn = Math.pow(xn,3)+3*xn-5
-  //   console.log([f0,fn,x0,x1,xn])
-
-  //   if (f0*fn>0){
-  //     x0=xn
-  //     xn = (xn+x1)/2
-
-  //   } else {
-  //     x1=xn
-  //     xn = (x0+xn)/2
-  //   }
-  // }
+function AeAt_to_PeP0(val){ //solve for PeP0 using bisection method (slower than secant method but always converges) Secant doenst work with the particular equation beacuse it is local min 
+  
   let fout = 0
   let x0 = bounds.PeP0[0]
   let x1 = bounds.PeP0[1]
   let numGam = Number(vals.gamma)
   let xout = Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
   // while (Math.abs(fout-val)>0.01){
-  for(i=0;i<20;i++)  {
+  for(i=0;i<20;i++)  { // Could be while but want to limit numebr of iterations (could lead to small innacuraices)
     // let f0 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
     let f1 = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x1),(2/numGam))*(1-Math.pow(Number(x1),((numGam-1)/numGam))))
     let xn = (x0+x1)/2
     let fn = val - Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
     
-    // console.log([f1,x0,x1,xout,Math.abs(fout-val)])
 
     if (fn*f1<0){
       x0 = (x0+x1)/2
@@ -1375,43 +1287,21 @@ function AeAt_to_PeP0(val){
 }
 
 
-function CfBound(){
+function CfBound(){ // changes CfBound based on gammas and pep0 values
   let bound = Math.round((Number(vals.Gamma)*Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))+Number(vals.PeP0)*Number(vals.AeAt))*100)/100
-  document.getElementById("cf_ThrustRange").max=bound
+  document.getElementById("cf_ThrustRange").max=bound // changes html slider to correct range
   return bound
 }
 
-function PeP0Bound(){
-  // let val=1
-  // let x0 = 0.1
-  // let x1 = 0.7
-  // let xn = (x0+x1)/2
+function PeP0Bound(){ // changes PeP0 bounds based on gamma values
 
-  // for (i=0;i<20;i++){
-  //   let numGam = Number(vals.gamma)
-  //   let f0 = val-Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(x0),(2/numGam))*(1-Math.pow(Number(x0),((numGam-1)/numGam))))
-  //   let fn = val-Number(vals.Gamma)/Math.sqrt(((2*numGam)/(numGam-1))*Math.pow(Number(xn),(2/numGam))*(1-Math.pow(Number(xn),((numGam-1)/numGam))))
-  //   console.log([f0,fn,x0,x1,xn])
-
-  //   if (f0*fn>0){
-  //     x0=xn
-  //     xn = (xn+x1)/2
-
-  //   } else {
-  //     x1=xn
-  //     xn = (x0+xn)/2
-  //   }
-  // }
-  // return xn
-
-  let bound = [0.00001, Math.round(findMin()*100)/100]
-  document.getElementById("Pe/_cfRange").max=(bound[1]-0.175)
+  let bound = [0.00001, Math.round(findMin()*100)/100] // uses findMin function to find upper bound
+  document.getElementById("Pe/_cfRange").max=(bound[1]-0.175) // changes html slider with margin so slider is closer to end
   bounds.PeP0=bound
-
 }
 
 
-function MolarMass(option){
+function MolarMass(option){ // change dropdown to appropriate options based on propsHTML object
   const MOxi = document.getElementById("MOxi")
   const MFuel = document.getElementById("MFuel")
   const MOF = document.getElementById("MOF")
@@ -1423,7 +1313,7 @@ function MolarMass(option){
   
   MOF.innerHTML=propsHTML[oxi][1][MFuel.selectedOptions[0].label]
   
-  if(document.getElementById("MOxi").selectedOptions[0].label ==="Custom"){
+  if(document.getElementById("MOxi").selectedOptions[0].label ==="Custom"){ // for Custom selection - disables molar mass card
     customTempMolar()
   } else {
     document.getElementById("MFuel").disabled=false
@@ -1433,7 +1323,7 @@ function MolarMass(option){
 }
 
 
-function assignValueMolar(){
+function assignValueMolar(){ // assign temperature and molar mass values based on selected dropdowns and propVals object
   const MOxi = document.getElementById("MOxi").selectedOptions[0].label
   const MFuel = document.getElementById("MFuel").selectedOptions[0].label
   const MOF = document.getElementById("MOF").selectedOptions[0].label
@@ -1445,7 +1335,7 @@ function assignValueMolar(){
   }
 }
 
-function findMin(){
+function findMin(){ // find min by walking down parabola by 0.005 (slow method)
   let numGam = Number(vals.gamma)
   let Gamma = Number(vals.Gamma)
   if (numGam===1){
@@ -1483,7 +1373,7 @@ function findMin(){
   }
 }
 
-function Ae_At_value(branch){
+function Ae_At_value(branch){ // keep Ae larger than At by factor of at least 1.1
   if(branch==="Ae"){
     
     if(Number(vals.Ae)/Number(vals.At)<=1.1 && Number(vals.Ae)!==0){
@@ -1498,15 +1388,14 @@ function Ae_At_value(branch){
 }
 
 function customTempMolar(){
-  document.getElementById("MOxi").selectedIndex=4
+  document.getElementById("MOxi").selectedIndex=4 // first option is "custom"
   document.getElementById("MFuel").selectedOptions[0].label="Custom"
   document.getElementById("MOF").selectedOptions[0].label="Custom"
-  document.getElementById("MOxi").selectedOptions[0]
-  document.getElementById("MFuel").disabled=true
-  document.getElementById("MOF").disabled=true
+  document.getElementById("MFuel").disabled=true // disables dropdown
+  document.getElementById("MOF").disabled=true // disables dropdown
 }
 
-function initialChecks(){
+function initialChecks(){ // check boxes on page load
   document.getElementById("T0_mdotBox").checked=true
   document.getElementById("T0_cstarBox").checked=true
   document.getElementById("Pa/_cfBox").checked=true
@@ -1514,7 +1403,7 @@ function initialChecks(){
   document.getElementById("Ae_AeBox").checked=true
 }
 
-function placeholderVals(val, tag){
+function placeholderVals(val, tag){ // puts placeholder message an input field
   if(val==="Infinity" || val==="-Infinity"){
     document.getElementById(tag).placeholder=val
   } else if (val==="NaN"){
@@ -1524,7 +1413,7 @@ function placeholderVals(val, tag){
   }
 }
 
-function outNaN(val){
+function outNaN(val){ // for left card output. returns "Math Error" instead of NaN
   if(val==="NaN"){
     return "Math Error"
   } else if(val==="Infinity" || val==="-Infinity"){
@@ -1533,8 +1422,6 @@ function outNaN(val){
     return (Math.round(Number(val))).toString()
   }
 }
-
-
 
 
 }())

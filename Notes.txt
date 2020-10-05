@@ -45,11 +45,10 @@ To do notes:
 
 
 
--Limit number of digits in text filds on html side 
--look at decimals var function problem (educational)
 
+-look at decimals var function problem (educational)
+-Cf bound problem on popover
 
 
 -change AeAt to while loop
 
--change checksamebox function name
