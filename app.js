@@ -1,5 +1,8 @@
 
 (function(){
+
+
+
 /// Note: keeping values as string so 0.01 is a possible input. Converted to numbers for calcs
 /// Numbers listed here are inital values on page load. 
 let vals = {
@@ -565,6 +568,114 @@ document.getElementById("MOF").addEventListener('input',function(e){
   runFuncs()
 })
 
+/// Borders
+//Mdot
+document.getElementById("mdot_ThrustBtn").addEventListener('mouseover',function(e){
+  
+  document.getElementById("mdotCardHeader").classList.add("border")
+  document.getElementById("mdotCardHeader").classList.add("border-primary")
+  document.getElementById("mdotCardBody").classList.add("border")
+  document.getElementById("mdotCardBody").classList.add("border-primary")
+})
+
+document.getElementById("mdot_ThrustBtn").addEventListener('mouseout',function(e){
+  
+  document.getElementById("mdotCardHeader").classList.remove("border")
+  document.getElementById("mdotCardHeader").classList.remove("border-primary")
+  document.getElementById("mdotCardBody").classList.remove("border")
+  document.getElementById("mdotCardBody").classList.remove("border-primary")
+})
+
+//Cf
+document.getElementById("cf_ThrustBtn").addEventListener('mouseover',function(e){
+  
+  document.getElementById("CfCardHeader").classList.add("border")
+  document.getElementById("CfCardHeader").classList.add("border-primary")
+  document.getElementById("CfCardBody").classList.add("border")
+  document.getElementById("CfCardBody").classList.add("border-primary")
+})
+document.getElementById("cf_ThrustBtn").addEventListener('mouseout',function(e){
+  
+  document.getElementById("CfCardHeader").classList.remove("border")
+  document.getElementById("CfCardHeader").classList.remove("border-primary")
+  document.getElementById("CfCardBody").classList.remove("border")
+  document.getElementById("CfCardBody").classList.remove("border-primary")
+})
+
+//Cstar
+document.getElementById("cstar_ThrustBtn").addEventListener('mouseover',function(e){
+  
+  document.getElementById("cstarCardHeader").classList.add("border")
+  document.getElementById("cstarCardHeader").classList.add("border-primary")
+  document.getElementById("cstarCardBody").classList.add("border")
+  document.getElementById("cstarCardBody").classList.add("border-primary")
+})
+document.getElementById("cstar_ThrustBtn").addEventListener('mouseout',function(e){
+  
+  document.getElementById("cstarCardHeader").classList.remove("border")
+  document.getElementById("cstarCardHeader").classList.remove("border-primary")
+  document.getElementById("cstarCardBody").classList.remove("border")
+  document.getElementById("cstarCardBody").classList.remove("border-primary")
+})
+
+//Pa/P0
+document.getElementById("Pa/_cfBtn").addEventListener('mouseover',function(e){
+  
+  document.getElementById("P0CardHeader").classList.add("border")
+  document.getElementById("P0CardHeader").classList.add("border-info")
+  document.getElementById("P0CardBody").classList.add("border")
+  document.getElementById("P0CardBody").classList.add("border-info")
+})
+document.getElementById("Pa/_cfBtn").addEventListener('mouseout',function(e){
+  
+  document.getElementById("P0CardHeader").classList.remove("border")
+  document.getElementById("P0CardHeader").classList.remove("border-info")
+  document.getElementById("P0CardBody").classList.remove("border")
+  document.getElementById("P0CardBody").classList.remove("border-info")
+})
+
+//Ae/At
+document.getElementById("Ae/_cfBtn").addEventListener('mouseover',function(e){
+  
+  document.getElementById("AeCardHeader").classList.add("border")
+  document.getElementById("AeCardHeader").classList.add("border-success")
+  document.getElementById("AeCardBody").classList.add("border")
+  document.getElementById("AeCardBody").classList.add("border-success")
+})
+document.getElementById("Ae/_cfBtn").addEventListener('mouseout',function(e){
+  
+  document.getElementById("AeCardHeader").classList.remove("border")
+  document.getElementById("AeCardHeader").classList.remove("border-success")
+  document.getElementById("AeCardBody").classList.remove("border")
+  document.getElementById("AeCardBody").classList.remove("border-success")
+})
+
+//Molar
+document.getElementById("M_mdotBtn").addEventListener('mouseover',function(){borderAdd("warning")})
+document.getElementById("M_mdotBtn").addEventListener('mouseout',function(){borderRemove("warning")})
+document.getElementById("T0_mdotBtn").addEventListener('mouseover',function(){borderAdd("danger")})
+document.getElementById("T0_mdotBtn").addEventListener('mouseout',function(){borderRemove("danger")})
+document.getElementById("M_cstarBtn").addEventListener('mouseover',function(){borderAdd("warning")})
+document.getElementById("M_cstarBtn").addEventListener('mouseout',function(){borderRemove("warning")})
+document.getElementById("T0_cstarBtn").addEventListener('mouseover',function(){borderAdd("danger")})
+document.getElementById("T0_cstarBtn").addEventListener('mouseout',function(){borderRemove("danger")})
+function borderAdd(input){
+  
+  document.getElementById("MCardHeader").classList.add("border")
+  document.getElementById("MCardHeader").classList.add(`border-${input}`)
+  document.getElementById("MCardBody").classList.add("border")
+  document.getElementById("MCardBody").classList.add(`border-${input}`)
+
+}
+
+function borderRemove(input){
+ 
+  document.getElementById("MCardHeader").classList.remove("border")
+  document.getElementById("MCardHeader").classList.remove(`border-${input}`)
+  document.getElementById("MCardBody").classList.remove("border")
+  document.getElementById("MCardBody").classList.remove(`border-${input}`)
+
+}
 
 function runFuncs(branch) { // branch defines which input
   runEqsDown(branch)
