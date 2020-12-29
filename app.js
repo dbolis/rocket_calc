@@ -749,7 +749,7 @@ function updateRes() {
    if (isNaN(Number(vals.cstar))) {
     document.getElementById("cstarRes").firstChild.innerHTML=`Math Error`
   } else {
-    document.getElementById("cstarRes").firstChild.innerHTML = `C* = ${vals.cstar} [m/s]`
+    document.getElementById("cstarRes").firstChild.innerHTML = `c* = ${vals.cstar} [m/s]`
   }
 
   // Cf
@@ -859,7 +859,7 @@ function updateRes() {
   /// Update Out ///
   document.getElementById("forceOut").firstChild.innerHTML=`F = ${outNaN(vals.F)} [kN]`
   document.getElementById("ispOut").firstChild.innerHTML=`I<sub>sp</sub> = ${outNaN(vals.Isp)} [s]`
-  document.getElementById("cstarOut").firstChild.innerHTML=`C* = ${outNaN(vals.cstar)} [m/s]`
+  document.getElementById("cstarOut").firstChild.innerHTML=`c* = ${outNaN(vals.cstar)} [m/s]`
   document.getElementById("cfOut").firstChild.innerHTML=`C<sub>f</sub> = ${vals.cf}`
   document.getElementById("veOut").firstChild.innerHTML=`V<sub>e</sub> = ${outNaN((Math.sqrt((2*Number(vals.gamma)/(Number(vals.gamma)-1))*(Number(vals.R)*Number(vals.T0)/Number(vals.M))*(1-Math.pow(Number(vals.PeP0),((Number(vals.gamma)-1)/Number(vals.gamma)))))).toString())} [m/s]` // exit vel function
   document.getElementById("p0Out").firstChild.innerHTML=`P<sub>0</sub> = ${outNaN(vals.P0)} [bar]`

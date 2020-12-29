@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <title>Document</title>
+  <style>
+    .border {
+    border-width:7px!important;
+    border-radius: 0;
+    /* border-color: black!important; */
+    /* border-bottom: none!important; */
+  }
+  
+
+  </style>
 </head>
 
 
@@ -114,7 +124,7 @@
                     </div>
                     <div class="form-row align-items-center">
                       <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn" data-toggle="modal" data-target="#cstarModal"><i>C*</i></button>
+                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn" data-toggle="modal" data-target="#cstarModal"><i>c*</i></button>
                       </div>
                       <div class='col-7'>
                         <div class="input-group">
@@ -160,15 +170,15 @@
           <div class="row">
             <div class="col mx-auto">
               <!-- Mdot Card -->
-              <div style="display: block" id="mdotCard">
-                <div class="card card-header text-center mt-3 bg-secondary"id="mdotCardHeader">
-                  <h3 class="mb-0" id="mdotTitle">Mass Flow Rate</h3>
+              <div id="mdotCard">
+                <div class="card card-header text-center mt-3 bg-secondary"id="mdotCardHeader" style="border-bottom:none!important;">
+                  <h3 class="mb-0" id="mdotTitle">Mass Flow Rate (<i>m&#775;</i>)</h3>
                   <div id="mdotEq">
                     \[\dot{m}=\Gamma\frac{p_{0}A_{t}}{\sqrt{T_{0}R/M}}\]
                   </div>
                   
                 </div>
-                <div class="card card-body text-center" id="mdotCardBody">
+                <div class="card card-body text-center" id="mdotCardBody" style="border-top:none!important;">
                   <div class="alert alert-primary">
                     <h4 class="mb-0" id="mdotRes"><i>m&#775; = 75.6 [kg/s]</i></h4>
                   </div>
@@ -278,14 +288,14 @@
             <div class="col mx-auto">
               <!-- Cf Card -->
               <div style="display: block" id="cfCard">
-                <div class="card card-header text-center mt-3 bg-secondary" id="CfCardHeader">
-                  <h3 class="heading display-5 mb-0" id="cfTitle">Thrust Coefficient</h3>
+                <div class="card card-header text-center mt-3 bg-secondary" id="CfCardHeader" style="border-bottom:none!important;">
+                  <h3 class="heading display-5 mb-0" id="cfTitle">Thrust Coefficient (<i>C<sub>f</sub></i>)</h3>
                   <div id="cfEq">
                     \[C_{F}=\Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
                   </div>
                 </div>
 
-                <div class="card card-body text-center" id="CfCardBody">
+                <div class="card card-body text-center" id="CfCardBody" style="border-top:none!important;">
                   <div class="alert alert-primary">
                     <h4 class="mb-0" id="cfRes"><i> C<sub>f</sub> = 85.6</i></h4>
                   </div>
@@ -394,15 +404,15 @@
             <div class="col mx-auto">
               <!-- Cstar Card -->
               <div style="display: block" id="cstarCard">
-                <div class="card card-header text-center mt-3 bg-secondary" id="cstarCardHeader">
-                  <h3 class="heading display-5 mb-0" id="cstarTitle">Characteristic Velocity</h3>
+                <div class="card card-header text-center mt-3 bg-secondary" id="cstarCardHeader" style="border-bottom:none!important;">
+                  <h3 class="heading display-5 mb-0" id="cstarTitle">Characteristic Velocity (<i>c*</i>)</h3>
                   <div id="cstarEq">
                     \[c^{\ast}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
                   </div>
                 </div>
-                <div class="card card-body text-center" id="cstarCardBody">
+                <div class="card card-body text-center" id="cstarCardBody" style="border-top:none!important;">
                   <div class="alert alert-primary">
-                    <h4 class="mb-0" id="cstarRes"><i>C* = 25.6 [m/s]</i></h4>
+                    <h4 class="mb-0" id="cstarRes"><i>c* = 25.6 [m/s]</i></h4>
                   </div>
                   
                   <!-- Cstar Inputs -->
@@ -477,11 +487,11 @@
             <div class="col-4">
               <!-- Chamber Pressure Ratio Card -->
               <div style="display: block" id="p0Card">
-                <div class="card card-header text-center mt-3 bg-secondary" id="P0CardHeader">
-                  <h5 class="heading display-5 mb-0" id="p0Title">Atmospheric Pressure Ratio</h5>
+                <div class="card card-header text-center mt-3 bg-secondary" id="P0CardHeader" style="border-bottom:none!important;">
+                  <h5 class="heading display-5 mb-0" id="p0Title">Atmospheric Pressure Ratio (<i>P<sub>a</sub>/P<sub>0</sub></i>)</h5>
 
                 </div>
-                <div class="card card-body text-center" id="P0CardBody">
+                <div class="card card-body text-center" id="P0CardBody" style="border-top:none!important;">
                 
                   <div class="alert alert-info">
                     <h5 class="mb-0" id="p0Res"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
@@ -554,11 +564,11 @@
             <div class="col-4">
               <!-- Area Ratio Card -->
               <div style="display: block" id="AeCard"> 
-                <div class="card card-header text-center mt-3 bg-secondary" id="AeCardHeader">
-                  <h5 class="heading display-5 mb-0" id="AeTitle">Expansion Ratio</h5>
+                <div class="card card-header text-center mt-3 bg-secondary" id="AeCardHeader" style="border-bottom:none!important;">
+                  <h5 class="heading display-5 mb-0" id="AeTitle">Expansion Ratio (<i>A<sub>e</sub>/A<sub>t</sub></i>)</h5>
 
                 </div>
-                <div class="card card-body text-center" id="AeCardBody">
+                <div class="card card-body text-center" id="AeCardBody" style="border-top:none!important;">
                   <div class="alert alert-success">
                     <h5 class="mb-0" id="AeRes"><i>A<sub>e</sub>/A<sub>t</sub> = 1.7</i></h5>
                   </div>
@@ -609,11 +619,11 @@
             <div class="col-4">
             <!-- Molar Mass Card -->
               <div style="display: block" id="MCard">
-                <div class="card card-header text-center mt-3 bg-secondary" id="MCardHeader">
-                  <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass/Temperature</h5>
+                <div class="card card-header text-center mt-3 bg-secondary" id="MCardHeader" style="border-bottom:none!important;">
+                  <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass/Temperature (<i>M</i>) / (<i>T</i>)</h5>
               <!-- Molar Mass Inputs  -->
                 </div>
-                <div class="card card-body text-center"id="MCardBody">
+                <div class="card card-body text-center"id="MCardBody" style="border-top:none!important;">
                   <div class="row">
                     <div class="col-6">
                       <div class="alert alert-warning">
