@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <title>Document</title>
+  <title>Rocket Calculator</title>
   <style>
+  
+  html{
+  font-size: 80%;
+  }
+
+  input.form-control-range {
+    zoom: 80%
+  }
+
+  input.check {
+  
+    zoom: 85%
+  }
+
+
     .border {
-    border-width:7px!important;
+    border-width:6px!important;
     border-radius: 0;
     /* border-color: black!important; */
     /* border-bottom: none!important; */
@@ -22,7 +37,7 @@
 
 
 <body class ="bg-dark">
-  <div class="container-fluid" style="zoom: 100%;">
+  <div class="container-fluid">
     <div class="row flex-xl-nowrap">
     
       <div class="col-2">
@@ -112,7 +127,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text" >[kg/s]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="mdot_ThrustBox" disabled>
+                              <input class="check" type="checkbox" id="mdot_ThrustBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -132,7 +147,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text"> [m/s]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="cstar_ThrustBox" disabled>
+                              <input class="check" type="checkbox" id="cstar_ThrustBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -151,7 +166,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="cf_ThrustBox" disabled>
+                              <input class="check" type="checkbox" id="cf_ThrustBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -195,7 +210,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text" >[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Gamma_mdotBox" disabled>
+                              <input class="check" type="checkbox" id="Gamma_mdotBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -214,7 +229,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text" >[bar]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="p0_mdotBox">
+                              <input class="check" type="checkbox" id="p0_mdotBox">
                             </div>
                           </div>
                         </div>
@@ -234,7 +249,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[m<sup>2</sup>]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="At_mdotBox">
+                              <input class="check" type="checkbox" id="At_mdotBox">
                             </div>
                           </div>
                         </div>
@@ -253,7 +268,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text"> [kg/mol]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="M_mdotBox">
+                              <input class="check" type="checkbox" id="M_mdotBox">
                             </div>
                           </div>
                         </div>
@@ -312,7 +327,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Gamma_cfBox" disabled>
+                              <input class="check" type="checkbox" id="Gamma_cfBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -331,7 +346,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="gamma_cfBox" disabled>
+                              <input class="check" type="checkbox" id="gamma_cfBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -350,7 +365,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Pe/_cfBox" disabled>
+                              <input class="check" type="checkbox" id="Pe/_cfBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -369,7 +384,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Pa/_cfBox">
+                              <input class="check" type="checkbox" id="Pa/_cfBox">
                             </div>
                           </div>
                         </div>
@@ -388,7 +403,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Ae/_cfBox" disabled>
+                              <input class="check" type="checkbox" id="Ae/_cfBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -427,7 +442,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[ - ]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Gamma_cstarBox" disabled>
+                              <input class="check" type="checkbox" id="Gamma_cstarBox" disabled>
                             </div>
                           </div>
                         </div>
@@ -446,7 +461,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[kg/mol]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="M_cstarBox">
+                              <input class="check" type="checkbox" id="M_cstarBox">
                             </div>
                           </div>
                         </div>
@@ -465,7 +480,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[K]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="T0_cstarBox">
+                              <input class="check" type="checkbox" id="T0_cstarBox">
                             </div>
                           </div>
                         </div>
@@ -509,7 +524,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[km]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="altBox">
+                              <input class="check" type="checkbox" id="altBox">
                             </div>
                           </div>
                         </div>  
@@ -528,7 +543,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[bar]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="pa_p0Box">
+                              <input class="check" type="checkbox" id="pa_p0Box">
                             </div>
                           </div>
                         </div>  
@@ -547,7 +562,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[bar]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="p0_p0Box">
+                              <input class="check" type="checkbox" id="p0_p0Box">
                             </div>
                           </div>
                         </div>  
@@ -584,7 +599,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[m]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="Ae_AeBox">
+                              <input class="check" type="checkbox" id="Ae_AeBox">
                             </div>
                           </div>
                         </div>
@@ -603,7 +618,7 @@
                           <div class="input-group-append">
                             <span class="input-group-text">[m]</span>
                             <div class="input-group-text">
-                              <input type="checkbox" id="At_AeBox">
+                              <input class="check" type="checkbox" id="At_AeBox">
                             </div>
                           </div>
                         </div>
@@ -620,7 +635,7 @@
             <!-- Molar Mass Card -->
               <div style="display: block" id="MCard">
                 <div class="card card-header text-center mt-3 bg-secondary" id="MCardHeader" style="border-bottom:none!important;">
-                  <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass/Temperature (<i>M</i>) / (<i>T</i>)</h5>
+                  <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass/Temperature (<i>M</i>) / (<i>T<sub>0</sub></i>)</h5>
               <!-- Molar Mass Inputs  -->
                 </div>
                 <div class="card card-body text-center"id="MCardBody" style="border-top:none!important;">
@@ -701,7 +716,7 @@
 <!-- Modals -->
 <!-- Gamma modal -->
 <div class="modal fade" id="GammaModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">&Gamma;: Vandenkerkhove Function</h5>
@@ -722,7 +737,7 @@
 
 <!-- gamma modal -->
 <div class="modal fade" id="gammaModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">&gamma;: Specific Heat Ratio</h5>
@@ -746,7 +761,7 @@
 
 <!-- PeP0 modal -->
 <div class="modal fade" id="PeP0Modal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">P<sub>e</sub>/P<sub>0</sub>: Exit Pressure Ratio</h5>
@@ -770,7 +785,7 @@
 
 <!-- AeA0 modal -->
 <div class="modal fade" id="AeA0Modal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">A<sub>e</sub>/A<sub>t</sub>: Expansion Ratio</h5>
@@ -793,7 +808,7 @@
 
 <!-- PaP0 modal -->
 <div class="modal fade" id="PaP0Modal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">P<sub>a</sub>/P<sub>0</sub>: Atmospheric Pressure Ratio</h5>
@@ -815,7 +830,7 @@
 
 <!-- P0 modal -->
 <div class="modal fade" id="P0Modal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">P<sub>0</sub>: Chamber Pressure</h5>
@@ -837,7 +852,7 @@
 
 <!-- At modal -->
 <div class="modal fade" id="AtModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">A<sub>t</sub>: Throat Area</Area></h5>
@@ -859,7 +874,7 @@
 
 <!-- Ae modal -->
 <div class="modal fade" id="AeModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">A<sub>e</sub>: Exit Area</Area></h5>
@@ -881,7 +896,7 @@
 
 <!-- M modal -->
 <div class="modal fade" id="MModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">M: Mean Molar Mass</Area></h5>
@@ -906,7 +921,7 @@
 
 <!-- T0 modal -->
 <div class="modal fade" id="T0Modal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">T0: Chamber Combustion Temperature</Area></h5>
@@ -929,7 +944,7 @@
 
 <!-- Pa modal -->
 <div class="modal fade" id="PaModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Pa: Atmospheric Pressure</Area></h5>
@@ -953,7 +968,7 @@
 
 <!-- Alt. modal -->
 <div class="modal fade" id="altModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Alt.: Altitude Above Sea Level</Area></h5>
@@ -976,7 +991,7 @@
 
 <!-- Oxidizer modal -->
 <div class="modal fade" id="oxiModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Oxidizer</Area></h5>
@@ -999,7 +1014,7 @@
 
 <!-- Fuel modal -->
 <div class="modal fade" id="fuelModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Fuel</Area></h5>
@@ -1022,7 +1037,7 @@
 
 <!-- O/F modal -->
 <div class="modal fade" id="OFModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">O/F: Oxidizer to Fuel Ratio</Area></h5>
@@ -1046,7 +1061,7 @@
 
 <!-- mdot modal -->
 <div class="modal fade" id="mdotModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">m&#775;: Mass Flow Rate</Area></h5>
@@ -1070,7 +1085,7 @@
 
 <!-- Cf modal -->
 <div class="modal fade" id="cfModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">C<sub>f</sub>: Thrust Coefficient</Area></h5>
@@ -1099,7 +1114,7 @@
 
 <!-- Cstar -->
 <div class="modal fade" id="cstarModal" tabindex="-1">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">C*: Characteristic Velocity</h5>
