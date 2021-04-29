@@ -1,3 +1,3 @@
-# rocket_calc
+# Dynamic Rocket Calculator
 
 ## http://rocketcalc.space
