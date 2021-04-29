@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <title>Rocket Calculator</title>
   <style>
@@ -27,8 +27,20 @@
     /* border-color: black!important; */
     /* border-bottom: none!important; */
   }
-  
 
+
+@media screen and (orientation: portrait) {
+  #landscape {
+    display: none;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  #portrait {
+    display: none;
+  }
+}
+  
   </style>
 </head>
 
@@ -37,679 +49,703 @@
 
 
 <body class ="bg-dark">
-  <div class="container-fluid">
-    <div class="row flex-xl-nowrap">
-    
-      <div class="col-2">
-        
-        <!-- Output Card -->
-        <div class="card card-header text-center mt-5 bg-secondary">
-          <h4 class="mb-0">Output</h4>
+
+  <div id="portrait">
+
+
+    <div class="container-fluid" style="margin-top: 50%;">
+      <div class="row" style="vertical-align: middle">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="card card-body text-center vertical-center">
+            <h1>Rotate to Landscape Mode</h1>
+          </div>
+          <div class="col-2"></div>
         </div>
-        <div class="card card-body">
-          <ul class="list-group text-left">
-            <li class="list-group-item" id="forceOut"><strong>F = 10000 kN</strong></li>
-            <li class="list-group-item" id="ispOut"><strong>I<sub>sp</sub> = 20000 s</strong></li>
-            <li class="list-group-item" id="cstarOut"><strong>C* = 100 m/s</strong></li>
-            <li class="list-group-item" id="cfOut"><strong>C<sub>f</sub> = 1.3</strong></li>
-            <li class="list-group-item" id="veOut"><strong>V<sub>e</sub> = 400 m/s</strong></li>
-            <li class="list-group-item" id="p0Out"><strong>P<sub>0</sub> = 100 [bar]</strong></li>
-            <li class="list-group-item" id="t0Out"><strong>T<sub>0</sub> = 3000 K</strong></li>
-            <li class="list-group-item" id="atOut"><strong>A<sub>t</sub> = 4 m</strong></li>
-          </ul>
-        <br>
-       <!-- Legend -->
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#legend" >
-          Legend    &#8595;
-        </button>
-        <div class="collapse" id="legend">
-          <div class="card card-body">
-            <i>
-              F: Thrust <br>
-              C*: Char. Velocity<br>
-              C<sub>f</sub>: Thrust Coeff.<br>
-              g<sub>0</sub>: Earth Grav Acc. <br>
-              V<sub>e</sub>: Exit Velocity <br>
-              m&#775;: Mass Flow Rate <br>
-              R: Uni. Gas Con.<br>
-              A<sub>t</sub>: Throat Area <br>
-              A<sub>e</sub>: Exit Area <br>
-              
-              P<sub>a</sub>: Atm. Pressure <br>
-              P<sub>e</sub>: Exit Pressure <br>
-              P<sub>0</sub>: Chamber Press. <br>
-              M: Molar Mass <br>
-              &gamma;: Spec. Heat Ratio<br>
-              &Gamma;: Function(&gamma;)<br>
-              Alt.: Altitude (from S/L)
-            </i>
-          </div>
-        </div>  
       </div>
-      </div>  
-        <div class="col-10">
-          <div class="row">
-            <!-- Empty space  -->
-            <div class="col-3 mx-auto">
-            </div>
-            <div class="col-6 mx-auto">
-              <!-- Thurst/Isp Card -->
-              <div>
-                <div class="card card-header text-center mt-5 bg-secondary">
-                  <h2 class="heading display-5 mb-0" id="thrustTitle">Thrust / I<sub>sp</sub></h2>
-                  <div id="thrustEq">
-                    \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}} =\frac{F}{\dot{m}g_{0}}\]
-                  </div>
-                </div>
-              <!-- Thrust/Isp Results -->
-                <div class="card card-body text-center">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="alert alert-dark">
-                        <h4 id="fRes"><i>F = 1000 [N]</i></h4>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="alert alert-dark">
-                        <h4 id="ispRes"><i>I<sub>sp</sub> = 400 [s]</i></h4>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Thrust Isp Inputs -->
-                  <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="mdot_ThrustBtn" data-toggle="modal" data-target="#mdotModal"> <i>m&#775;</i> </button>
-                      </div>
-                      <div class="col-7">
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="" min="0" max="100" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text" >[kg/s]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="mdot_ThrustBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="mdot_ThrustRange" min="0" max="15000">
-                      </div>
-                      
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn" data-toggle="modal" data-target="#cstarModal"><i>c*</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="cstar_ThrustIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text"> [m/s]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="cstar_ThrustBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="cstar_ThrustRange" min="0" max="4000">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-primary" id="cf_ThrustBtn" data-toggle="modal" data-target="#cfModal"><i>C<sub>f</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="cf_ThrustIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="cf_ThrustBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="cf_ThrustRange" step="0.01">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>  
-            </div>
-            <!-- Empty Space -->
-            <div class="col mx-auto"></div> 
+    </div>
+    
+  </div>
+
+
+  <div id="landscape">
+    <div class="container-fluid">
+      
+
+      <div class="row flex-xl-nowrap">
+      
+
+
+        <div class="col-2">
+          
+          <!-- Output Card -->
+          <div class="card card-header text-center mt-5 bg-secondary">
+            <h4 class="mb-0">Output</h4>
           </div>
-          <div class="row">
-            <div class="col mx-auto">
-              <!-- Mdot Card -->
-              <div id="mdotCard">
-                <div class="card card-header text-center mt-3 bg-secondary"id="mdotCardHeader" style="border-bottom:none!important;">
-                  <h3 class="mb-0" id="mdotTitle">Mass Flow Rate (<i>m&#775;</i>)</h3>
-                  <div id="mdotEq">
-                    \[\dot{m}=\Gamma\frac{p_{0}A_{t}}{\sqrt{T_{0}R/M}}\]
-                  </div>
-                  
-                </div>
-                <div class="card card-body text-center" id="mdotCardBody" style="border-top:none!important;">
-                  <div class="alert alert-primary">
-                    <h4 class="mb-0" id="mdotRes"><i>m&#775; = 75.6 [kg/s]</i></h4>
-                  </div>
-                  
-                  <!-- Mdot Input -->
-                  <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="Gamma_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text" >[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Gamma_mdotBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Gamma_mdotRange" min="0.61" max="0.77" step="0.01">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="p0_mdotBtn" data-toggle="modal" data-target="#P0Modal"><i>P<sub>0</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="p0_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text" >[bar]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="p0_mdotBox">
-                            </div>
-                          </div>
-                        </div>
-
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="p0_mdotRange" min="0" max=400>
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="At_mdotBtn" data-toggle="modal" data-target="#AtModal"><i>A<sub>t</sub></i></dark>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="At_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[m<sup>2</sup>]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="At_mdotBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="At_mdotRange" min="0.1" max="10" step=0.01>
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-warning" id="M_mdotBtn" data-toggle="modal" data-target="#MModal"><i>M</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="M_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text"> [kg/mol]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="M_mdotBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="M_mdotRange" min="1" max="50">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-danger" id="T0_mdotBtn" data-toggle="modal" data-target="#T0Modal"><i>T<sub>0</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="T0_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text" >[K]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="T0_mdotBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="T0_mdotRange" min="0" max="5000">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>  
+          <div class="card card-body">
+            <ul class="list-group text-left">
+              <li class="list-group-item" id="forceOut"><strong>F = 10000 kN</strong></li>
+              <li class="list-group-item" id="ispOut"><strong>I<sub>sp</sub> = 20000 s</strong></li>
+              <li class="list-group-item" id="cstarOut"><strong>C* = 100 m/s</strong></li>
+              <li class="list-group-item" id="cfOut"><strong>C<sub>f</sub> = 1.3</strong></li>
+              <li class="list-group-item" id="veOut"><strong>V<sub>e</sub> = 400 m/s</strong></li>
+              <li class="list-group-item" id="p0Out"><strong>P<sub>0</sub> = 100 [bar]</strong></li>
+              <li class="list-group-item" id="t0Out"><strong>T<sub>0</sub> = 3000 K</strong></li>
+              <li class="list-group-item" id="atOut"><strong>A<sub>t</sub> = 4 m</strong></li>
+            </ul>
+          <br>
+        <!-- Legend -->
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#legend" >
+            Legend    &#8595;
+          </button>
+          <div class="collapse" id="legend">
+            <div class="card card-body">
+              <i>
+                F: Thrust <br>
+                C*: Char. Velocity<br>
+                C<sub>f</sub>: Thrust Coeff.<br>
+                g<sub>0</sub>: Earth Grav Acc. <br>
+                V<sub>e</sub>: Exit Velocity <br>
+                m&#775;: Mass Flow Rate <br>
+                R: Uni. Gas Con.<br>
+                A<sub>t</sub>: Throat Area <br>
+                A<sub>e</sub>: Exit Area <br>
+                
+                P<sub>a</sub>: Atm. Pressure <br>
+                P<sub>e</sub>: Exit Pressure <br>
+                P<sub>0</sub>: Chamber Press. <br>
+                M: Molar Mass <br>
+                &gamma;: Spec. Heat Ratio<br>
+                &Gamma;: Function(&gamma;)<br>
+                Alt.: Altitude (from S/L)
+              </i>
             </div>
-            <div class="col mx-auto">
-              <!-- Cf Card -->
-              <div style="display: block" id="cfCard">
-                <div class="card card-header text-center mt-3 bg-secondary" id="CfCardHeader" style="border-bottom:none!important;">
-                  <h3 class="heading display-5 mb-0" id="cfTitle">Thrust Coefficient (<i>C<sub>f</sub></i>)</h3>
-                  <div id="cfEq">
-                    \[C_{F}=\Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
+          </div>  
+        </div>
+        </div>  
+          <div class="col-10">
+            <div class="row">
+              <!-- Empty space  -->
+              <div class="col-3 mx-auto">
+              </div>
+              <div class="col-6 mx-auto">
+                <!-- Thurst/Isp Card -->
+                <div>
+                  <div class="card card-header text-center mt-5 bg-secondary">
+                    <h2 class="heading display-5 mb-0" id="thrustTitle">Thrust / I<sub>sp</sub></h2>
+                    <div id="thrustEq">
+                      \[ F=\dot{m}C_{f}c{\ast}  \hspace{0.5in}   \ I_{sp}=\frac{c{\ast} C_{f}}{g_{0}} =\frac{F}{\dot{m}g_{0}}\]
+                    </div>
                   </div>
-                </div>
+                <!-- Thrust/Isp Results -->
+                  <div class="card card-body text-center">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="alert alert-dark">
+                          <h4 id="fRes"><i>F = 1000 [N]</i></h4>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="alert alert-dark">
+                          <h4 id="ispRes"><i>I<sub>sp</sub> = 400 [s]</i></h4>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Thrust Isp Inputs -->
+                    <div class="form">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-primary" id="mdot_ThrustBtn" data-toggle="modal" data-target="#mdotModal"> <i>m&#775;</i> </button>
+                        </div>
+                        <div class="col-7">
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="mdot_ThrustIn" placeholder="" min="0" max="100" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text" >[kg/s]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="mdot_ThrustBox" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="mdot_ThrustRange" min="0" max="15000">
+                        </div>
+                        
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-primary" id="cstar_ThrustBtn" data-toggle="modal" data-target="#cstarModal"><i>c*</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="cstar_ThrustIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text"> [m/s]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="cstar_ThrustBox" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="cstar_ThrustRange" min="0" max="4000">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-primary" id="cf_ThrustBtn" data-toggle="modal" data-target="#cfModal"><i>C<sub>f</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="cf_ThrustIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="cf_ThrustBox" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="cf_ThrustRange" step="0.01">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              <!-- Empty Space -->
+              <div class="col mx-auto"></div> 
+            </div>
+            <div class="row">
+              <div class="col mx-auto">
+                <!-- Mdot Card -->
+                <div id="mdotCard">
+                  <div class="card card-header text-center mt-3 bg-secondary"id="mdotCardHeader" style="border-bottom:none!important;">
+                    <h3 class="mb-0" id="mdotTitle">Mass Flow Rate (<i>m&#775;</i>)</h3>
+                    <div id="mdotEq">
+                      \[\dot{m}=\Gamma\frac{p_{0}A_{t}}{\sqrt{T_{0}R/M}}\]
+                    </div>
+                    
+                  </div>
+                  <div class="card card-body text-center" id="mdotCardBody" style="border-top:none!important;">
+                    <div class="alert alert-primary">
+                      <h4 class="mb-0" id="mdotRes"><i>m&#775; = 75.6 [kg/s]</i></h4>
+                    </div>
+                    
+                    <!-- Mdot Input -->
+                    <div class="form">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="Gamma_mdotBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="Gamma_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text" >[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Gamma_mdotBox" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Gamma_mdotRange" min="0.61" max="0.77" step="0.01">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="p0_mdotBtn" data-toggle="modal" data-target="#P0Modal"><i>P<sub>0</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="p0_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text" >[bar]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="p0_mdotBox">
+                              </div>
+                            </div>
+                          </div>
 
-                <div class="card card-body text-center" id="CfCardBody" style="border-top:none!important;">
-                  <div class="alert alert-primary">
-                    <h4 class="mb-0" id="cfRes"><i> C<sub>f</sub> = 85.6</i></h4>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="p0_mdotRange" min="0" max=400>
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="At_mdotBtn" data-toggle="modal" data-target="#AtModal"><i>A<sub>t</sub></i></dark>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="At_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[m<sup>2</sup>]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="At_mdotBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="At_mdotRange" min="0.1" max="10" step=0.01>
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-warning" id="M_mdotBtn" data-toggle="modal" data-target="#MModal"><i>M</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="M_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text"> [kg/mol]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="M_mdotBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="M_mdotRange" min="1" max="50">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-danger" id="T0_mdotBtn" data-toggle="modal" data-target="#T0Modal"><i>T<sub>0</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="T0_mdotIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text" >[K]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="T0_mdotBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="T0_mdotRange" min="0" max="5000">
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <!-- Cf Input -->
-                  
-                  <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_cfBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="Gamma_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Gamma_cfBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Gamma_cfRange" min="0.61" max="0.77" step="0.01">
-                      </div>
+                </div>  
+              </div>
+              <div class="col mx-auto">
+                <!-- Cf Card -->
+                <div style="display: block" id="cfCard">
+                  <div class="card card-header text-center mt-3 bg-secondary" id="CfCardHeader" style="border-bottom:none!important;">
+                    <h3 class="heading display-5 mb-0" id="cfTitle">Thrust Coefficient (<i>C<sub>f</sub></i>)</h3>
+                    <div id="cfEq">
+                      \[C_{F}=\Gamma \sqrt{\frac{2 \gamma}{\gamma-1}[1-(\frac{p_{e}}{p_{0}})^{\frac{\gamma-1}{\gamma}}]} +(\frac{p_{e}}{p_{0}}-\frac{p_{a}}{p_{0}})\frac{A_{e}}{A_{t}}\]
                     </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="gamma_cfBtn" data-toggle="modal" data-target="#gammaModal"><i>&gamma;</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="gamma_cfIn" placeholder="" data-toggle="popover" data-placement="left" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="gamma_cfBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="gamma_cfRange" min="1.01" max="2" step="0.01">
-                      </div>
+                  </div>
+
+                  <div class="card card-body text-center" id="CfCardBody" style="border-top:none!important;">
+                    <div class="alert alert-primary">
+                      <h4 class="mb-0" id="cfRes"><i> C<sub>f</sub> = 85.6</i></h4>
                     </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Pe/_cfBtn" data-toggle="modal" data-target="#PeP0Modal"><i>P<sub>e</sub>/P<sub>0</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="Pe/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Pe/_cfBox" disabled>
+                    <!-- Cf Input -->
+                    
+                    <div class="form">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="Gamma_cfBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="Gamma_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Gamma_cfBox" disabled>
+                              </div>
                             </div>
                           </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Gamma_cfRange" min="0.61" max="0.77" step="0.01">
                         </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Pe/_cfRange" min="0.00001" max="0.99" step="0.000001">
                       </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-info" id="Pa/_cfBtn" data-toggle="modal" data-target="#PaP0Modal"><i>P<sub>a</sub>/P<sub>0</sub></i></label>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="Pa/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Pa/_cfBox">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="gamma_cfBtn" data-toggle="modal" data-target="#gammaModal"><i>&gamma;</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="gamma_cfIn" placeholder="" data-toggle="popover" data-placement="left" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="gamma_cfBox" disabled>
+                              </div>
                             </div>
                           </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="gamma_cfRange" min="1.01" max="2" step="0.01">
                         </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Pa/_cfRange" min="0" max="1" step="0.01">
                       </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-success" id="Ae/_cfBtn" data-toggle="modal" data-target="#AeA0Modal"><i>A<sub>e</sub>/A<sub>t</sub></i></label>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="Ae/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Ae/_cfBox" disabled>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="Pe/_cfBtn" data-toggle="modal" data-target="#PeP0Modal"><i>P<sub>e</sub>/P<sub>0</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="Pe/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Pe/_cfBox" disabled>
+                              </div>
                             </div>
                           </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Pe/_cfRange" min="0.00001" max="0.99" step="0.000001">
                         </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Ae/_cfRange" min ="1.1" max="150" step="0.01">
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-info" id="Pa/_cfBtn" data-toggle="modal" data-target="#PaP0Modal"><i>P<sub>a</sub>/P<sub>0</sub></i></label>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="Pa/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Pa/_cfBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Pa/_cfRange" min="0" max="1" step="0.01">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-success" id="Ae/_cfBtn" data-toggle="modal" data-target="#AeA0Modal"><i>A<sub>e</sub>/A<sub>t</sub></i></label>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="Ae/_cfIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Ae/_cfBox" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Ae/_cfRange" min ="1.1" max="150" step="0.01">
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col mx-auto">
-              <!-- Cstar Card -->
-              <div style="display: block" id="cstarCard">
-                <div class="card card-header text-center mt-3 bg-secondary" id="cstarCardHeader" style="border-bottom:none!important;">
-                  <h3 class="heading display-5 mb-0" id="cstarTitle">Characteristic Velocity (<i>c*</i>)</h3>
-                  <div id="cstarEq">
-                    \[c^{\ast}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
+              <div class="col mx-auto">
+                <!-- Cstar Card -->
+                <div style="display: block" id="cstarCard">
+                  <div class="card card-header text-center mt-3 bg-secondary" id="cstarCardHeader" style="border-bottom:none!important;">
+                    <h3 class="heading display-5 mb-0" id="cstarTitle">Characteristic Velocity (<i>c*</i>)</h3>
+                    <div id="cstarEq">
+                      \[c^{\ast}=\frac{1}{\Gamma}\sqrt{\frac{R T_{0}}{M}}\]
+                    </div>
                   </div>
-                </div>
-                <div class="card card-body text-center" id="cstarCardBody" style="border-top:none!important;">
-                  <div class="alert alert-primary">
-                    <h4 class="mb-0" id="cstarRes"><i>c* = 25.6 [m/s]</i></h4>
-                  </div>
-                  
-                  <!-- Cstar Inputs -->
-                  <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark" id="Gamma_cstarBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="Gamma_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[ - ]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Gamma_cstarBox" disabled>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Gamma_cstarRange" min="0.61" max="0.77" step="0.01">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-warning" id="M_cstarBtn" data-toggle="modal" data-target="#MModal"><i>M</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="M_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[kg/mol]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="M_cstarBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="M_cstarRange" min="1" max="50">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-danger" id="T0_cstarBtn" data-toggle="modal" data-target="#T0Modal"><i>T<sub>0</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group">
-                          <input type="number" class="form-control" id="T0_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[K]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="T0_cstarBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="T0_cstarRange" min="0" max="5000">
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>  
-            </div>
-          </div>
-
-          <div class="row">
-            
-            
-            <div class="col-4">
-              <!-- Chamber Pressure Ratio Card -->
-              <div style="display: block" id="p0Card">
-                <div class="card card-header text-center mt-3 bg-secondary" id="P0CardHeader" style="border-bottom:none!important;">
-                  <h5 class="heading display-5 mb-0" id="p0Title">Atmospheric Pressure Ratio (<i>P<sub>a</sub>/P<sub>0</sub></i>)</h5>
-
-                </div>
-                <div class="card card-body text-center" id="P0CardBody" style="border-top:none!important;">
-                
-                  <div class="alert alert-info">
-                    <h5 class="mb-0" id="p0Res"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
-                  </div>
-                  <!-- Pa/P0 inputs -->
-
-                  <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="altBtn" data-toggle="modal" data-target="#altModal"><i>Alt.</i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group input-group">
-                          <input type="number" class="form-control" id="altIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[km]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="altBox">
-                            </div>
-                          </div>
-                        </div>  
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="altRange" min="0" max="75">
-                      </div>  
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="pa_p0Btn" data-toggle="modal" data-target="#PaModal"><i>P<sub>a</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group input-group">
-                          <input type="number" class="form-control" id="pa_p0In" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[bar]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="pa_p0Box">
-                            </div>
-                          </div>
-                        </div>  
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="pa_p0Range" min="0" max="1.013" step="0.001">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="p0_p0Btn" data-toggle="modal" data-target="#P0Modal"><i>P<sub>0</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group input-group">
-                          <input type="number" class="form-control" id="p0_p0In" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[bar]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="p0_p0Box">
-                            </div>
-                          </div>
-                        </div>  
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="p0_p0Range" min="0" max="400">
-                      </div>
+                  <div class="card card-body text-center" id="cstarCardBody" style="border-top:none!important;">
+                    <div class="alert alert-primary">
+                      <h4 class="mb-0" id="cstarRes"><i>c* = 25.6 [m/s]</i></h4>
                     </div>
                     
-                  </div>
-                </div>
-              </div>  
-            </div>
-            <div class="col-4">
-              <!-- Area Ratio Card -->
-              <div style="display: block" id="AeCard"> 
-                <div class="card card-header text-center mt-3 bg-secondary" id="AeCardHeader" style="border-bottom:none!important;">
-                  <h5 class="heading display-5 mb-0" id="AeTitle">Expansion Ratio (<i>A<sub>e</sub>/A<sub>t</sub></i>)</h5>
+                    <!-- Cstar Inputs -->
+                    <div class="form">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark" id="Gamma_cstarBtn" data-toggle="modal" data-target="#GammaModal"><i>&Gamma;</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="Gamma_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[ - ]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Gamma_cstarBox" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Gamma_cstarRange" min="0.61" max="0.77" step="0.01">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-warning" id="M_cstarBtn" data-toggle="modal" data-target="#MModal"><i>M</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="M_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[kg/mol]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="M_cstarBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="M_cstarRange" min="1" max="50">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-danger" id="T0_cstarBtn" data-toggle="modal" data-target="#T0Modal"><i>T<sub>0</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="T0_cstarIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[K]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="T0_cstarBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="T0_cstarRange" min="0" max="5000">
+                        </div>
+                      </div>
 
-                </div>
-                <div class="card card-body text-center" id="AeCardBody" style="border-top:none!important;">
-                  <div class="alert alert-success">
-                    <h5 class="mb-0" id="AeRes"><i>A<sub>e</sub>/A<sub>t</sub> = 1.7</i></h5>
-                  </div>
-                  <!-- Ae/At Inputs -->
-                  <div class="form">
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="Ae_AeBtn" data-toggle="modal" data-target="#AeModal"><i>A<sub>e</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group input-group">
-                          <input type="number" class="form-control" id="Ae_AeIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[m<sup>2</sup>]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="Ae_AeBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="Ae_AeRange" min="0.1" max="10" step="0.01">
-                      </div>
-                    </div>
-                    <div class="form-row align-items-center">
-                      <div class="col-2">
-                        <button type="button" class="btn btn-outline-dark btn" id="At_AeBtn" data-toggle="modal" data-target="#AtModal"><i>A<sub>t</sub></i></button>
-                      </div>
-                      <div class='col-7'>
-                        <div class="input-group input-group">
-                          <input type="number" class="form-control" id="At_AeIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
-                          <div class="input-group-append">
-                            <span class="input-group-text">[m<sup>2</sup>]</span>
-                            <div class="input-group-text">
-                              <input class="check" type="checkbox" id="At_AeBox">
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                      <div class="col-3">
-                        <input type="range" class="form-control-range" id="At_AeRange" min="0.1" max="10" step="0.01">
-                      </div>  
                     </div>
                   </div>
-                </div>
-              </div>  
+                </div>  
+              </div>
             </div>
-            <div class="col-4">
-            <!-- Molar Mass Card -->
-              <div style="display: block" id="MCard">
-                <div class="card card-header text-center mt-3 bg-secondary" id="MCardHeader" style="border-bottom:none!important;">
-                  <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass/Temperature (<i>M</i>) / (<i>T<sub>0</sub></i>)</h5>
-              <!-- Molar Mass Inputs  -->
-                </div>
-                <div class="card card-body text-center"id="MCardBody" style="border-top:none!important;">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="alert alert-warning">
-                        <h5 class="mb-0" id="MRes"><i>M</i></h5>
-                      </div>
+
+            <div class="row">
+              
+              
+              <div class="col-4">
+                <!-- Chamber Pressure Ratio Card -->
+                <div style="display: block" id="p0Card">
+                  <div class="card card-header text-center mt-3 bg-secondary" id="P0CardHeader" style="border-bottom:none!important;">
+                    <h5 class="heading display-5 mb-0" id="p0Title">Atmospheric Pressure Ratio (<i>P<sub>a</sub>/P<sub>0</sub></i>)</h5>
+
+                  </div>
+                  <div class="card card-body text-center" id="P0CardBody" style="border-top:none!important;">
+                  
+                    <div class="alert alert-info">
+                      <h5 class="mb-0" id="p0Res"><i>P<sub>a</sub>/P<sub>0</sub> = 3.6</i></h5>
                     </div>
-                    <div class="col-6">
-                      <div class="alert alert-danger">
-                        <h5 class="mb-0" id="T0Res"><i>T<sub>0</sub></i> </h5>
+                    <!-- Pa/P0 inputs -->
+
+                    <div class="form">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark btn" id="altBtn" data-toggle="modal" data-target="#altModal"><i>Alt.</i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group input-group">
+                            <input type="number" class="form-control" id="altIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[km]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="altBox">
+                              </div>
+                            </div>
+                          </div>  
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="altRange" min="0" max="75">
+                        </div>  
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark btn" id="pa_p0Btn" data-toggle="modal" data-target="#PaModal"><i>P<sub>a</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group input-group">
+                            <input type="number" class="form-control" id="pa_p0In" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[bar]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="pa_p0Box">
+                              </div>
+                            </div>
+                          </div>  
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="pa_p0Range" min="0" max="1.013" step="0.001">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark btn" id="p0_p0Btn" data-toggle="modal" data-target="#P0Modal"><i>P<sub>0</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group input-group">
+                            <input type="number" class="form-control" id="p0_p0In" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[bar]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="p0_p0Box">
+                              </div>
+                            </div>
+                          </div>  
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="p0_p0Range" min="0" max="400">
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              <div class="col-4">
+                <!-- Area Ratio Card -->
+                <div style="display: block" id="AeCard"> 
+                  <div class="card card-header text-center mt-3 bg-secondary" id="AeCardHeader" style="border-bottom:none!important;">
+                    <h5 class="heading display-5 mb-0" id="AeTitle">Expansion Ratio (<i>A<sub>e</sub>/A<sub>t</sub></i>)</h5>
+
+                  </div>
+                  <div class="card card-body text-center" id="AeCardBody" style="border-top:none!important;">
+                    <div class="alert alert-success">
+                      <h5 class="mb-0" id="AeRes"><i>A<sub>e</sub>/A<sub>t</sub> = 1.7</i></h5>
+                    </div>
+                    <!-- Ae/At Inputs -->
+                    <div class="form">
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark btn" id="Ae_AeBtn" data-toggle="modal" data-target="#AeModal"><i>A<sub>e</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group input-group">
+                            <input type="number" class="form-control" id="Ae_AeIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[m<sup>2</sup>]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="Ae_AeBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="Ae_AeRange" min="0.1" max="10" step="0.01">
+                        </div>
+                      </div>
+                      <div class="form-row align-items-center">
+                        <div class="col-2">
+                          <button type="button" class="btn btn-outline-dark btn" id="At_AeBtn" data-toggle="modal" data-target="#AtModal"><i>A<sub>t</sub></i></button>
+                        </div>
+                        <div class='col-7'>
+                          <div class="input-group input-group">
+                            <input type="number" class="form-control" id="At_AeIn" placeholder="" data-toggle="popover" data-placement="top" data-trigger="manual">
+                            <div class="input-group-append">
+                              <span class="input-group-text">[m<sup>2</sup>]</span>
+                              <div class="input-group-text">
+                                <input class="check" type="checkbox" id="At_AeBox">
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-3">
+                          <input type="range" class="form-control-range" id="At_AeRange" min="0.1" max="10" step="0.01">
+                        </div>  
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#oxiModal">Oxidizer</button>
-                    </div>
-                    <div class="col-9">  
-                      <select class="form-control form-control" id="MOxi">
-                        <option>Oxygen</option>
-                        <option>Flourine</option>
-                        <option>Nitrogen Tetroxide</option>
-                        <option>Hydrogen Peroxide</option>
-                        <option>Custom</option>
-                        <!-- <option>Custom</option> -->
-                      </select>
-                    </div>
+                </div>  
+              </div>
+              <div class="col-4">
+              <!-- Molar Mass Card -->
+                <div style="display: block" id="MCard">
+                  <div class="card card-header text-center mt-3 bg-secondary" id="MCardHeader" style="border-bottom:none!important;">
+                    <h5 class="heading display-5 mb-0" id="MTitle">Molar Mass/Temperature (<i>M</i>) / (<i>T<sub>0</sub></i>)</h5>
+                <!-- Molar Mass Inputs  -->
                   </div>
-                  <div class="row">
-                    <div class="col-3">
-                      <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#fuelModal">Fuel</button>
+                  <div class="card card-body text-center"id="MCardBody" style="border-top:none!important;">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="alert alert-warning">
+                          <h5 class="mb-0" id="MRes"><i>M</i></h5>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="alert alert-danger">
+                          <h5 class="mb-0" id="T0Res"><i>T<sub>0</sub></i> </h5>
+                        </div>
+                      </div>
                     </div>
-                      <div class="col-9">
-                        <select class="form-control form-control" id="MFuel">
-                          
-                          <option>Methane</option>
-                          <option>Hydrazine</option>
-                          <option>Hydrogen</option>
-                          <option>RP-1</option>
-                          <option>UDMH</option>
-                          <option>Hydrogen</option>
-                        </select>
-                      </div>  
-                    </div>  
                     <div class="row">
                       <div class="col-3">
-                        <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#OFModal">O/F</button>
+                        <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#oxiModal">Oxidizer</button>
+                      </div>
+                      <div class="col-9">  
+                        <select class="form-control form-control" id="MOxi">
+                          <option>Oxygen</option>
+                          <option>Flourine</option>
+                          <option>Nitrogen Tetroxide</option>
+                          <option>Hydrogen Peroxide</option>
+                          <option>Custom</option>
+                          <!-- <option>Custom</option> -->
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3">
+                        <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#fuelModal">Fuel</button>
                       </div>
                         <div class="col-9">
-                          <select class="form-control form-control" id="MOF">
-                            <option>3.20</option>
-                            <!-- <option>Fuel</option>
+                          <select class="form-control form-control" id="MFuel">
+                            
                             <option>Methane</option>
                             <option>Hydrazine</option>
                             <option>Hydrogen</option>
                             <option>RP-1</option>
                             <option>UDMH</option>
-                            <option>Hydrogen</option> -->
+                            <option>Hydrogen</option>
                           </select>
                         </div>  
                       </div>  
+                      <div class="row">
+                        <div class="col-3">
+                          <button type="button" class="btn btn-outline-dark btn" id="" data-toggle="modal" data-target="#OFModal">O/F</button>
+                        </div>
+                          <div class="col-9">
+                            <select class="form-control form-control" id="MOF">
+                              <option>3.20</option>
+                              <!-- <option>Fuel</option>
+                              <option>Methane</option>
+                              <option>Hydrazine</option>
+                              <option>Hydrogen</option>
+                              <option>RP-1</option>
+                              <option>UDMH</option>
+                              <option>Hydrogen</option> -->
+                            </select>
+                          </div>  
+                        </div>  
+                      </div>  
                     </div>  
-                  </div>  
-                </div>
-              </div>  
-            </div>
-          </div>  
+                  </div>
+                </div>  
+              </div>
+            </div>  
+          </div>
         </div>
-      </div>
-    </div> 
+      </div> 
+    </div>
   </div>
-
 
 
 
@@ -1137,6 +1173,7 @@
   </div>
 </div>
 
+
   <script src='equations.js'></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -1150,7 +1187,7 @@
         
     })
     </script>
-   
+  
 </body>
 
 </html>
